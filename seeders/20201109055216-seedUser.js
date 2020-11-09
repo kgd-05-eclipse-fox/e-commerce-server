@@ -5,6 +5,8 @@ const { encryptPassword } = require('../helpers/bcrypt')
 
 users.forEach( user => {
   user.password = encryptPassword(user.password)
+  user.createdAt = new Date()
+  user.updatedAt = new Date()
 })
 
 module.exports = {
