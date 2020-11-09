@@ -1,7 +1,7 @@
 const {User} = require('../models')
 const JwtApp = require('../helper/jwt.js')
 
-const authentication = async (req, res, next){
+const authentication = async (req, res, next)=>{
     try {
         let token = req.headers.access_token
         if(!token){

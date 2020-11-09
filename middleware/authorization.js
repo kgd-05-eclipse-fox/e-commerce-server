@@ -7,7 +7,11 @@ const authorization = async (req, res, next)=>{
             where: {id}
         })
         if(dataDB.UserId===req.access_token.id){
-            next()
+            if(req.access_token.role !== 'admin'){
+                res.status(401).json({msg: 'you are not admin'})
+            }else{
+                next()
+            }
         }else{
             res.status(401).json({msg: 'Unautorized'})
         }

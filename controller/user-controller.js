@@ -77,7 +77,8 @@ class UserController{
                     }else{
                         let saveData = {
                             id: cekData.id,
-                            email: cekData.email
+                            email: cekData.email,
+                            role: cekData.role
                         }
                         let access_token = JwtApp.createToken(saveData)
                         saveData.access_token = access_token
