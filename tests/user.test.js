@@ -1,10 +1,11 @@
 const request  = require('supertest');
 const app = require('../app');
 const { sequelize } = require('../models')  
-const { queryInterface }= sequelize
+const { queryInterface } = sequelize
 
 
 afterAll((done) => {
+    console.log('running bulk delete after testing');
     queryInterface.bulkDelete('Users')
     .then(() => {
         done()
@@ -12,6 +13,11 @@ afterAll((done) => {
     .catch(err => {
         done(err)
     })
+})
+
+beforeAll((done) => {
+    console.log('running before test');
+    done()
 })
 
 describe('Test Endpoint POST /register', () => {
@@ -80,6 +86,54 @@ describe('Test Endpoint POST /register', () => {
         .catch(err => {
             console.log(err);
             done(err);
+        })
+    })
+
+    it ('test admin login ', (done) => {
+        request(app)
+        .post('/login/admin')
+        .send({email:'admin@mail.com', password: '123456', role: 'admin'})
+        .then(response => {
+            const { status, body } = response
+            expect(status).toBe(200);
+            expect(body).toHaveProperty('access_token', expect.any(String))
+            done()
+        })
+        .catch(err => {
+            console.log(err);
+            done(err)
+        })
+    })
+
+    it ('test admin login if password is wrong', (done) => {
+        request(app)
+        .post('/login/admin')
+        .send({email:'admin@mail.com', password: '123', role: 'admin'})
+        .then(response => {
+            const { status, body } = response
+            expect(status).toBe(401);
+            expect(body).toHaveProperty('message', 'Invalid email/password')
+            done()
+        })
+        .catch(err => {
+            console.log(err);
+            done(err)
+        })
+    })
+
+    it ("test admin login if user doesn't found", (done) => {
+        request(app)
+        .post('/login/admin')
+        .send({email:'kureng@mail.com', password: '123456', role: 'admin'})
+        .then(response => {
+            const { status, body } = response
+            expect(status).toBe(401);
+            expect(body).toHaveProperty('message', 'Invalid email/password')
+            done()
+        })
+        .catch(err => {
+            console.log(err);
+            done(err)
         })
     })
 })

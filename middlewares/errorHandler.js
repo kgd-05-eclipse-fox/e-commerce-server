@@ -1,6 +1,7 @@
-const errorHandler = (err,req, res, next) => {
+const errorHandler = (err, req, res, next) => {
     let status;
     let message;
+    console.log(err);
 
     if(err.name === 'SequelizeUniqueConstraintError') {
         status = 400
@@ -13,15 +14,15 @@ const errorHandler = (err,req, res, next) => {
         message = tempErr
         
     } else if (err.name === undefined ) {
+        console.log('masuk');
         status = err.status
         message = err.message
-
+        res.status(status).json({message: message})
     } else {
         status = 500
         message = 'Internal Server Error'
     }
-    console.log(status, message);
-    res.status (status).json({message: message})
+    res.status(status).json({message: message})
 }
 
 module.exports = errorHandler;
