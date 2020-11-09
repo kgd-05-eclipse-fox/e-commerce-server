@@ -1,19 +1,18 @@
 const request  = require('supertest');
 const app = require('../app');
-// const { sequelize } = require('../models')  
-// const { queryInterface }= sequelize
+const { sequelize } = require('../models')  
+const { queryInterface }= sequelize
 
 
-// afterAll((done) => {
-//     queryInterface.bulkDelete('Users')
-//     .then(response => {
-//         done()
-//     })
-//     .catch(err => {
-//         console.log(err);
-//         done(err)
-//     })
-// })
+afterAll((done) => {
+    queryInterface.bulkDelete('Users')
+    .then(() => {
+        done()
+    })
+    .catch(err => {
+        done(err)
+    })
+})
 
 describe('Test Endpoint POST /register', () => {
     it ('test register is success', (done) => {
@@ -51,12 +50,11 @@ describe('Test Endpoint POST /register', () => {
             done(err);
         })
     })
-    
 
     it ('test register if password is under six characters', (done) => {
         request(app)
         .post('/register')
-        .send({email: 'testing@mail.com', password: '123', role: 'customer'})
+        .send({email: 'test@mail.com', password: '123', role: 'customer'})
         .then(response => {
             const {status, body} = response;
             expect(status).toEqual(400);
@@ -84,6 +82,5 @@ describe('Test Endpoint POST /register', () => {
             done(err);
         })
     })
-    
 })
 
