@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             isNumeric: {
                 args: true,
-                msg: 'Must be a number'
+                msg: 'Price must be a number'
             },
             isMinus(value){
                 if (value < 0) {
@@ -78,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             isNumeric: {
                 args: true,
-                msg: 'Must be a number'
+                msg: 'Stock must be a number'
             },
             isMinus(value){
                 if (value < 0) {

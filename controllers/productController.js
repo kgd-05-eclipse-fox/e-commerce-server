@@ -65,7 +65,7 @@ class ProductController {
         try {
             const id = +req.params.id
             
-            const destroyed = await Product.destory({
+            const destroyed = await Product.destroy({
                 where: {
                     id
                 }
