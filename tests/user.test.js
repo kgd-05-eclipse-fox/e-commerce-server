@@ -1,7 +1,6 @@
 // const sum = require('../helpers/sum');
 const request = require('supertest')
 const app = require('../app')
-const { response } = require('express')
 
 describe('Test endpoint user', () => {
     it('test login success', (done) => {
@@ -69,7 +68,7 @@ describe('Test endpoint user', () => {
         })
     })
 
-    it('test register user success', (done) => {
+    it.only('test register user success', (done) => {
         request(app)
         .post('/users/register')
         .send({email: 'farhan@mail.com', password: '123456'})
