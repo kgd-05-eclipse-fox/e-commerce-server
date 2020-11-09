@@ -1,6 +1,5 @@
 const request = require('supertest')
 const app = require('../app.js')
-const { costomerLogin } = require('../controller/user-controller.js')
 const {sequelize} = require('../models')
 const {queryInterface} = sequelize
 
