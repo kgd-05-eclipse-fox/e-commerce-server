@@ -15,3 +15,5 @@ app.use(routers)
 // app.listen(prot, ()=>{
 //     console.log(`go to the link htpp://localhost:${prot}`)
 // })
+
+module.exports = app
