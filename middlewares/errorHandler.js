@@ -14,10 +14,8 @@ const errorHandler = (err, req, res, next) => {
         message = tempErr
         
     } else if (err.name === undefined ) {
-        console.log('masuk');
         status = err.status
         message = err.message
-        res.status(status).json({message: message})
     } else {
         status = 500
         message = 'Internal Server Error'

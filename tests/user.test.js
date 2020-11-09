@@ -21,7 +21,7 @@ beforeAll((done) => {
 })
 
 describe('Test Endpoint POST /register', () => {
-    it ('test register is success', (done) => {
+    it ('testing register is success', (done) => {
         request(app)
         .post('/register')
         .send({email: 'test@mail.com', password: '123456', role: 'customer'})
@@ -41,7 +41,7 @@ describe('Test Endpoint POST /register', () => {
         })
     });
 
-    it ('test register is email is unique', (done) => {
+    it ('testing register is email is unique', (done) => {
         request(app)
         .post('/register')
         .send({email: 'test@mail.com', password: '123456', role: 'customer'})
@@ -57,7 +57,7 @@ describe('Test Endpoint POST /register', () => {
         })
     })
 
-    it ('test register if password is under six characters', (done) => {
+    it ('testing register if password is under six characters', (done) => {
         request(app)
         .post('/register')
         .send({email: 'test@mail.com', password: '123', role: 'customer'})
@@ -73,7 +73,7 @@ describe('Test Endpoint POST /register', () => {
         })
     })
     
-    it ('test register if email is empty string and password is empty string', (done) => {
+    it ('testing register if email is empty string and password is empty string', (done) => {
         request(app)
         .post('/register')
         .send({email: '', password: '', role: 'customer'})
@@ -89,7 +89,7 @@ describe('Test Endpoint POST /register', () => {
         })
     })
 
-    it ('test admin login ', (done) => {
+    it ('testing admin login successful', (done) => {
         request(app)
         .post('/login/admin')
         .send({email:'admin@mail.com', password: '123456', role: 'admin'})
@@ -105,7 +105,7 @@ describe('Test Endpoint POST /register', () => {
         })
     })
 
-    it ('test admin login if password is wrong', (done) => {
+    it ('testing admin login if password is wrong', (done) => {
         request(app)
         .post('/login/admin')
         .send({email:'admin@mail.com', password: '123', role: 'admin'})
@@ -121,10 +121,58 @@ describe('Test Endpoint POST /register', () => {
         })
     })
 
-    it ("test admin login if user doesn't found", (done) => {
+    it ("testing admin login if user doesn't found", (done) => {
         request(app)
         .post('/login/admin')
         .send({email:'kureng@mail.com', password: '123456', role: 'admin'})
+        .then(response => {
+            const { status, body } = response
+            expect(status).toBe(401);
+            expect(body).toHaveProperty('message', 'Invalid email/password')
+            done()
+        })
+        .catch(err => {
+            console.log(err);
+            done(err)
+        })
+    })
+
+    it('testing customer login successfull', (done) => {
+        request(app)
+        .post('/login/customer')
+        .send({email: 'test@mail.com', password: '123456', role: 'customer'})
+        .then(response => {
+            const { status, body } = response
+            expect(status).toBe(200);
+            expect(body).toHaveProperty('access_token', expect.any(String))
+            done()
+        })
+        .catch(err => {
+            console.log(err);
+            done(err)
+        })
+    })
+
+    it('testing customer if password is wrong', (done) => {
+        request(app)
+        .post('/login/customer')
+        .send({email: 'test@mail.com', password: '123567', role: 'customer'})
+        .then(response => {
+            const { status, body } = response
+            expect(status).toBe(401);
+            expect(body).toHaveProperty('message', 'Invalid email/password')
+            done()
+        })
+        .catch(err => {
+            console.log(err);
+            done(err)
+        })
+    })
+
+    it("testing admin login if user doesn't found", (done) => {
+        request(app)
+        .post('/login/customer')
+        .send({email: 'kureng@mail.com', password: '123456', role: 'customer'})
         .then(response => {
             const { status, body } = response
             expect(status).toBe(401);

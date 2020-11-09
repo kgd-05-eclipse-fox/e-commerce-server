@@ -2,6 +2,9 @@
 const {
   Model
 } = require('sequelize');
+
+const { hashPassword } = require('../helpers/bcrypt')
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -52,5 +55,10 @@ module.exports = (sequelize, DataTypes) => {
   User.addHook('beforeCreate', user => {
     user.role = 'customer'
   })
+
+  User.addHook('beforeCreate', (user) => {
+    user.password = hashPassword(user.password)
+  })
+
   return User;
 };
