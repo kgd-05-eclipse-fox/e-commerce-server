@@ -88,6 +88,9 @@ describe('Test Endpoint POST /register', () => {
             done(err);
         })
     })
+})
+
+describe('Test Endpoint POST /login', () => {
 
     it ('testing admin login successful', (done) => {
         request(app)

@@ -2,11 +2,8 @@
 const {
   Model
 } = require('sequelize');
-
-const { hashPassword } = require('../helpers/bcrypt')
-
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Product extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -16,53 +13,55 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  User.init({
-    email: {
+  Product.init({
+
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Please fill the empty column'
+        }
+      }
+    },
+    image_url: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Please fill the empty column'
+        }
+      }
+    },
+    price: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: {
           args: true,
           msg: 'Please fill the empty column'
         },
-        isEmail: {
+        isInt: {
           args: true,
-          msg: 'Please fill the email with email format'
+          msg: 'Price is must be in integer'
         }
       }
     },
-    password: {
+    stock: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: {
           args: true,
           msg: 'Please fill the empty column'
         },
-        len: {
-          args: [6],
-          msg: 'Password minimum is six characters'
-        }
-      }
-    },
-    role: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: {
-          args: true, 
-          msg: 'Please fill the empty column'
+        isInt: {
+          args: true,
+          msg: 'Price is must be in integer'
         }
       }
     }
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'Product',
   });
-  User.addHook('beforeCreate', user => {
-    user.role = 'customer'
-  })
-
-  User.addHook('beforeCreate', (user) => {
-    user.password = hashPassword(user.password)
-  })
-
-  return User;
+  return Product;
 };
