@@ -92,7 +92,7 @@ describe('Test Endpoint POST /register', () => {
     it ('testing admin login successful', (done) => {
         request(app)
         .post('/login/admin')
-        .send({email:'admin@mail.com', password: '123456', role: 'admin'})
+        .send({email:'admin@mail.com', password: '123456'})
         .then(response => {
             const { status, body } = response
             expect(status).toBe(200);
@@ -108,7 +108,7 @@ describe('Test Endpoint POST /register', () => {
     it ('testing admin login if password is wrong', (done) => {
         request(app)
         .post('/login/admin')
-        .send({email:'admin@mail.com', password: '123', role: 'admin'})
+        .send({email:'admin@mail.com', password: '123'})
         .then(response => {
             const { status, body } = response
             expect(status).toBe(401);
@@ -124,7 +124,7 @@ describe('Test Endpoint POST /register', () => {
     it ("testing admin login if user doesn't found", (done) => {
         request(app)
         .post('/login/admin')
-        .send({email:'kureng@mail.com', password: '123456', role: 'admin'})
+        .send({email:'kureng@mail.com', password: '123456'})
         .then(response => {
             const { status, body } = response
             expect(status).toBe(401);
@@ -140,7 +140,7 @@ describe('Test Endpoint POST /register', () => {
     it('testing customer login successfull', (done) => {
         request(app)
         .post('/login/customer')
-        .send({email: 'test@mail.com', password: '123456', role: 'customer'})
+        .send({email: 'test@mail.com', password: '123456'})
         .then(response => {
             const { status, body } = response
             expect(status).toBe(200);
@@ -156,7 +156,7 @@ describe('Test Endpoint POST /register', () => {
     it('testing customer if password is wrong', (done) => {
         request(app)
         .post('/login/customer')
-        .send({email: 'test@mail.com', password: '123567', role: 'customer'})
+        .send({email: 'test@mail.com', password: '123567'})
         .then(response => {
             const { status, body } = response
             expect(status).toBe(401);
@@ -172,7 +172,7 @@ describe('Test Endpoint POST /register', () => {
     it("testing admin login if user doesn't found", (done) => {
         request(app)
         .post('/login/customer')
-        .send({email: 'kureng@mail.com', password: '123456', role: 'customer'})
+        .send({email: 'kureng@mail.com', password: '123456'})
         .then(response => {
             const { status, body } = response
             expect(status).toBe(401);

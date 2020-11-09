@@ -23,8 +23,7 @@ class UserController {
     static loginAdmin (req, res, next) {
         const payload = {
             email: req.body.email,
-            password: req.body.password,
-            role: req.body.role
+            password: req.body.password
         }
         User.findOne({
             where: {
@@ -54,8 +53,7 @@ class UserController {
     static loginCustomer(req, res, next) {
         const payload = {
             email: req.body.email,
-            password: req.body.password,
-            role: req.body.role
+            password: req.body.password
         }
         User.findOne({
             where: {
