@@ -1,7 +1,11 @@
 'use strict';
+const { request } = require('express');
 const {
   Model
 } = require('sequelize');
+
+const { encryptPassword } = require('../helpers/bcrypt')
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
@@ -20,6 +24,9 @@ module.exports = (sequelize, DataTypes) => {
           args: true,
           msg: 'Input should be an email'
         }
+      },
+      unique: {
+        msg: 'Email is already used'
       }
     },
     password: {
@@ -28,6 +35,19 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: 'Password cannot be empty'
+        },
+        len: {
+          args: [4, 20],
+          msg: 'Passwords must be between 4 and 20 characters long'
+        }
+      }
+    },
+    role: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Role cannot be empty'
         }
       }
     }
@@ -35,5 +55,11 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
   });
+
+  User.addHook('beforeCreate', user => {
+    user.password = encryptPassword(user.password)
+    user.role = 'customer'
+  })
+
   return User;
 };

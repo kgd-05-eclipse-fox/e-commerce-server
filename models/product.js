@@ -43,9 +43,8 @@ module.exports = (sequelize, DataTypes) => {
           args: true,
           msg: 'Price should be a number'
         },
-        min: {
-          args: 0,
-          msg: 'Price cannot be minus'
+        checkPrice(price) {
+          if(price < 0) throw new Error('Price cannot be minus')
         }
       }
     },
@@ -60,9 +59,8 @@ module.exports = (sequelize, DataTypes) => {
           args: true,
           msg: 'Stock should be a number'
         },
-        min: {
-          args: 0,
-          msg: 'Price cannot be minus'
+        checkStock(stock) {
+          if(stock < 0) throw new Error('Stock cannot be minus')
         }
       }
     }
