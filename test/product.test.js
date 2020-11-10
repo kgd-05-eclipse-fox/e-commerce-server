@@ -1,35 +1,45 @@
-const { response } = require('express')
 const request = require('supertest')
 const app = require('../app')
 const { signToken } = require('../helpers/jwt')
-const { sequelize } = require('../models')
+const { sequelize, Product } = require('../models')
 const { queryInterface } = sequelize 
 
 const admin = {}
-const costumer = {}
+const customer = {}
+let product = {}
 
 beforeAll(done => {
     const admin_data = {
-        id: 1,
-        username: 'admin',
-        email: 'admin@mail.com',
-        role: 'admin'
+      id: 1,
+      username: 'admin',
+      email: 'admin@mail.com',
+      role: 'admin'
     }
 
     admin.access_token = signToken(admin_data)
-    admin.user = admin_data
 
-    const costumer_data = {
-        id: 2,
-        username: 'costumer',
-        email: 'costumer@mail.com',
-        role: 'costumer'
+    const customer_data = {
+      id: 2,
+      username: 'customer',
+      email: 'customer@mail.com',
+      role: 'customer'
     } 
 
-    costumer.access_token = signToken(costumer_data)
-    costumer.user = costumer_data
+    customer.access_token = signToken(customer_data)
 
-    done()
+    Product.create({
+        name: 'Canon 5D',
+        price: 4e5,
+        image_url: 'http://arah.in/test-add-rev',
+        stock: 5
+    })
+    .then(data => {
+        product = data
+        done()
+    })
+    .catch(err => {
+        done(err)
+    })
 })
 
 afterAll(done => {
@@ -85,10 +95,10 @@ describe('add new product test', () => {
         })
     })
 
-    it('add product failed (costumer access_token)', (done) => {
+    it('add product failed (customer access_token)', (done) => {
         request(app)
         .post('/products')
-        .set('access_token', costumer.access_token)
+        .set('access_token', customer.access_token)
         .send({
             name: 'Canon 5D',
             price: 4e5,
@@ -135,7 +145,7 @@ describe('add new product test', () => {
 describe('update product test', () => {
     it('update product success', (done) => {
         request(app)
-        .put('/products/33')
+        .put(`/products/${product.id}`)
         .set('access_token', admin.access_token)
         .send({
             name: 'Canon 5D edited',
@@ -184,7 +194,7 @@ describe('update product test', () => {
 
     it('update product failed (no access_token)', (done) => {
         request(app)
-        .put('/products/24')
+        .put(`/products/${product.id}`)
         .send({
             name: 'Canon 5D edited',
             price: 5e5,
@@ -204,10 +214,10 @@ describe('update product test', () => {
         })
     })
 
-    it('update product failed (costumer access token)', (done) => {
+    it('update product failed (customer access token)', (done) => {
         request(app)
-        .put('/products/30')
-        .set('access_token', costumer.access_token)
+        .put(`/products/${product.id}`)
+        .set('access_token', customer.access_token)
         .send({
             name: 'Canon 5D',
             price: 4e5,
@@ -229,7 +239,7 @@ describe('update product test', () => {
 
     it('update product failed (validatin errors)', (done) => {
         request(app)
-        .put('/products/33')
+        .put(`/products/${product.id}`)
         .set('access_token', admin.access_token)
         .send({
             name: '',
@@ -254,7 +264,7 @@ describe('update product test', () => {
 describe('delete product test', () => {
     it('delete product success', (done) => {
         request(app)
-        .delete('/products/33')
+        .delete(`/products/${product.id}`)
         .set('access_token', admin.access_token)
         .then(response => {
             const { body, status } = response
@@ -270,7 +280,7 @@ describe('delete product test', () => {
 
     it('delete product failed (no access token)', (done) => {
         request(app)
-        .delete('/products/24')
+        .delete(`/products/${product.id}`)
         .then(response => {
             const { body, status } = response
 
@@ -284,10 +294,10 @@ describe('delete product test', () => {
         })
     })
 
-    it('delete product failed (costumer access token)', (done) => {
+    it('delete product failed (customer access token)', (done) => {
         request(app)
-        .delete('/products/31')
-        .set('access_token', costumer.access_token)
+        .delete(`/products/${product.id}`)
+        .set('access_token', customer.access_token)
         .then(response => {
             const { status, body } = response
 

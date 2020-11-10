@@ -4,28 +4,28 @@ const { signToken } = require('../helpers/jwt')
 
 class UserController {
     static async register(req, res, next) {
-        try {
-            const payload = {
-                username: req.body.username,
-                email: req.body.email,
-                password: req.body.password
-            }
+      try {
+          const payload = {
+            username: req.body.username,
+            email: req.body.email,
+            password: req.body.password
+          }
 
-            const user = await User.create(payload)
+          const user = await User.create(payload)
 
-            const data = {
-                id: user.id,
-                email: user.email,
-                username: user.username,
-                role: user.role
-            }
-            
-            const token = signToken(data)
-            res.status(201).json({access_token: token, user: data})
-        } catch (err) {
-            next(err)
-        }
-    }
+          const data = {
+            id: user.id,
+            email: user.email,
+            username: user.username,
+            role: user.role
+          }
+          
+          const token = signToken(data)
+          res.status(201).json({access_token: token, user: data})
+      } catch (err) {
+          next(err)
+      }
+  }
 
     static async loginAdmin(req, res, next) {
         try {
@@ -55,7 +55,7 @@ class UserController {
                     role: user.role
                 }
                 const token = signToken(payload)
-                res.status(200).json({access_token: token, user: payload})
+                res.status(200).json({access_token: token})
             }
 
         } catch (err) {
@@ -73,7 +73,7 @@ class UserController {
             const user = await User.findOne({
                 where: {
                     email: payload.email,
-                    role: 'costumer'
+                    role: 'customer'
                 }
             })
 
