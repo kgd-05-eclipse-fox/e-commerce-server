@@ -3,7 +3,7 @@ const request = require('supertest')
 const app = require('../app.js')
 const { jwtSign } = require('../helpers/jwt')
 
-const { sequelize } = require('../models/')
+const { sequelize, Product } = require('../models/')
 const { queryInterface } = sequelize
 
 
@@ -21,7 +21,22 @@ beforeAll( done => {
     }
     localStorage.access_token = jwtSign(payload)
     localStorage.random_access_token = jwtSign(random)
-    done()
+
+    const ex = { 
+        name: 'Apple MacBook Pro 2020',
+        image_url: 'https://cdn.vox-cdn.com/thumbor/aJLbD4CXH2dSs9iEWolpdus0pEY=/1400x1050/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19949556/dbohn_200506_4012_0007.jpg',
+        price: 35000000,
+        stock: 3
+    }
+
+    Product.create(ex)
+        .then(({ id }) => {
+            testId = id
+            done()
+        })
+        .catch(err => {
+            done(err)
+        })
 })
 
 afterAll( done => {
@@ -54,7 +69,6 @@ describe('Test POST /product OR Create', () => {
                 expect(body).toHaveProperty('image_url', 'https://awsimages.detik.net.id/community/media/visual/2020/10/14/iphone-12-pro-3_169.jpeg?w=700&q=90')
                 expect(body).toHaveProperty('price', 20000000)
                 expect(body).toHaveProperty('stock', 5)
-                testId = body.id
                 done()
             })
             .catch(err => {
@@ -277,7 +291,6 @@ describe('Test GET /product OR Show All Products', () => {
     it('Show All Products', done => {
         request(app)
             .get('/product')
-            .set('access_token', localStorage.access_token)
             .then(response => {
                 const { body, status } = response
                 expect(status).toBe(200)
@@ -297,9 +310,9 @@ describe('Test PUT /product/:id OR Update', () => {
             .put('/product/' + testId)
             .set('access_token', localStorage.access_token)
             .send({ 
-                name: 'Apple iPhone 12 Mini',
-                image_url: 'https://awsimages.detik.net.id/community/media/visual/2020/10/14/iphone-12-pro-3_169.jpeg?w=700&q=90',
-                price: 15000000,
+                name: 'Apple MacBook Pro 2020 Big Sur',
+                image_url: 'https://cdn.vox-cdn.com/thumbor/aJLbD4CXH2dSs9iEWolpdus0pEY=/1400x1050/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19949556/dbohn_200506_4012_0007.jpg',
+                price: 36000000,
                 stock: 10
             })
             .then(response => {

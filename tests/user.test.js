@@ -3,6 +3,20 @@ const request = require('supertest')
 const app = require('../app.js')
 const { User } = require('../models/')
 
+beforeAll( done => {
+    const example = {
+        email: 'user@user.com',
+        password: 'user'
+    }
+    User.create(example)
+        .then(data => {
+            done()
+        })
+        .catch(err => {
+            done(err)
+        })
+})
+
 afterAll( done => {
     User.destroy({ where: { role: 'customer' }})
         .then( _ => {
@@ -83,13 +97,13 @@ describe('Test POST /register for User Register', () => {
         request(app)
             .post('/register')
             .send({
-                email: 'user@user.com',
+                email: 'anotheruser@user.com',
                 password: 'user'
             })
             .then(response => {
                 const { body, status } = response
                 expect(status).toBe(201)
-                expect(body).toHaveProperty('email', 'user@user.com')
+                expect(body).toHaveProperty('email', 'anotheruser@user.com')
                 done()
             })
             .catch(err => {
