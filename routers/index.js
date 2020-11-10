@@ -11,8 +11,6 @@ routers.post('/login/customer', UserController.costomerLogin)
 routers.use(authentication)
 routers.post('/product', ProductController.createProduct)
 
-// routers.use('/product/:id', authorization)
-routers.put('/product/:id', ProductController.updateProduct)
-routers.delete('/product/:id', ProductController.deleteProduct)
-
+routers.put('/product/:id', authorization, ProductController.updateProduct)
+routers.delete('/product/:id', authorization, ProductController.deleteProduct)
 module.exports = routers
