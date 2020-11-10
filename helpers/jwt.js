@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
 
 const signToken = (payload) => {
-    const token = jwt.sign(payload, 'bigsecret')
+    const token = jwt.sign(payload, process.env.SECRET)
     return token;
 }
 
 const verifyToken = (token) => {
-    const decoded = jwt.verify(token, 'bigsecret')
+    const decoded = jwt.verify(token, process.env.SECRET)
     return decoded;
 }
 

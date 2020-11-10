@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, Error
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
@@ -42,6 +42,11 @@ module.exports = (sequelize, DataTypes) => {
         isInt: {
           args: true,
           msg: 'Price is must be in integer'
+        },
+        absoluteValidate(price) {
+          if (price < 0) {
+            throw new Error('Price is must be an absolut number')
+          }
         }
       }
     },
@@ -54,7 +59,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         isInt: {
           args: true,
-          msg: 'Price is must be in integer'
+          msg: 'Stock is must be in integer'
+        },
+        absoluteValidate(stock) {
+          if (stock < 0) {
+            throw new Error('Stock is must be an absolut number')
+          }
         }
       }
     }

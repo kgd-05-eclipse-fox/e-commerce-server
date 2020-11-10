@@ -15,11 +15,6 @@ afterAll((done) => {
     })
 })
 
-beforeAll((done) => {
-    console.log('running before test');
-    done()
-})
-
 describe('Test Endpoint POST /register', () => {
     it ('testing register is success', (done) => {
         request(app)

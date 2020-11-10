@@ -38,7 +38,8 @@ class UserController {
             } else {
                 const access_token = signToken({
                     id: user.id,
-                    email: user.email
+                    email: user.email,
+                    role: user.role
                 })
                 res.status(200).json({
                     access_token: access_token

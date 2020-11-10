@@ -1,7 +1,6 @@
 const errorHandler = (err, req, res, next) => {
     let status;
     let message;
-    console.log(err);
 
     if(err.name === 'SequelizeUniqueConstraintError') {
         status = 400
@@ -10,6 +9,7 @@ const errorHandler = (err, req, res, next) => {
     } else if (err.name === 'SequelizeValidationError') {
         let tempErr = ''
         tempErr += err.errors[0].message
+
         status = 400;
         message = tempErr
                 
