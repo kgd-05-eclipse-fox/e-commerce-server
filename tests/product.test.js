@@ -16,7 +16,6 @@ afterAll(done => {
 })
 
 let access_token_admin;
-let access_token_customer;
 let idProduct = 0
 
 //fetch product
