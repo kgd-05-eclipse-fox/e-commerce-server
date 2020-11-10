@@ -4,6 +4,8 @@ const {sequelize} = require('../models')
 const {queryInterface} = sequelize
 const jwtApp = require('../helper/jwt.js')
 
+let dataTest = {}
+
 afterAll((done) =>{
     queryInterface.bulkDelete("Products")
     .then(res=>{
@@ -25,8 +27,8 @@ beforeAll((done) =>{
         email: 'customer@mail.com',
         role: 'customer'
     }
-    localStorage.admin_access_token = jwtApp.decodedToken(admin)
-    localStorage.customer_access_token = jwtApp.decodedToken(customer)
+    dataTest.admin_access_token = jwtApp.createToken(admin)
+    dataTest.customer_access_token = jwtApp.createToken(customer)
     done()
 })
 
@@ -35,7 +37,7 @@ describe('Test EndPoint Product', ()=>{
     it('Success Create Product', (done)=>{
         request(app)
         .post('/product')
-        .set('access_token', localStorage.admin_access_token)
+        .set('access_token', dataTest.admin_access_token)
         .send({
             name: 'Anime One Piece Nami BB Ver PVC Action Figure ',
             image_url: 'https://ecs7.tokopedia.net/img/cache/700/product-1/2018/11/16/241728/241728_59d08b24-5a73-4407-a094-4c84e6b4ab34.jpg',
@@ -50,7 +52,6 @@ describe('Test EndPoint Product', ()=>{
             expect(body).toHaveProperty('image_url', 'https://ecs7.tokopedia.net/img/cache/700/product-1/2018/11/16/241728/241728_59d08b24-5a73-4407-a094-4c84e6b4ab34.jpg')
             expect(body).toHaveProperty('price', 1000000)
             expect(body).toHaveProperty('stock', 10)
-            UserId = body.id
             done()
         })
         .catch(err =>{

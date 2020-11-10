@@ -7,12 +7,18 @@ class UserController{
     static async constructorRegister(req, res, next){
         try {
             let dataBody = req.body
-            let data = await User.create(dataBody)
-            let showData = {
-                id: data.id,
-                email: data.email
+            if(dataBody.email === ''){
+                res.status(401).json({msg: 'Email Tidak boleh kosong'})
+            }else if(dataBody.password === ''){
+                res.status(401).json({msg: 'Email atau Password tidak valid'})
+            }else{
+                let data = await User.create(dataBody)
+                let showData = {
+                    id: data.id,
+                    email: data.email
+                }
+                res.status(201).json(showData)
             }
-            res.status(201).json(showData)
         } catch (err) {
             res.status(500).json(err)
         }
@@ -37,7 +43,7 @@ class UserController{
                     res.status(401).json({msg: 'invalid email/password'})
                 }else{
                     if(cekData.role !== 'admin'){
-                        res.status(401).json({msg: 'Sorry you not Admin'})
+                        res.status(401).json({msg: 'Sorry you are not Admin'})
                     }else{
                         let saveData = {
                             id: cekData.id,
@@ -73,7 +79,7 @@ class UserController{
                     res.status(401).json({msg: 'invalid email/password'})
                 }else{
                     if(cekData.role !== 'customer'){
-                        res.status(401).json({msg: 'Sorry you not Customer'})
+                        res.status(401).json({msg: 'Sorry you are not Customer'})
                     }else{
                         let saveData = {
                             id: cekData.id,

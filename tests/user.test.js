@@ -26,7 +26,7 @@ describe('Test EndPoint User', ()=>{
     it('test register costomer success', (done) =>{
         request(app)
         .post('/register')
-        .send({email: 'makan@mail.com', password: '123456', role: 'customer'})
+        .send({email: 'makan@mail.com', password: '123456'})
         .then(res=> {
             const {body, status} = res
             console.log('>>>>', body)
@@ -34,7 +34,7 @@ describe('Test EndPoint User', ()=>{
 
             expect(status).toEqual(201)
             expect(body).toHaveProperty('id', expect.any(Number))
-            expect(body).toHaveProperty('email', expect.any(String))
+            expect(body).toHaveProperty('email', 'makan@mail.com')
             done()
         })
         .catch(err =>{
@@ -43,15 +43,16 @@ describe('Test EndPoint User', ()=>{
         })
     })
     
-    // test case 2 => emty Email regis customer gagal
-    it('test case Emty Email costumer', (done)=>{
+    // test case 2 => Empty Email regis customer gagal >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    it('test case Empty Email costumer', (done)=>{
         request(app)
         .post('/register')
         .send({email: '', password: '123456', role: 'customer'})
         .then(res=>{
             const {body, status} = res
 
-            expect(status).toEqual(500)
+            expect(status).toEqual(401)
+            expect(body).toHaveProperty('msg', 'Email Tidak boleh kosong')
             done()
         })
         .catch(err=>{
@@ -60,15 +61,16 @@ describe('Test EndPoint User', ()=>{
         })
     })
 
-    // test case 3 => emty Password regis customer gagal
-    it('test case Emty Password costumer', (done)=>{
+    // test case 3 => Empty Password regis customer gagal >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    it('test case Empty Password costumer', (done)=>{
         request(app)
         .post('/register')
         .send({email: 'makan@mail.com', password: '', role: 'customer'})
         .then(res=>{
             const {body, status} = res
 
-            expect(status).toEqual(500)
+            expect(status).toEqual(401)
+            expect(body).toHaveProperty('msg', 'Email atau Password tidak valid')
             done()
         })
         .catch(err=>{
@@ -89,7 +91,7 @@ describe('Test EndPoint User', ()=>{
 
             expect(status).toEqual(200)
             expect(body).toHaveProperty('id', expect.any(Number))
-            expect(body).toHaveProperty('email', expect.any(String))
+            expect(body).toHaveProperty('email', 'admin@mail.com')
             expect(body).toHaveProperty('access_token', expect.any(String))
             done()
         })
@@ -136,7 +138,7 @@ describe('Test EndPoint User', ()=>{
     })
 
     //test case 4 => login admin gagal email kosong
-    it('test admin invalid email emty', (done)=>{
+    it('test admin invalid email Empty', (done)=>{
         request(app)
         .post('/login/admin')
         .send({email: '', password: '1234'})
@@ -154,7 +156,7 @@ describe('Test EndPoint User', ()=>{
     })
 
     //test case 5 => login admin gagal password kosong
-    it('test admin invalid password emty', (done)=>{
+    it('test admin invalid password Empty', (done)=>{
         request(app)
         .post('/login/admin')
         .send({email: 'admin@mail.com', password: ''})
@@ -181,7 +183,7 @@ describe('Test EndPoint User', ()=>{
             const {body, status} = res
 
             expect(status).toEqual(401)
-            expect(body).toHaveProperty('msg', 'Sorry you not Admin')
+            expect(body).toHaveProperty('msg', 'Sorry you are not Admin')
             done()
         })
         .catch(err =>{
@@ -202,7 +204,7 @@ describe('Test EndPoint User', ()=>{
 
             expect(status).toEqual(200)
             expect(body).toHaveProperty('id', expect.any(Number))
-            expect(body).toHaveProperty('email', expect.any(String))
+            expect(body).toHaveProperty('email', 'customer@mail.com')
             expect(body).toHaveProperty('access_token', expect.any(String))
             done()
         })
@@ -249,7 +251,7 @@ describe('Test EndPoint User', ()=>{
     })
 
     //test case 4 => login customer gagal email kosong
-    it('test customer invalid email emty', (done)=>{
+    it('test customer invalid email Empty', (done)=>{
         request(app)
         .post('/login/customer')
         .send({email: '', password: '1234'})
@@ -267,7 +269,7 @@ describe('Test EndPoint User', ()=>{
     })
 
     //test case 5 => login customer gagal password kosong
-    it('test customer invalid password emty', (done)=>{
+    it('test customer invalid password Empty', (done)=>{
         request(app)
         .post('/login/customer')
         .send({email: 'customer@mail.com', password: ''})
@@ -294,7 +296,7 @@ describe('Test EndPoint User', ()=>{
             const {body, status} = res
 
             expect(status).toEqual(401)
-            expect(body).toHaveProperty('msg', 'Sorry you not Customer')
+            expect(body).toHaveProperty('msg', 'Sorry you are not Customer')
             done()
         })
         .catch(err =>{
