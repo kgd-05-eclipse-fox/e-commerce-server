@@ -12,7 +12,7 @@ const errorHandler = (err, req, res, next) => {
         tempErr += err.errors[0].message
         status = 400;
         message = tempErr
-        
+                
     } else if (err.name === undefined ) {
         status = err.status
         message = err.message

@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Product.init({
-
     name: {
       type: DataTypes.STRING,
       validate: {

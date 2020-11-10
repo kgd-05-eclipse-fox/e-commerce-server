@@ -1,6 +1,6 @@
 const request  = require('supertest');
 const app = require('../app');
-const { sequelize } = require('../models')  
+const { sequelize, User } = require('../models')  
 const { queryInterface } = sequelize
 
 
@@ -24,7 +24,7 @@ describe('Test Endpoint POST /register', () => {
     it ('testing register is success', (done) => {
         request(app)
         .post('/register')
-        .send({email: 'test@mail.com', password: '123456', role: 'customer'})
+        .send({email: 'test@mail.com', password: '123456'})
         .then(response => {
             // res is returning value from key body
             //example: res.status(201).json({id: id, email: email})
@@ -44,7 +44,7 @@ describe('Test Endpoint POST /register', () => {
     it ('testing register is email is unique', (done) => {
         request(app)
         .post('/register')
-        .send({email: 'test@mail.com', password: '123456', role: 'customer'})
+        .send({email: 'test@mail.com', password: '123456'})
         .then(response => {
             const {status, body} = response;
             expect(status).toBe(400);
@@ -60,7 +60,7 @@ describe('Test Endpoint POST /register', () => {
     it ('testing register if password is under six characters', (done) => {
         request(app)
         .post('/register')
-        .send({email: 'test@mail.com', password: '123', role: 'customer'})
+        .send({email: 'test@mail.com', password: '123'})
         .then(response => {
             const {status, body} = response;
             expect(status).toEqual(400);
@@ -76,7 +76,7 @@ describe('Test Endpoint POST /register', () => {
     it ('testing register if email is empty string and password is empty string', (done) => {
         request(app)
         .post('/register')
-        .send({email: '', password: '', role: 'customer'})
+        .send({email: '', password: ''})
         .then(response => {
             const {status, body} = response;
             expect(status).toBe(400);
@@ -91,7 +91,37 @@ describe('Test Endpoint POST /register', () => {
 })
 
 describe('Test Endpoint POST /login', () => {
+    beforeAll((done) => {
+        console.log('create account for admin testing')
 
+        const admin = {
+            email: 'admin@mail.com',
+            password: '123456',
+            role: 'admin'
+        }
+        User.create(admin)
+        .then(_ => {
+            console.log('admin created');
+            done()
+        })
+        .catch(err => {
+            done(err)
+        })
+
+        const customer = {
+            email: 'testing@mail.com',
+            password: '123456',
+            role: 'customer'
+        }
+        User.create(customer)
+        .then(_ => {
+            console.log('customer created');
+        })
+        .catch(err => {
+            done(err)
+        })
+    })
+ 
     it ('testing admin login successful', (done) => {
         request(app)
         .post('/login/admin')
