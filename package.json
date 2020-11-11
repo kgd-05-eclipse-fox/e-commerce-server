@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --detectOpenHandles --forceExit --runInBand --verbose",
-    "dev": "node ./bin/www",
+    "dev": "npx nodemon app.js",
     "start": "node app.js"
   },
   "repository": {
@@ -21,10 +21,12 @@
   "homepage": "https://github.com/jeplindm/e-commerce-server#readme",
   "devDependencies": {
     "jest": "^26.6.3",
+    "nodemon": "^2.0.6",
     "supertest": "^6.0.1"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
