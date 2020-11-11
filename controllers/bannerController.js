@@ -4,12 +4,11 @@ class BannerController {
   static async addBanner(req, res, next) {
     try {
       const { image_url, status } = req.body
-
       const payload = {
         image_url,
         status
       }
-
+      
       const banner = await Banner.create(payload)
       res.status(201).json(banner)
 

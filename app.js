@@ -16,6 +16,6 @@ app.use(express.json())
 app.use(route)
 app.use(error_handler)
 
-// app.listen(port, () => console.log(`listening at port ${port}`))
+app.listen(port, () => console.log(`listening at port ${port}`))
 
 module.exports = app
