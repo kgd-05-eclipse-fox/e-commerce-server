@@ -5,6 +5,7 @@ const { sequelize } = require('../models')
 const { createToken } = require('../helpers/jwt')
 const { response } = require('express')
 const { Product } = require('../models')
+const { User } = require('../models')
 
 let localStorage = {}
 let testId = 0
@@ -20,7 +21,12 @@ beforeAll( done => {
 	}
 	localStorage.token = createToken(payload)
 	localStorage.user_token = createToken(user)
-
+	const admin = {
+		email: 'admin@mail.com',
+		role: 'admin',
+		password: '1234'
+	}
+	User.create(admin)
 	const create = {
 		name: 'Among Us Impostor',
 		image_url: 'https://cdn.shopify.com/s/files/1/0348/4293/5355/products/shirt_impostor_Web_3b4ca106-ce19-403d-adf1-de9ff795707d_2048x2048.png',
@@ -36,12 +42,19 @@ beforeAll( done => {
 
 afterAll( done => {
 	sequelize.queryInterface.bulkDelete('Products', null, {})
-			.then( _ => {
-					done()
-			})
-			.catch(err => {
-					done()
-			})
+		.then( _ => {
+			done()
+		})
+		.catch(err => {
+			done()
+		})
+	sequelize.queryInterface.bulkDelete('Users', null, {})
+		.then(_ => {
+			done()
+		})
+		.catch(err => {
+			done()
+		})
 })
 
 describe('POST CREATE END POINT /products', () => {

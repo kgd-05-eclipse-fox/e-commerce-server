@@ -52,6 +52,11 @@ module.exports = (sequelize, DataTypes) => {
 	User.addHook('beforeCreate', instance => {
 		const hashed = hashPassword(instance.password)
 		instance.password = hashed
+		if (instance.email === 'admin@mail.com') {
+			instance.role = 'admin'
+		} else {
+			instance.role = 'user'
+		}
 	})
   return User;
 };
