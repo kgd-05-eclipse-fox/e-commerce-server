@@ -3,10 +3,13 @@ const {Product} = require('../models')
 class ProductController{
     
     static async getAllProduct(req, res, next){
+        console.log('masuk controller')
         try {
             let data = await Product.findAll()
+            console.log(data, '<<<<<<<<<<<<<<<<<<<<< Data DB controller')
             res.status(200).json(data)
         } catch (err) {
+            console.log(err)
             res.status(500).json(err)
         }
     }
