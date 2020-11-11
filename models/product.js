@@ -20,11 +20,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: {
           args: true,
-          msg: "Name cannot be empty"
+          msg: "Field cannot be empty"
         },
         notEmpty: {
           args: true,
-          msg: "Name cannot be empty"
+          msg: "Field cannot be empty"
         }
       }
     },
@@ -34,11 +34,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: {
           args: true,
-          msg: "Image cannot be empty"
+          msg: "Field cannot be empty"
         },
         notEmpty: {
           args: true,
-          msg: "Image cannot be empty"
+          msg: "Field cannot be empty"
         },
         isUrl: {
           args: true,
@@ -52,15 +52,15 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: {
           args: true,
-          msg: "Price cannot be empty"
+          msg: "Field cannot be empty"
         },
         notEmpty: {
           args: true,
-          msg: "Price cannot be empty"
+          msg: "Field cannot be empty"
         },
         min: {
           args: 1,
-          msg: "Price cannot be 0"
+          msg: "Price must be greater than 0"
         }
       }
     },
@@ -70,15 +70,15 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: {
           args: true,
-          msg: "Stock cannot be empty"
+          msg: "Field cannot be empty"
         },
         notEmpty: {
           args: true,
-          msg: "Stock cannot be empty"
+          msg: "Field cannot be empty"
         },
         min: {
           args: 1,
-          msg: "Stock cannot be 0"
+          msg: "Stock must be greater than 0"
         }
       }
     }

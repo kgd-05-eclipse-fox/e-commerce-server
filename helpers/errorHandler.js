@@ -3,11 +3,10 @@ module.exports = function errorHandler(err, req, res, next) {
     let statusCode = 500
     let errMsg = 'Internal Server Error'
     if(err.name == "SequelizeValidationError") {
-        console.log(err.errors)
         let temp = ''
         temp += err.errors[0].message
         // console.log(temp)
-        statusCode = 401
+        statusCode = 400
         errMsg = temp
     } else if(err.name == "SequelizeUniqueConstraintError") {
         statusCode = 400
