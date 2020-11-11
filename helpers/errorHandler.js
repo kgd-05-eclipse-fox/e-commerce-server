@@ -17,6 +17,9 @@ module.exports = function errorHandler(err, req, res, next) {
     } else if(err.name == "Wrong Data") {
         statusCode = 400
         errMsg = "Wrong email / password"
+    } else if(err.name == "Wrong data type") {
+        statusCode = 400
+        errMsg = "Data type is wrong"
     }
     res.status(statusCode).json({ message: errMsg })
 }

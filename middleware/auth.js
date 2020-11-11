@@ -5,12 +5,12 @@ async function authentication(req, res, next) {
     try {
         const token = req.headers.access_token
         if(!token) {
-            throw { msg: "You must be login to create product", status: 401 }
+            throw { msg: "Please login first", status: 401 }
         } else {
             const decodeToken = verifyToken(token)
             // console.log(decodeToken)
             if(decodeToken.role !== 'admin') {
-                throw { msg: "You dont have permissions to create product", status: 401 }
+                throw { msg: "You dont have permissions", status: 401 }
             } else {
                 next()
             }

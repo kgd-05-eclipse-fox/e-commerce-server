@@ -6,6 +6,6 @@ const { authentication } = require('../middleware/auth')
 router.use(authentication)
 router.post('/create', ProductController.createProduct, errorHandler)
 router.put('/update/:id', ProductController.updateProduct, errorHandler)
-// router.delete('/delete', ProductController.deleteProduct)
+router.delete('/delete/:id', ProductController.deleteProduct, errorHandler)
 
 module.exports = router
