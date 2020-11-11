@@ -6,9 +6,12 @@ const authorization = require('../middlewares/authorization_product')
 route.use(authentication)
 
 route.get('/', ProductController.readAll)
-route.post('/', authorization ,ProductController.addProduct)
 route.get('/:id', authorization, ProductController.getOne)
+
+route.post('/', authorization ,ProductController.addProduct)
+
 route.put('/:id', authorization ,ProductController.updateProduct)
+
 route.delete('/:id', authorization ,ProductController.deleteProduct)
 
 module.exports = route
