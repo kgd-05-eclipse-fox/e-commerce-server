@@ -22,12 +22,10 @@ class ProductController{
     }
 
     static async createProduct(req, res, next){
-        console.log( '<<<<<<<<<<<<<<<<<<<<<<<<<<<<, controller')
         try {
             let dataBody = req.body
             dataBody.price = +dataBody.price
             dataBody.stock = +dataBody.stock
-            console.log(dataBody, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,')
             if(dataBody.name === ''){
                 res.status(401).json({msg: 'the product name cannot be blank'})
             }else if(dataBody.stock < 0){
@@ -41,11 +39,9 @@ class ProductController{
                 if(req.access_token.role !== 'admin'){
                     res.status(401).json({msg: 'invalid Token'})
                 }else{
-                    console.log('masuk kontroller <<<<<<<<<<<<<<<<<<<<<<')
                     // let role = req.access_token.role
                     // dataBody.role = role
                     let data = await Product.create(dataBody)
-                    console.log(data, 'XXXXXXXXXXXXXXXXXXXXXX')
                     res.status(201).json(data)
                 }
             }
