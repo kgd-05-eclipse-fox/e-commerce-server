@@ -6,7 +6,6 @@ class ProductController{
         console.log('masuk controller')
         try {
             let data = await Product.findAll()
-            console.log(data, '<<<<<<<<<<<<<<<<<<<<< Data DB controller')
             res.status(200).json(data)
         } catch (err) {
             console.log(err)
@@ -23,8 +22,12 @@ class ProductController{
     }
 
     static async createProduct(req, res, next){
+        console.log( '<<<<<<<<<<<<<<<<<<<<<<<<<<<<, controller')
         try {
             let dataBody = req.body
+            dataBody.price = +dataBody.price
+            dataBody.stock = +dataBody.stock
+            console.log(dataBody, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,')
             if(dataBody.name === ''){
                 res.status(401).json({msg: 'the product name cannot be blank'})
             }else if(dataBody.stock < 0){
@@ -34,18 +37,20 @@ class ProductController{
             }else if(dataBody.price !== +dataBody.price){
                 res.status(401).json({msg: 'product prices must not be integer'})
             }else{
-                let UserId = req.access_token.id
+                // let UserId = req.access_token.id
                 if(req.access_token.role !== 'admin'){
                     res.status(401).json({msg: 'invalid Token'})
                 }else{
-                    dataBody.UserId = UserId
+                    console.log('masuk kontroller <<<<<<<<<<<<<<<<<<<<<<')
                     // let role = req.access_token.role
                     // dataBody.role = role
                     let data = await Product.create(dataBody)
+                    console.log(data, 'XXXXXXXXXXXXXXXXXXXXXX')
                     res.status(201).json(data)
                 }
             }
         } catch (err) {
+            console.log(err)
             res.status(500).json(err)
         }
     }

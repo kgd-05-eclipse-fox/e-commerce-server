@@ -9,8 +9,8 @@ routers.post('/login/admin', UserController.adminLogin)
 routers.post('/login/customer', UserController.costomerLogin)
 console.log('masuk Router server')
 
-routers.get('/product', ProductController.getAllProduct)
 routers.use(authentication)
+routers.get('/product', ProductController.getAllProduct)
 routers.post('/product', ProductController.createProduct)
 
 routers.get('/product/:id', authorization, ProductController.findByIdProduct)
