@@ -64,6 +64,15 @@ class ProductController {
 			next(error)
 		}
 	}
+
+	static async getProduct(req, res, next) {
+		try {
+			const getAll = await Product.findAll()
+			res.status(200).json(getAll)
+		} catch (err) {
+			next(err)
+		}
+	}
 }
 
 module.exports = ProductController

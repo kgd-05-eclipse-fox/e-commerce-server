@@ -4,7 +4,7 @@ async function authorization(req, res, next) {
 		if(role == 'admin') {
 			next()
 		} else {
-			throw new Error('Unauthorized')
+			res.status(401).json({msg: 'Authentication Failed.'})
 		}
 	} catch(err) {
 		next(error)

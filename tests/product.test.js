@@ -3,9 +3,9 @@ const express = require('express')
 const app = require('../app')
 const { sequelize } = require('../models')
 const { createToken } = require('../helpers/jwt')
-const { response } = require('express')
 const { Product } = require('../models')
 const { User } = require('../models')
+const { response } = require('express')
 
 let localStorage = {}
 let testId = 0
@@ -23,10 +23,15 @@ beforeAll( done => {
 	localStorage.user_token = createToken(user)
 	const admin = {
 		email: 'admin@mail.com',
-		role: 'admin',
-		password: '1234'
+		password: '1234',
+		role: 'admin'
 	}
 	User.create(admin)
+	User.create({
+		email: 'user@mail.com',
+		password: '1234',
+		role: 'user'
+	})
 	const create = {
 		name: 'Among Us Impostor',
 		image_url: 'https://cdn.shopify.com/s/files/1/0348/4293/5355/products/shirt_impostor_Web_3b4ca106-ce19-403d-adf1-de9ff795707d_2048x2048.png',
@@ -502,6 +507,23 @@ describe('POST DELETE END POINT /products', () => {
 			const { body, status } = response
 			expect(status).toBe(401)
 			expect(body).toHaveProperty('msg', 'Authentication Failed.')
+			done()
+		})
+		.catch(err => {
+			done(err)
+		})
+	})
+})
+
+describe('GET ALL PRODUCTS END POINT /products', () => {
+	it('Get all product', done => {
+		request(app)
+		.get('/products')
+		.set('token', localStorage.user_token)
+		.then(response => {
+			const { body, status } = response
+			expect(status).toBe(200)
+			expect(body).toEqual(expect.any(Array))
 			done()
 		})
 		.catch(err => {

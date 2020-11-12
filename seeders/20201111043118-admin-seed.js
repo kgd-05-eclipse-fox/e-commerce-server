@@ -1,9 +1,13 @@
 'use strict';
-const { User } = require('../models')
-const admin = require('../datas/admin.json');
-const { response } = require('express');
-admin[0].createdAt = new Date()
-admin[0].updatedAt = new Date()
+require('dotenv').config()
+const { hashPassword } = require('../helpers/bcrypt')
+const admin = [{
+	email: process.env.ADMINEMAIL,
+	password: hashPassword(process.env.ADMINPASSWORD),
+	role: process.env.ADMINROLE,
+	createdAt: new Date(),
+	updatedAt: new Date()
+}]
 module.exports = {
   up: async (queryInterface, Sequelize) => {
 		await queryInterface.bulkInsert('Users', admin, {})
