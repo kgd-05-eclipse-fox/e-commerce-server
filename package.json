@@ -12,10 +12,10 @@
     "@vue/cli-service": "~4.5.0"
   },
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "jest --detectOpenHandles --forceExit --runInBand --verbose",
-    "dev": "node ./bin/www",
+    "dev": "npx nodemon app.js",
     "start": "node app.js"
   },
   "repository": {
@@ -23,7 +23,7 @@
     "url": "git+https://github.com/itsagra/e-commerce-server.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Agra",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/itsagra/e-commerce-server/issues"

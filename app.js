@@ -16,7 +16,7 @@ app.use(express.urlencoded( { extended: true } ))
 app.use('/', router)
 app.use(errorHandler)
 app.listen(port, () => {
-	console.log(`app running on port http://localhost/${port}`)
+	console.log(`app running on port http://localhost:${port}`)
 })
 
 module.exports = app

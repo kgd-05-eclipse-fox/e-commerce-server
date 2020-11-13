@@ -34,7 +34,6 @@ class ProductController {
 					},
 					returning: true
 				})
-				console.log(update, '<<')
 				if (update[0]) {
 					res.status(200).json({ msg: 'Product has been updated.'})
 				} else {
@@ -67,7 +66,9 @@ class ProductController {
 
 	static async getProduct(req, res, next) {
 		try {
-			const getAll = await Product.findAll()
+			const getAll = await Product.findAll({
+				order: [['id', 'ASC']]
+			})
 			res.status(200).json(getAll)
 		} catch (err) {
 			next(err)
