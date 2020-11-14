@@ -1,5 +1,4 @@
 'use strict';
-const { validate } = require('@babel/types');
 const {
   Model
 } = require('sequelize');
