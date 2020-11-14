@@ -1,5 +1,4 @@
 const { User } = require('../models/')
-const axios = require('axios')
 const { verifyPassword } = require('../helpers/bcrypt')
 const { jwtSign } = require('../helpers/jwt')
 
