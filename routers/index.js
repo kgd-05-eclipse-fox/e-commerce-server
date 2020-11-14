@@ -5,6 +5,10 @@ const BennerController = require('../controller/benner-controller.js')
 const authentication = require('../middleware/authentication.js')
 const authorization = require('../middleware/authorization.js')
 
+routers.get('/',(req, res) =>{
+    res.send('masuk heroku pls....')
+})
+
 routers.post('/register', UserController.constructorRegister)
 routers.post('/login/admin', UserController.adminLogin)
 routers.post('/login/customer', UserController.costomerLogin)
