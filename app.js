@@ -14,8 +14,8 @@ app.use(cors())
 app.use(router)
 app.use(errorhandler)
 
-// app.listen(PORT, _ => {
-//     console.log(`e-commerce-server is live at http://localhost:${PORT}`)
-// })
+app.listen(PORT, _ => {
+    console.log(`e-commerce-server is live at http://localhost:${PORT}`)
+})
 
 module.exports = app
