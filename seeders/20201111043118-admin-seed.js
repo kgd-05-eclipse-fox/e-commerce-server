@@ -1,5 +1,4 @@
 'use strict';
-require('dotenv').config()
 const { hashPassword } = require('../helpers/bcrypt')
 const admin = [{
 	email: process.env.ADMINEMAIL,
