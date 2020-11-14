@@ -1,0 +1,10 @@
+[
+  {
+    "first_name": "bima",
+    "last_name": "krishna",
+    "gender": "male",
+    "email": "bima@mail.com",
+    "password": "1234",
+    "role": "admin"
+  }
+]
