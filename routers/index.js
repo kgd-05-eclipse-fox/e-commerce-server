@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const loginRegister = require('./loginregister')
+const loginRegister = require('./loginRegister')
 const products = require('./products')
 const banners = require('./banners')
 
