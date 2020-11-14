@@ -13,6 +13,17 @@ class ProductController {
         })
     }
 
+    static fetchProductById (req, res, next) {
+        const id = +req.params.id
+        Product.findByPk(id)
+        .then(product => {
+            res.status(200).json(product)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+
     static postProduct (req, res, next) {
         const payload = {
             name: req.body.name,

@@ -7,6 +7,8 @@ router.get('/', ProductController.fetchDataProduct);
 
 router.post('/', authentication, authorization, ProductController.postProduct);
 
+router.get('/:id', authentication, authorization, ProductController.fetchProductById);
+
 router.put('/:id', authentication, authorization, ProductController.putProduct);
 
 router.delete('/:id', authentication, authorization, ProductController.deleteProduct)
