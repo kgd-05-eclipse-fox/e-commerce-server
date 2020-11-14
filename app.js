@@ -1,7 +1,6 @@
-require('dotenv')
 const express = require('express')
 const app = express()
-const PORT = +process.env.PORT || 3000
+const PORT = +process.env.PORT
 
 const cors = require('cors')
 
@@ -19,4 +18,4 @@ app.listen(PORT, _ => {
     console.log(`e-commerce-server is live at http://localhost:${PORT}`)
 })
 
-// module.exports = app
+module.exports = app
