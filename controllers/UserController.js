@@ -14,11 +14,11 @@ class UserController {
                 const verify = verifyPassword(password, findUser.password)
                 if (verify) {
                     const payload = {
-                        id: findUser.id,
+                        role: findUser.role,
                         email: findUser.email
                     }
                     const access_token = jwtSign(payload)
-                    res.status(200).json({ access_token })
+                    res.status(200).json({ access_token, email: email })
                 } else {
                     throw new Error('Wrong email or password')
                 }

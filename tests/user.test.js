@@ -36,6 +36,7 @@ describe('Test POST /cms-admin for Admin Login', () => {
             .then(response => {
                 const { body, status } = response
                 expect(body).toHaveProperty('access_token')
+                expect(body).toHaveProperty('email', 'admin@mail.com')
                 expect(status).toBe(200)
                 done()
             })
