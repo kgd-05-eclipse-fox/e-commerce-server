@@ -18,4 +18,4 @@ app.listen(PORT, _ => {
     console.log(`e-commerce-server is live at http://localhost:${PORT}`)
 })
 
-module.exports = app
+// module.exports = app
