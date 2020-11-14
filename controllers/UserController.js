@@ -8,19 +8,15 @@ class UserController {
             const { email, password } = req.body
             if (!email || !password) throw new Error('Please complete all form')
 
-            console.log(email, password, 'check user <<<')
             const findUser = await User.findOne({ where: { email: email }})
             if (findUser) {
-                console.log(findUser, 'found user <<<')
                 const verify = verifyPassword(password, findUser.password)
                 if (verify) {
-                    console.log(verify, 'correct password user <<<')
                     const payload = {
                         role: findUser.role,
                         email: findUser.email
                     }
                     const access_token = jwtSign(payload)
-                    console.log(access_token, 'access_token <<<')
                     res.status(200).json({ access_token, email: email })
                 } else {
                     throw new Error('Wrong email or password')
