@@ -4,6 +4,9 @@
 ```
 server: https://a-mong-us.herokuapp.com
 client: https://among-us-store.web.app
+
+email: admin@gmail.com
+password: 1234
 ```
 
 #### List of available endpoints:
