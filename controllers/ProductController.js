@@ -7,7 +7,7 @@ class Controller {
             let image_url = typeof req.body.image_url
             let price = typeof req.body.price
             let stock = typeof req.body.stock
-            if(nameType !== 'string' || image_url !== 'string' || price !== 'number' || stock !== 'number') {
+            if(nameType !== 'string' || image_url !== 'string' || price !== 'string' || stock !== 'string') {
                 throw { name: "Wrong data type"}
             } else {
                 const payload = {
@@ -26,12 +26,13 @@ class Controller {
 
     static async updateProduct(req, res, next) {
         try {
+            console.log(req.body, '>>>>> ini body')
             let id = +req.params.id
             let nameType = typeof req.body.name
             let image_url = typeof req.body.image_url
             let price = typeof req.body.price
             let stock = typeof req.body.stock
-            if(nameType !== 'string' || image_url !== 'string' || price !== 'number' || stock !== 'number') {
+            if(nameType !== 'string' || image_url !== 'string' || price !== 'number' || stock !== 'string') {
                 throw { name: "Wrong data type"}
             } else {
                 const payload = {
@@ -60,31 +61,18 @@ class Controller {
     static async deleteProduct(req, res, next) {
         try {
             let id = +req.params.id
-            let nameType = typeof req.body.name
-            let image_url = typeof req.body.image_url
-            let price = typeof req.body.price
-            let stock = typeof req.body.stock
-            if(nameType !== 'string' || image_url !== 'string' || price !== 'number' || stock !== 'number') {
-                throw { name: "Wrong data type"}
+            let result = await Product.destroy({
+                where: {
+                    id
+                }
+            })
+            if(result[0] == 0) {
+                throw { name: "Not Found"}
             } else {
-                const payload = {
-                    name: req.body.name,
-                    image_url: req.body.image_url,
-                    price: req.body.price,
-                    stock: req.body.stock
-                }
-                let result = await Product.destroy({
-                    where: {
-                        id
-                    }
-                })
-                if(result[0] == 0) {
-                    throw { name: "Not Found"}
-                } else {
-                    res.status(200).json({ message: "Success delete product"})
-                }
+                res.status(200).json({ message: "Success delete product"})
             }
-        } catch (error) {
+        }
+        catch (error) {
             next(error)
         }
     }
@@ -93,6 +81,25 @@ class Controller {
         try {
             const products = await Product.findAll()
             res.status(200).json(products)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async findProduct(req, res, next) {
+        try {
+            const id = +req.params.id
+            let result = await Product.findOne({
+                where: {
+                    id
+                }
+            })
+            // console.log(result)
+            if(result == null) {
+                throw { name: "Not Found" }
+            } else {
+                res.status(200).json(result)
+            }
         } catch (error) {
             next(error)
         }

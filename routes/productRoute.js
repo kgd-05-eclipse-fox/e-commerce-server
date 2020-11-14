@@ -6,6 +6,7 @@ const { authentication } = require('../middleware/auth')
 router.use(authentication)
 router.get('/', ProductController.fetchProduct, errorHandler)
 router.post('/create', ProductController.createProduct, errorHandler)
+router.get('/edit/:id', ProductController.findProduct, errorHandler)
 router.put('/update/:id', ProductController.updateProduct, errorHandler)
 router.delete('/delete/:id', ProductController.deleteProduct, errorHandler)
 
