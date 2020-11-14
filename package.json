@@ -5,17 +5,13 @@
   "devDependencies": {
     "dotenv": "^8.2.0",
     "jest": "^26.6.3",
-    "supertest": "^6.0.1",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-service": "~4.5.0"
+    "supertest": "^6.0.1"
   },
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest --detectOpenHandles --forceExit --runInBand --verbose",
-    "dev": "npx nodemon app.js",
+    "dev": "node ./bin/www",
     "start": "node app.js"
   },
   "repository": {
@@ -23,7 +19,7 @@
     "url": "git+https://github.com/itsagra/e-commerce-server.git"
   },
   "keywords": [],
-  "author": "Agra",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/itsagra/e-commerce-server/issues"
