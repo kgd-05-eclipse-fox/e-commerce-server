@@ -3,28 +3,28 @@ const { User } = require('../models')
 
 async function authentication(req, res, next) {
     try {
-        const token = req.headers.access_token
+        const token = req.headers.accesstoken
         if(!token) {
             throw { msg: "Please login first", status: 401 }
         } else {
             const decodeToken = verifyToken(token)
             // console.log(decodeToken)
-            if(decodeToken.role !== 'admin') {
-                throw { msg: "You dont have permissions", status: 401 }
-            } else {
-                next()
-            }
-            // const selectedUser = await User.findOne({
-            //     where: {
-            //         email: decodeToken.email
-            //     }
-            // })
-            // if(selectedUser.role !== 'admin') {
-            //     throw { msg: "You dont have permissions to create product", status: 401 }
+            // if(decodeToken.role !== 'admin') {
+            //     throw { msg: "You dont have permissions", status: 401 }
             // } else {
-            //     req.loginUser = selectedUser
             //     next()
             // }
+            const selectedUser = await User.findOne({
+                where: {
+                    email: decodeToken.email
+                }
+            })
+            if(selectedUser.role !== 'admin') {
+                throw { msg: "You dont have permissions", status: 401 }
+            } else {
+                req.loginUser = selectedUser
+                next()
+            }
         }
     } catch (error) {
         res.status(error.status).json({message: error.msg})

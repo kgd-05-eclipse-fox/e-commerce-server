@@ -8,7 +8,6 @@ class Controller {
                 email: req.body.email,
                 password: req.body.password
             }
-            // console.log(payload)
             const user = await User.findOne({
                 where: {
                     email: payload.email,
@@ -38,7 +37,6 @@ class Controller {
             }
         } catch (error) {
             next(error)
-            // res.status(500).json("Internal Server Error")
         }
     }
 
