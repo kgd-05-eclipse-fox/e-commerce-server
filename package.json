@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --verbose --runInBand --detectOpenHandles --forceExit",
     "dev": "node ./bin/www",
-    "start": "node ./http/index.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
