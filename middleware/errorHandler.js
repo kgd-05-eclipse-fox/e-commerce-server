@@ -2,8 +2,6 @@ async function errorHandler (err, req, res, next){
     let status = err.status || 500
     let msg = err.msg || "Interal Server Error"
 
-
-
     if (err.name === "SequelizeValidationError"){
         status = 400
         msg = ''
