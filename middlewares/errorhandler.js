@@ -1,6 +1,7 @@
 const errorjoin = require('../helpers/errorjoin')
 
 module.exports = (err, req, res, next) => {
+    console.log(err, 'errorss <<<<')
     const errorMsg = err.message
     const errors = err.errors
 
