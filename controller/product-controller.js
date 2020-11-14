@@ -3,12 +3,10 @@ const {Product} = require('../models')
 class ProductController{
     
     static async getAllProduct(req, res, next){
-        console.log('masuk controller')
         try {
             let data = await Product.findAll()
             res.status(200).json(data)
         } catch (err) {
-            console.log(err)
             res.status(500).json(err)
         }
     }
@@ -46,7 +44,6 @@ class ProductController{
                 }
             }
         } catch (err) {
-            console.log(err)
             res.status(500).json(err)
         }
     }
@@ -63,8 +60,10 @@ class ProductController{
 
     static async updateProduct(req, res, next){
         try {
-            let id = req.params.id
+            let id = +req.params.id
             let dataUpdate = req.body
+            dataUpdate.price = +dataUpdate.price
+            dataUpdate.stock = +dataUpdate.stock
             if(dataUpdate.stock < 0){
                 res.status(401).json({msg: 'product stock must not be below 0'})
             }else if(dataUpdate.price !== +dataUpdate.price){
