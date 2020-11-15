@@ -1,15 +1,25 @@
 'use strict';
 const bcrypt = require('bcrypt')
-
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('Users', [{
+const payload = [
+  {
       email: 'admin@mail.com',
       password: bcrypt.hashSync('123456', 10),
       role: 'admin',
       createdAt: new Date(),
       updatedAt: new Date()
-    }])
+  },
+  {
+      email: 'customer@mail.com',
+      password: bcrypt.hashSync('123456', 10),
+      role: 'customer',
+      createdAt: new Date(),
+      updatedAt: new Date()
+  }
+]
+
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.bulkInsert('Users', payload)
     /**
      * Add seed commands here.
      *

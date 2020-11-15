@@ -41,7 +41,7 @@ describe('Test endpoint create product', () => {
     it('create product success', (done) => {
         request(app)
         .post('/product/create')
-        .set('access_token', tokenAdmin)
+        .set('accesstoken', tokenAdmin)
         .send({name: 'Shoes', image_url: 'http://arah.in/shoes-ortus', price: 300000, stock: 20})
         .then(response => {
             const{body, status} = response
@@ -78,7 +78,7 @@ describe('Test endpoint create product', () => {
     it('create product but role is not an admin', (done) => {
         request(app)
         .post('/product/create')
-        .set('access_token', tokenCustomer)
+        .set('accesstoken', tokenCustomer)
         .send({name: 'Shoes', image_url: 'http://arah.in/shoes-ortus', price: 300000, stock: 20})
         .then(response => {
             const{body, status} = response
@@ -95,7 +95,7 @@ describe('Test endpoint create product', () => {
     it('create product but the field require is empty', (done) => {
         request(app)
         .post('/product/create')
-        .set('access_token', tokenAdmin)
+        .set('accesstoken', tokenAdmin)
         .send({name: '', image_url: 'http://arah.in/shoes-ortus', price: 300000, stock: 20})
         .then(response => {
             const{body, status} = response
@@ -113,7 +113,7 @@ describe('Test endpoint create product', () => {
     it('create product but stock is minus', (done) => {
         request(app)
         .post('/product/create')
-        .set('access_token', tokenAdmin)
+        .set('accesstoken', tokenAdmin)
         .send({name: 'Shoes', image_url: 'http://arah.in/shoes-ortus', price: 300000, stock: -10})
         .then(response => {
             const{body, status} = response
@@ -130,7 +130,7 @@ describe('Test endpoint create product', () => {
     it('create product but price is minus', (done) => {
         request(app)
         .post('/product/create')
-        .set('access_token', tokenAdmin)
+        .set('accesstoken', tokenAdmin)
         .send({name: 'Shoes', image_url: 'http://arah.in/shoes-ortus', price: -300000, stock: 20})
         .then(response => {
             const{body, status} = response
@@ -147,7 +147,7 @@ describe('Test endpoint create product', () => {
     it('create product but wrong data type', (done) => {
         request(app)
         .post('/product/create')
-        .set('access_token', tokenAdmin)
+        .set('accesstoken', tokenAdmin)
         .send({name: 'Shoes', image_url: 'http://arah.in/shoes-ortus', price: '300000', stock: 20})
         .then(response => {
             const{body, status} = response
@@ -185,7 +185,7 @@ describe('Test endpoint update product', () => {
     it('update product success', (done) => {
         request(app)
         .put(`/product/update/${productId}`)
-        .set('access_token', tokenAdmin)
+        .set('accesstoken', tokenAdmin)
         .send({name: 'Adidas Predator', image_url: 'http://arah.in/adidas-neo', price: 300000, stock: 20})
         .then(response => {
             const{body, status} = response
@@ -222,7 +222,7 @@ describe('Test endpoint update product', () => {
     it('update product but role is not an admin', (done) => {
         request(app)
         .put(`/product/update/${productId}`)
-        .set('access_token', tokenCustomer)
+        .set('accesstoken', tokenCustomer)
         .send({name: 'Adidas Predator', image_url: 'http://arah.in/adidas-neo', price: 300000, stock: 20})
         .then(response => {
             const{body, status} = response
@@ -239,7 +239,7 @@ describe('Test endpoint update product', () => {
     it('update product but stock is minus', (done) => {
         request(app)
         .put(`/product/update/${productId}`)
-        .set('access_token', tokenAdmin)
+        .set('accesstoken', tokenAdmin)
         .send({name: 'Shoes', image_url: 'http://arah.in/adidas-neo', price: 300000, stock: -10})
         .then(response => {
             const{body, status} = response
@@ -256,7 +256,7 @@ describe('Test endpoint update product', () => {
     it('update product but wrong data type', (done) => {
         request(app)
         .put(`/product/update/${productId}`)
-        .set('access_token', tokenAdmin)
+        .set('accesstoken', tokenAdmin)
         .send({name: 'Shoes', image_url: 'http://arah.in/adidas-neo', price: 300000, stock: '20'})
         .then(response => {
             const{body, status} = response
@@ -273,7 +273,7 @@ describe('Test endpoint update product', () => {
     it('update product but price is minus', (done) => {
         request(app)
         .put(`/product/update/${productId}`)
-        .set('access_token', tokenAdmin)
+        .set('accesstoken', tokenAdmin)
         .send({name: 'Shoes', image_url: 'http://arah.in/adidas-neo', price: -300000, stock: 20})
         .then(response => {
             const{body, status} = response
@@ -310,7 +310,7 @@ describe('Test endpoint delete product', () => {
     it('delete product success', (done) => {
         request(app)
         .delete(`/product/delete/${productId}`)
-        .set('access_token', tokenAdmin)
+        .set('accesstoken', tokenAdmin)
         .send({name: 'Nike Air Jordan', image_url: 'http://arah.in/nike-air', price: 300000, stock: 10})
         .then(response => {
             const{body, status} = response
@@ -343,7 +343,7 @@ describe('Test endpoint delete product', () => {
     it('delete product but role is not an admin', (done) => {
         request(app)
         .delete('/product/delete')
-        .set('access_token', tokenCustomer)
+        .set('accesstoken', tokenCustomer)
         .send({name: 'Nike Air Jordan', image_url: 'http://arah.in/nike-air', price: 300000, stock: 10})
         .then(response => {
             const{body, status} = response

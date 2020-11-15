@@ -7,7 +7,7 @@ class Controller {
             let image_url = typeof req.body.image_url
             let price = typeof req.body.price
             let stock = typeof req.body.stock
-            if(nameType !== 'string' || image_url !== 'string' || price !== 'string' || stock !== 'string') {
+            if(nameType !== 'string' || image_url !== 'string' || price !== 'number' || stock !== 'number') {
                 throw { name: "Wrong data type"}
             } else {
                 const payload = {
@@ -26,13 +26,12 @@ class Controller {
 
     static async updateProduct(req, res, next) {
         try {
-            console.log(req.body, '>>>>> ini body')
             let id = +req.params.id
             let nameType = typeof req.body.name
             let image_url = typeof req.body.image_url
             let price = typeof req.body.price
             let stock = typeof req.body.stock
-            if(nameType !== 'string' || image_url !== 'string' || price !== 'number' || stock !== 'string') {
+            if(nameType !== 'string' || image_url !== 'string' || price !== 'number' || stock !== 'number') {
                 throw { name: "Wrong data type"}
             } else {
                 const payload = {
@@ -94,7 +93,6 @@ class Controller {
                     id
                 }
             })
-            // console.log(result)
             if(result == null) {
                 throw { name: "Not Found" }
             } else {
