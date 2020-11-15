@@ -65,7 +65,7 @@ class Controller {
                     id
                 }
             })
-            if(result[0] == 0) {
+            if(result == 0) {
                 throw { name: "Not Found"}
             } else {
                 res.status(200).json({ message: "Success delete product"})

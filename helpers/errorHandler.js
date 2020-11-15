@@ -5,7 +5,6 @@ module.exports = function errorHandler(err, req, res, next) {
     if(err.name == "SequelizeValidationError") {
         let temp = ''
         temp += err.errors[0].message
-        // console.log(temp)
         statusCode = 400
         errMsg = temp
     } else if(err.name == "SequelizeUniqueConstraintError") {
