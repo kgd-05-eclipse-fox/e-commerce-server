@@ -1,18 +1,18 @@
 const route = require('express').Router()
 const BannerController = require('../controllers/bannerController')
-const authentication = require('../middlewares/authentication')
-const authorization = require('../middlewares/authorization_banner')
-
-route.use(authentication)
+const Auth = require('../middlewares/auth_admin')
 
 route.get('/', BannerController.readAll)
-route.get('/:id', authorization, BannerController.getOne)
-route.get('/active', authorization, BannerController.getActiveBanner)
+route.get('/active', BannerController.getActiveBanner)
 
-route.post('/', authorization ,BannerController.addBanner)
+route.use(Auth.authentication)
 
-route.put('/:id', authorization ,BannerController.updateBanner)
+route.get('/:id', BannerController.getOne)
+route.post('/', BannerController.addBanner)
 
-route.delete('/:id', authorization ,BannerController.deleteBanner)
+route.use('/:id', Auth.authorization_banner)
+
+route.put('/:id', BannerController.updateBanner)
+route.delete('/:id', BannerController.deleteBanner)
 
 module.exports = route

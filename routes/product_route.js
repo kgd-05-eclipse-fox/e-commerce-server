@@ -1,17 +1,17 @@
 const route = require('express').Router()
 const ProductController = require('../controllers/productController')
-const authentication = require('../middlewares/authentication')
-const authorization = require('../middlewares/authorization_product')
-
-route.use(authentication)
+const Auth = require('../middlewares/auth_admin')
 
 route.get('/', ProductController.readAll)
-route.get('/:id', authorization, ProductController.getOne)
 
-route.post('/', authorization ,ProductController.addProduct)
+route.use(Auth.authentication)
 
-route.put('/:id', authorization ,ProductController.updateProduct)
+route.post('/', Auth.authorization_product ,ProductController.addProduct)
+route.get('/:id', ProductController.getOne)
 
-route.delete('/:id', authorization ,ProductController.deleteProduct)
+route.use('/:id', Auth.authorization_product)
+
+route.put('/:id' ,ProductController.updateProduct)
+route.delete('/:id' ,ProductController.deleteProduct)
 
 module.exports = route
