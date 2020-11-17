@@ -5,10 +5,10 @@ const CartController = require('../controllers/cartController')
 route.use(Auth.authentication)
 
 route.get('/', CartController.readAll)
-
+route.get('/history', CartController.getHistory)
 route.post('/', CartController.updateCart)
+route.put('/', CartController.checkout)
 
-route.use('/:id', Auth.authorization)
-route.delete('/:id', CartController.removeCart)
+route.delete('/:id', Auth.authorization, CartController.removeCart)
 
 module.exports = route

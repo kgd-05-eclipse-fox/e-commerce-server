@@ -30,7 +30,6 @@ class Auth {
     try {
       const id = +req.params.id
       const UserId = +req.user.id
-
       const cart = await Cart.findOne({
         where: {
           id
