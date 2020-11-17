@@ -1,5 +1,5 @@
 const { verifyToken } = require('../helpers/jwt')
-const { User } = require('../models')
+const { User, Cart } = require('../models')
 
 async function authentication(req, res, next) {
     try {
@@ -31,16 +31,38 @@ async function authentication(req, res, next) {
     }
     
 }
-
-async function authorization(req, res, next) {
-    const taskId = Number(req.body.id)
+async function authenticationCustomer(req, res, next) {
     try {
-        const task = await Task.findByPk(taskId)
-        // console.log(todo)
-        if(task == null) {
+        const token = req.headers.accesstoken
+        if(!token) {
+            throw { msg: "Please login first", status: 401}
+        } else {
+            const decodeToken = verifyToken(token)
+            const user = await User.findOne({
+                where: {
+                    email: decodeToken.email
+                }
+            })
+            req.loginUser = user
+            next()
+        }
+    } catch (error) {
+        res.status(error.status).json({message: error.msg})
+    }
+}
+async function authorization(req, res, next) {
+    try {
+        const cartId = +req.params.id
+        const cart = await Cart.findOne({
+            where: {
+                id: cartId
+            }
+        })
+        // console.log(cart)
+        if(cart == null) {
             throw { msg: "Data not found", status: 404 }
         } else {
-            if(task.UserId == req.loginUser.id) {
+            if(cart.UserId == req.loginUser.id) {
                 next()
             } else {
                 throw { msg: "Not authorized to delete this post", status: 404 }
@@ -53,5 +75,6 @@ async function authorization(req, res, next) {
 
 module.exports = {
     authentication,
-    authorization
+    authorization,
+    authenticationCustomer
 }

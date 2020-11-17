@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Product.belongsToMany(models.User, {
+        through: models.Cart
+      })
     }
   };
   Product.init({
@@ -59,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Field cannot be empty"
         },
         min: {
-          args: 1,
+          args: 0,
           msg: "Price must be greater than 0"
         }
       }
@@ -77,7 +80,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Field cannot be empty"
         },
         min: {
-          args: 1,
+          args: 0,
           msg: "Stock must be greater than 0"
         }
       }
