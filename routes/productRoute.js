@@ -3,7 +3,7 @@ const ProductController = require('../controllers/ProductController')
 const errorHandler = require('../helpers/errorHandler')
 const { authentication } = require('../middleware/auth')
 
-router.use(authentication)
+// router.use(authentication)
 router.get('/', ProductController.fetchProduct, errorHandler)
 router.post('/create', ProductController.createProduct, errorHandler)
 router.get('/edit/:id', ProductController.findProduct, errorHandler)

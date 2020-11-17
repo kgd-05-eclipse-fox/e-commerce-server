@@ -33,7 +33,7 @@ async function authentication(req, res, next) {
 }
 async function authenticationCustomer(req, res, next) {
     try {
-        const token = req.headers.accesstoken
+        const token = req.headers.access_token
         if(!token) {
             throw { msg: "Please login first", status: 401}
         } else {

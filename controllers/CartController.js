@@ -3,10 +3,11 @@ const { User, Product, Cart } = require('../models')
 class Controller {
   static async addCart(req, res, next) {
     try {
+      // console.log(req.params.id)
       const payload = {
         UserId: req.loginUser.id,
-        ProductId: req.body.ProductId,
-        Qty: +req.body.Qty
+        ProductId: +req.params.id,
+        Qty: 1
       }
       const cart = await Cart.findOne({
         where: {
@@ -27,14 +28,15 @@ class Controller {
         if(!product) {
           throw { message: "Product not found" }
         } else {
-          if(addQty >= product.stock) {
+          if(addQty > product.stock) {
             res.status(400).json({ message: 'Product out of stock' })
           } else {
+            console.log(cart)
             const updatedCart = await Cart.update({
               Qty: addQty
             }, {
               where: {
-                id: cart.id
+                ProductId: cart.ProductId
               },
               returning: true
             })
@@ -50,9 +52,13 @@ class Controller {
   static async fetchCart(req, res, next) {
     try {
       const UserId = req.loginUser.id
-      const cartUser = await Cart.findAll({
+      const cartUser = await User.findAll({
         where: {
-          UserId
+          id: UserId
+        },
+        include: Product,
+        attributes: {
+          exclude: ['password', 'role', 'createdAt', 'updatedAt']
         }
       })
       res.status(200).json(cartUser)
