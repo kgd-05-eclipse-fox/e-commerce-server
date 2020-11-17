@@ -5,10 +5,11 @@ class CartController {
     try {
       const cart = await Cart.findAll({
         where: {
-          UserId: +req.user.id
+          UserId: +req.user.id,
+          checked_out: false
         },
         include: Product,
-        attributes: ['id', 'UserId', 'ProductId']
+        attributes: ['id', 'UserId', 'ProductId', 'quantity']
       })
       res.status(200).json(cart)
     } catch (error) {
@@ -48,10 +49,11 @@ class CartController {
             },
             returning: true
           })
-          if (updated[0] !== 1) {
+          console.log(updated)
+          if (updated[0][1] !== 1) {
             throw { status: 404, msg: 'Update Cart Failed' }
           } else {
-            res.status(200).json(updated[1][0])
+            res.status(200).json(updated[0][0][0])
           }
         }
       }
@@ -69,10 +71,47 @@ class CartController {
         }
       })
       if (destroyed !== 1) {
-        throw { msg: 'Delete Card Failed', status: 404 }
+        throw { msg: 'Delete Cart Failed', status: 404 }
       } else {
         res.status(200).json({ msg: 'Remove cart success' })
       }
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  static async checkout (req, res, next) {
+    try {
+      const UserId = +req.user.id
+
+      const checked_out = await Cart.update({
+        checked_out: true
+      }, {
+        where: {
+          UserId
+        },
+        returning: true
+      })
+
+      res.status(200).json(checked_out[1])
+      
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  static async getHistory (req, res, next) {
+    try {
+      const UserId = +req.user.id
+
+      const history = await Cart.findAll({
+        where: {
+          UserId,
+          checked_out: true
+        },
+        include: Product
+      })
+      res.status(200).json(history)
     } catch (error) {
       next(error)
     }

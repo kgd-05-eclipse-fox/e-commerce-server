@@ -8,7 +8,7 @@ route.get('/', CartController.readAll)
 
 route.post('/', CartController.updateCart)
 
-route.use(Auth.authorization)
+route.use('/:id', Auth.authorization)
 route.delete('/:id', CartController.removeCart)
 
 module.exports = route

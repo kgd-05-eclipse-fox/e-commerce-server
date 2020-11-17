@@ -60,10 +60,19 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Minimal of 1 product'
         }
       }
+    },
+    checked_out: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
     }
   }, {
     sequelize,
     modelName: 'Cart',
+    hooks: {
+      beforeCreate (item, option) {
+        item.checked_out = false
+      }
+    }
   });
   return Cart;
 };
