@@ -1,12 +1,11 @@
-const { User, Product, Cart } = require('../models')
+const { User, Product, Cart, History } = require('../models')
 
 class CartController {
   static async readAll (req, res, next) {
     try {
       const cart = await Cart.findAll({
         where: {
-          UserId: +req.user.id,
-          checked_out: false
+          UserId: +req.user.id
         },
         include: Product,
         attributes: ['id', 'UserId', 'ProductId', 'quantity']
@@ -40,6 +39,8 @@ class CartController {
       } else {
         if (product.stock < (cart.quantity + quantity)) {
           throw { status: 400, msg: 'Limit Reached' }
+        } else if (cart.UserId !== UserId) {
+          throw { msg: 'Not Authorized', status: 401 }
         } else {
           const updated = await Cart.increment('quantity', {
             by: +quantity,
@@ -49,7 +50,6 @@ class CartController {
             },
             returning: true
           })
-          console.log(updated)
           if (updated[0][1] !== 1) {
             throw { status: 404, msg: 'Update Cart Failed' }
           } else {
@@ -83,18 +83,31 @@ class CartController {
   static async checkout (req, res, next) {
     try {
       const UserId = +req.user.id
-
-      const checked_out = await Cart.update({
-        checked_out: true
-      }, {
+      let checked_out = await Cart.findAll({
         where: {
           UserId
-        },
-        returning: true
+        }
       })
-
-      res.status(200).json(checked_out[1])
-      
+      checked_out = checked_out.map(item => item.dataValues)
+      for (const item of checked_out) {
+        await Product.decrement('stock', {
+          by: item.quantity,
+          where: {
+            id: item.ProductId
+          }
+        })
+      }
+      await History.bulkCreate(checked_out)
+      const destroyed = await Cart.destroy({
+        where: {
+          UserId
+        }
+      })
+      if (destroyed >= 1) {
+        res.status(200).json({ msg: 'Checked out successfullly' })
+      } else {
+        throw { status: 401, msg: 'Checkout failed' }
+      }
     } catch (error) {
       next(error)
     }
@@ -104,10 +117,9 @@ class CartController {
     try {
       const UserId = +req.user.id
 
-      const history = await Cart.findAll({
+      const history = await History.findAll({
         where: {
-          UserId,
-          checked_out: true
+          UserId
         },
         include: Product
       })
