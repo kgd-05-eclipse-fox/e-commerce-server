@@ -66,9 +66,10 @@ class UserProduct{
 
     static async deleteUserProduct(req, res, next){
         try {
-            let dataBody = +req.body.id
+            console.log('masuk controller <<<<<<<<<<<<<<<<<<<<<')
+            let id = +req.params.id
             let data = await ProductUser.destroy({
-                where: {id: dataBody}
+                where: {id}
             })
             if(data === 0){
                 res.status(400).json({msg: 'Product tidak ditemukan'})

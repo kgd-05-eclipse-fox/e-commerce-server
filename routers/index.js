@@ -31,6 +31,7 @@ routers.delete('/product/:id', authorization, ProductController.deleteProduct)
 
 routers.post('/userproduct', UserProduct.postProductUser)
 routers.get('/userproduct', UserProduct.getDataUserProduct)
-routers.delete('/userproduct', UserProduct.deleteUserProduct)
+
+routers.delete('/userproduct/:id', authorization, UserProduct.deleteUserProduct)
 
 module.exports = routers
