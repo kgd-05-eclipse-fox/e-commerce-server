@@ -52,12 +52,10 @@ async function authenticationCustomer(req, res, next) {
 }
 async function authorization(req, res, next) {
     try {
-        const UserId = req.loginUser.id
-        const ProductId = +req.params.id
+        const id = +req.params.id
         const cart = await Cart.findOne({
             where: {
-                UserId,
-                ProductId
+                id
             }
         })
         if(cart == null) {

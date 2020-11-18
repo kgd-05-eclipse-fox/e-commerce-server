@@ -56,7 +56,8 @@ class Controller {
         where: {
           UserId
         },
-        include: Product
+        include: Product,
+        attributes: ['id', 'Qty']
       })
       res.status(200).json(cartUser)
     } catch (error) {
@@ -66,12 +67,10 @@ class Controller {
 
   static async deleteCart(req, res, next) {
     try {
-      const UserId = req.loginUser.id
-      const ProductId = +req.params.id
-      const deletedProduct = await Cart.destroy({
+      const id = +req.params.id
+      const deletedCart = await Cart.destroy({
         where: {
-          UserId,
-          ProductId
+          id
         }
       })
       res.status(200).json({ message: 'Cart deleted' })
@@ -85,8 +84,7 @@ class Controller {
       const id = +req.params.id
       const selectedCart = await Cart.findOne({
         where: {
-          UserId: req.loginUser.id,
-          ProductId: id
+          id
         }
       })
       const incQty = selectedCart.Qty + 1
@@ -94,8 +92,7 @@ class Controller {
         Qty: incQty
       }, {
         where: {
-          UserId: req.loginUser.id,
-          ProductId: id
+          id
         },
         returning: true
       })
@@ -110,8 +107,7 @@ class Controller {
       const id = +req.params.id
       const selectedCart = await Cart.findOne({
         where: {
-          ProductId: id,
-          UserId: req.loginUser.id
+          id
         }
       })
       const decQty = selectedCart.Qty - 1
@@ -119,8 +115,7 @@ class Controller {
         Qty: decQty
       }, {
         where: {
-          ProductId: id,
-          UserId: req.loginUser.id
+         id
         },
         returning: true
       })
