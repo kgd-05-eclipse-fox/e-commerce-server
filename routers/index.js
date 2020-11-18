@@ -33,5 +33,6 @@ routers.post('/userproduct', UserProduct.postProductUser)
 routers.get('/userproduct', UserProduct.getDataUserProduct)
 
 routers.delete('/userproduct/:id', authorization, UserProduct.deleteUserProduct)
+routers.patch('/userproduct/:id', authorization, UserProduct.updateQuantity)
 
 module.exports = routers

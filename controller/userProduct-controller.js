@@ -80,6 +80,28 @@ class UserProduct{
             res.status(500).json(err)
         }
     }
+
+    static async updateQuantity(req, res, next){
+        try {
+            let dataBody = req.body.quantity
+            let id = +req.params.id
+            let data = await ProductUser.update({
+              quantity: dataBody
+            },{
+                where: {id},
+                returning: true
+            })
+            let showDataUpdate = {
+                id: data[1][0].dataValues.id,
+                UserId: data[1][0].dataValues.UserId,
+                ProductId: data[1][0].dataValues.ProductId,
+                quantity: data[1][0].dataValues.quantity
+            }
+            res.status(200).json(showDataUpdate)
+        } catch (err) {
+            res.status(500).json(err)
+        }
+    }
 }
 
 module.exports = UserProduct
