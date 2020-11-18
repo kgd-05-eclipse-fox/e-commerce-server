@@ -3,65 +3,57 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Product extends Model {
+  class CheckOutUser extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Product.belongsToMany(models.User, { through: 'ProductUsers' })
-      Product.belongsToMany(models.User, { through: 'CheckOutUsers'})
+      CheckOutUser.belongsTo(models.User)
+      CheckOutUser.belongsTo(models.Product)
     }
   };
-  Product.init({
-    name: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: 'the product name cannot be blank'
-        }
-      }
-    },
-    image_url: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: 'the product Image Url cannot be blank'
-        }
-      }
-    },
-    price: {
+  CheckOutUser.init({
+    UserId: {
       type: DataTypes.INTEGER,
       validate: {
         notEmpty: {
           args: true,
-          msg: 'the product price cannot be blank'
-        },
-        min: {
-          args: [1],
-          msg: 'product prices must not be below 0'
+          msg: 'not Empty'
         }
       }
     },
-    stock: {
+    ProductId: {
       type: DataTypes.INTEGER,
       validate: {
         notEmpty: {
           args: true,
-          msg: 'the product stock cannot be blank'
-        },
-        min: {
-          args: [1],
-          msg: 'product stock must not be below 0'
+          msg: 'not Empty'
+        }
+      }
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'not Empty'
+        }
+      }
+    },
+    total: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'not Empty'
         }
       }
     }
   }, {
     sequelize,
-    modelName: 'Product',
+    modelName: 'CheckOutUser',
   });
-  return Product;
+  return CheckOutUser;
 };

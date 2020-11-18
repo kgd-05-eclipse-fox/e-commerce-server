@@ -61,10 +61,6 @@ class UserProduct{
                 where: {UserId: data.UserId},
                 include: Product
             })
-            // let total = 0
-            // getAllDataProductUser.forEach(el =>{
-            //   total += el.Product.price
-            // })
             // get data product "getAllDataProductUser[0].Product.image_url"
             res.status(200).json(getAllDataProductUser)
         } catch (err) {
@@ -105,6 +101,27 @@ class UserProduct{
                 quantity: data[1][0].dataValues.quantity
             }
             res.status(200).json(showDataUpdate)
+        } catch (err) {
+            res.status(500).json(err)
+        }
+    }
+
+    static async getTotalBasket(req, res, next){
+        try {
+            let token = req.headers.access_token
+            let cekToken = JwtApp.decodedToken(token)
+            let data = {
+                UserId: cekToken.id
+            }
+            let getAllDataProductUser = await ProductUser.findAll({
+                where: {UserId: data.UserId},
+                include: Product
+            })
+            let total = 0
+            getAllDataProductUser.forEach(el =>{
+              total += el.Product.price * el.quantity
+            })
+            res.status(200).json(total)
         } catch (err) {
             res.status(500).json(err)
         }

@@ -3,6 +3,7 @@ const UserController = require('../controller/user-controller.js')
 const ProductController = require('../controller/product-controller.js')
 const BennerController = require('../controller/benner-controller.js')
 const UserProduct = require('../controller/userProduct-controller.js')
+const CheckOutController = require('../controller/checkOut-controller.js')
 const authentication = require('../middleware/authentication.js')
 const authorization = require('../middleware/authorization.js')
 
@@ -31,8 +32,11 @@ routers.delete('/product/:id', authorization, ProductController.deleteProduct)
 
 routers.post('/userproduct', UserProduct.postProductUser)
 routers.get('/userproduct', UserProduct.getDataUserProduct)
+routers.get('/userproduct/total', UserProduct.getTotalBasket)
 
 routers.delete('/userproduct/:id', authorization, UserProduct.deleteUserProduct)
 routers.patch('/userproduct/:id', authorization, UserProduct.updateQuantity)
+
+routers.post('/chechout', CheckOutController.createCheckOut)
 
 module.exports = routers
