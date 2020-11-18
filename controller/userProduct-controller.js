@@ -19,23 +19,31 @@ class UserProduct{
                 let createProduct = await ProductUser.create(data)
                 res.status(201).json(createProduct)
             }else{
-                let updateQuantity = cekBasket[0].dataValues.quantity + 1
-                let dataUpdate = {
-                    UserId: cekToken.id,
-                    ProductId: +dataBody.ProductId,
-                    quantity: updateQuantity
-                }
-                let updateProduct = await ProductUser.update(dataUpdate, {
-                    where: {ProductId: data.ProductId, UserId: data.UserId},
-                    returning: true
+                let stockProduct = await Product.findOne({
+                    where: {id: data.ProductId}
                 })
-                let showDataUpdate = {
-                    id: updateProduct[1][0].dataValues.id,
-                    UserId: updateProduct[1][0].dataValues.UserId,
-                    ProductId: updateProduct[1][0].dataValues.ProductId,
-                    quantity: updateProduct[1][0].dataValues.quantity
+                let stock = stockProduct.dataValues.stock
+                if(cekBasket[0].dataValues.quantity + 1 <= stock){
+                    let updateQuantity = cekBasket[0].dataValues.quantity + 1
+                    let dataUpdate = {
+                        UserId: cekToken.id,
+                        ProductId: +dataBody.ProductId,
+                        quantity: updateQuantity
+                    }
+                    let updateProduct = await ProductUser.update(dataUpdate, {
+                        where: {ProductId: data.ProductId, UserId: data.UserId},
+                        returning: true
+                    })
+                    let showDataUpdate = {
+                        id: updateProduct[1][0].dataValues.id,
+                        UserId: updateProduct[1][0].dataValues.UserId,
+                        ProductId: updateProduct[1][0].dataValues.ProductId,
+                        quantity: updateProduct[1][0].dataValues.quantity
+                    }
+                    res.status(200).json(showDataUpdate)
+                } else {
+                  res.status(401).json({msg: 'Over Stock'})
                 }
-                res.status(200).json(showDataUpdate)
             }
         } catch (err) {
             res.status(500).json(err)
@@ -66,7 +74,6 @@ class UserProduct{
 
     static async deleteUserProduct(req, res, next){
         try {
-            console.log('masuk controller <<<<<<<<<<<<<<<<<<<<<')
             let id = +req.params.id
             let data = await ProductUser.destroy({
                 where: {id}
