@@ -106,7 +106,7 @@ class CartController {
       if (destroyed >= 1) {
         res.status(200).json({ msg: 'Checked out successfullly' })
       } else {
-        throw { status: 401, msg: 'Checkout failed' }
+        throw { status: 400, msg: 'Checkout failed' }
       }
     } catch (error) {
       next(error)

@@ -17,7 +17,12 @@ List of available endpoints:
 * POST /banners
 * PUT /banners/:id
 * DELETE /banners/:id
-
+----
+* GET /carts
+* GET /carts/history
+* POST /carts
+* DELETE /carts
+* DELETE /carts/:id
 ----
 **Register**
 ----
@@ -990,6 +995,348 @@ Edit a banner's data
   axios({
     method: 'DELETE',
     url: `/banners/${id}`,
+    headers: {
+      access_token: token
+    }
+  })
+  ```
+----
+
+**Fetch Cart**
+----
+Returns carts data that belongs to user
+
+* **URL** <br />
+  /carts
+
+* **Method** <br />
+  `GET`
+
+* **Data Params**
+  * **Headers**
+    ```js
+    access_token: 'string'
+    ```
+
+* **Success Response**
+  * **Code:** 200
+    **Content:**
+    ```js
+    [
+      {
+        id: integer,
+        ProductId: integer,
+        UserId: integer,
+        quantity: integer,
+        Product: {
+          name: 'string',
+          image_url: 'string',
+          stock: integer,
+          price: integer
+        }
+      },
+      {
+        ...
+      }
+    ]
+    ```
+
+* **Error Response**
+  * **Code:** 401 <br />
+    **Content:**
+    ```js
+    {
+      msg: 'Authentication Failed'
+    }
+    ```
+    
+    OR
+  
+  * **Code:** 500 <br />
+    **Content:**
+    ```js
+    {
+      msg: 'Internal Server Error'
+    }
+    ```
+
+* **Sample Call**
+  ```js
+  axios({
+    method: 'GET',
+    url: '/carts',
+    headers: {
+      access_token: token
+    }
+  })
+  ```
+----
+
+**Fetch History**
+----
+Returns History of User
+
+* **URL** <br/>
+  /carts/history
+
+* **Method** <br />
+  `GET`
+
+* **Data Params**
+  * **Headers**
+  ```js
+  access_token: 'string'
+  ```
+
+* **Success Response**
+  * **Code:** 200
+    **Content:**
+    ```js
+    [
+      {
+        id: integer,
+        ProductId: integer,
+        UserId: integer,
+        quantity: integer,
+        Product: {
+          name: 'string',
+          image_url: 'string',
+          stock: integer,
+          price: integer
+        }
+      },
+      {
+        ...
+      }
+    ]
+    ```
+
+* **Error Response**
+  * **Code:** 401 <br />
+    **Content:**
+    ```js
+    {
+      msg: 'Authentication Failed'
+    }
+    ```
+    
+    OR
+  
+  * **Code:** 500 <br />
+    **Content:**
+    ```js
+    {
+      msg: 'Internal Server Error'
+    }
+    ```
+
+* **Sample Call**
+  ```js
+  axios({
+    method: 'GET',
+    url: '/carts/history',
+    headers: {
+      access_token: token
+    }
+  })
+  ```
+----
+
+**Update Cart**
+----
+
+* **URL** <br />
+  /carts
+
+* **Method** <br />
+  `POST`
+
+* **Data Params** 
+  * **Headers**
+    ```js
+    access_token: 'string'
+    ```
+  
+  * **Data**
+    ```js
+    {
+      ProductId: integer,
+      quantity: integer
+    }
+    ```
+
+* **Success Response**
+  * **Code:** 201 OR 200 <br />
+    **Content:**
+    ```js
+    {
+      id: integer,
+      ProductId: integer,
+      UserId: integer,
+      quantity: integer
+    }
+    ```
+
+* **Error Response**
+  * **Code:** 400 <br />
+    **Content:**
+    ```js
+    {
+      msg: 'Limit Reached'
+    }
+    OR
+    {
+      msg: 'Validation Errors'
+    }
+    ```
+    OR
+  * **Code:** 401 <br />
+    **Content:**
+    ```js
+    {
+      msg: 'Not Authorized'
+    }
+    OR
+    {
+      msg: 'Authentication Failed'
+    }
+    ```
+  * **Code:** 500 <br />
+    **Content**
+    ```js
+    {
+      msg: 'Internal Server Error'
+    }
+    ```
+
+* **Sample Call**
+  ```js
+  axios({
+    method: 'POST',
+    url: '/carts',
+    headers: {
+      access_token: token
+    },
+    data: {
+      ProductId: id,
+      quantity: 1
+    }
+  })
+  ```
+----
+
+**Checkout**
+----
+
+* **URL** <br />
+  /carts/checkout
+
+* **Method** <br />
+  `DELETE`
+
+* **Data Params**
+  * **Headers**
+    ```js
+    access_token: 'string'
+    ```
+
+* **Success Respone**
+  * **Code:** 200 <br />
+    **Content:**
+    ```js
+    {
+      msg: 'Checked Out Successfully'
+    }
+    ```
+  
+* **Error Response**
+  * **Code:** 401 <br />
+    **Content**
+    ```js
+    {
+      msg: 'Authentication Failed'
+    }
+    ```
+    OR
+  * **Code:** 400 <br />
+    **Content:**
+    ```js
+    {
+      msg: 'Checkout failed'
+    }
+    ```
+
+* **Sample Call**
+  ```js
+  axios({
+    method: 'DELETE',
+    url: '/carts/checkout',
+    headers: {
+      access_token: token
+    }
+  })
+  ```
+----
+
+**Delete Cart**
+----
+Remove Cart according to id
+
+* **URL** <br />
+  /carts/:id
+
+* **Method** <br />
+  `DELETE`
+
+* **Data Params**
+  * **Headers**
+    ```js
+    access_token: 'string'
+    ```
+
+* **Success Response**
+  * **Code:** 200 <br />
+    **Content**
+    ```js
+    {
+      msg: 'Remove cart success'
+    }
+    ```
+
+* **Error Response**
+  * **Code:** 404 <br />
+    **Content:**
+    ```js
+    {
+      msg: 'Delete Cart Failed'
+    }
+    ```
+    OR
+  * **Code:** 401 <br />
+    **Content**
+    ```js
+    {
+      msg: 'Not Authorized'
+    }
+    OR
+    {
+      msg: 'Authentication Failed'
+    }
+    ```
+    OR
+  * **Code:** 500 <br />
+    **Content:**
+    ```js
+    {
+      msg: 'Internal Server Error'
+    }
+    ```
+
+* **Sample Call**
+  ```js
+  axios({
+    method: 'DELETE',
+    url: `/carts/${id}`,
     headers: {
       access_token: token
     }

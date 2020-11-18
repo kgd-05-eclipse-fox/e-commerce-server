@@ -7,7 +7,7 @@ route.use(Auth.authentication)
 route.get('/', CartController.readAll)
 route.get('/history', CartController.getHistory)
 route.post('/', CartController.updateCart)
-route.delete('/', CartController.checkout)
+route.delete('/checkout', CartController.checkout)
 
 route.delete('/:id', Auth.authorization, CartController.removeCart)
 
