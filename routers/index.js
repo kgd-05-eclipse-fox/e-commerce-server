@@ -2,6 +2,7 @@ const routers = require('express').Router()
 const UserController = require('../controller/user-controller.js')
 const ProductController = require('../controller/product-controller.js')
 const BennerController = require('../controller/benner-controller.js')
+const UserProduct = require('../controller/userProduct-controller.js')
 const authentication = require('../middleware/authentication.js')
 const authorization = require('../middleware/authorization.js')
 
@@ -17,15 +18,19 @@ routers.use(authentication)
 routers.get('/product', ProductController.getAllProduct)
 routers.post('/product', ProductController.createProduct)
 
-routers.get('/benner', BennerController.getAllBenner)
-routers.post('/benner', BennerController.postBenner)
+routers.get('/banner', BennerController.getAllBenner)
+routers.post('/banner', BennerController.postBenner)
 
-routers.get('/benner/:id', authorization, BennerController.findOneBenner)
-routers.put('/benner/:id', authorization, BennerController.putBenner)
-routers.delete('/benner/:id', authorization, BennerController.deleteBenner)
+routers.get('/banner/:id', authorization, BennerController.findOneBenner)
+routers.put('/banner/:id', authorization, BennerController.putBenner)
+routers.delete('/banner/:id', authorization, BennerController.deleteBenner)
 
 routers.get('/product/:id', authorization, ProductController.findByIdProduct)
 routers.put('/product/:id', authorization, ProductController.updateProduct)
 routers.delete('/product/:id', authorization, ProductController.deleteProduct)
+
+routers.post('/userproduct', UserProduct.postProductUser)
+routers.get('/userproduct', UserProduct.getDataUserProduct)
+routers.delete('/userproduct', UserProduct.deleteUserProduct)
 
 module.exports = routers

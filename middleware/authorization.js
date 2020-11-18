@@ -5,7 +5,7 @@ const authorization = async (req, res, next)=>{
     try {
         let router = req.path.split('/')
         let id = +req.params.id
-        if(router[1] === 'benner'){
+        if(router[1] === 'banner'){
             let dataBenner = await Benner.findOne({
                 where: {id}
             })
@@ -32,6 +32,20 @@ const authorization = async (req, res, next)=>{
                 }
             }
         }
+        // else if(router[1] === 'userproduct'){
+        //     let dataProduct = await Product.findOne({
+        //         where: {id}
+        //     })
+        //     if(!dataProduct){
+        //         res.status(404).json({msg: 'id tidak valid'})
+        //     }else{
+        //         if(req.access_token.role !== 'admin'){
+        //             res.status(401).json({msg: 'you are not admin'})
+        //         }else{
+        //             next()
+        //         }
+        //     }
+        // }
     } catch (err) {
         res.status(500).json(err)
     }
