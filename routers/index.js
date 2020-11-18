@@ -43,8 +43,8 @@ routers.get('/chechout', CheckOutController.getDataCheckOut)
 
 routers.delete('/chechout/:id', authorization, CheckOutController.deleteDataCheckOut)
 
-routers.post('/favorit', FavoritesController)
-routers.get('/favorit', FavoritesController)
+routers.post('/favorit', FavoritesController.postFavoritProduct)
+routers.get('/favorit', FavoritesController.getDataFavorit)
 
 routers.delete('/favorit/:id', authorization, FavoritesController)
 
