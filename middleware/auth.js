@@ -52,13 +52,14 @@ async function authenticationCustomer(req, res, next) {
 }
 async function authorization(req, res, next) {
     try {
-        const cartId = +req.params.id
+        const UserId = req.loginUser.id
+        const ProductId = +req.params.id
         const cart = await Cart.findOne({
             where: {
-                id: cartId
+                UserId,
+                ProductId
             }
         })
-        // console.log(cart)
         if(cart == null) {
             throw { msg: "Data not found", status: 404 }
         } else {

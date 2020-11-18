@@ -52,14 +52,11 @@ class Controller {
   static async fetchCart(req, res, next) {
     try {
       const UserId = req.loginUser.id
-      const cartUser = await User.findAll({
+      const cartUser = await Cart.findAll({
         where: {
-          id: UserId
+          UserId
         },
-        include: Product,
-        attributes: {
-          exclude: ['password', 'role', 'createdAt', 'updatedAt']
-        }
+        include: Product
       })
       res.status(200).json(cartUser)
     } catch (error) {
@@ -69,10 +66,12 @@ class Controller {
 
   static async deleteCart(req, res, next) {
     try {
-      const id = +req.params.id
+      const UserId = req.loginUser.id
+      const ProductId = +req.params.id
       const deletedProduct = await Cart.destroy({
         where: {
-          id
+          UserId,
+          ProductId
         }
       })
       res.status(200).json({ message: 'Cart deleted' })
@@ -84,18 +83,19 @@ class Controller {
   static async incrementQty(req, res, next) {
     try {
       const id = +req.params.id
-      const addOne = +req.body.amount
       const selectedCart = await Cart.findOne({
         where: {
-          id
+          UserId: req.loginUser.id,
+          ProductId: id
         }
       })
-      const incQty = selectedCart.Qty + addOne
+      const incQty = selectedCart.Qty + 1
       const updatedCart = await Cart.update({
         Qty: incQty
       }, {
         where: {
-          id
+          UserId: req.loginUser.id,
+          ProductId: id
         },
         returning: true
       })
@@ -108,18 +108,19 @@ class Controller {
   static async decrementQty(req, res, next) {
     try {
       const id = +req.params.id
-      const minusOne = +req.body.amount
       const selectedCart = await Cart.findOne({
         where: {
-          id
+          ProductId: id,
+          UserId: req.loginUser.id
         }
       })
-      const decQty = selectedCart.Qty - minusOne
+      const decQty = selectedCart.Qty - 1
       const updatedCart = await Cart.update({
         Qty: decQty
       }, {
         where: {
-          id
+          ProductId: id,
+          UserId: req.loginUser.id
         },
         returning: true
       })

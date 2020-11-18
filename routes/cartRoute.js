@@ -6,7 +6,7 @@ const { authentication, authorization, authenticationCustomer } = require('../mi
 router.get('/', authenticationCustomer, CartController.fetchCart, errorHandler)
 router.post('/:id', authenticationCustomer, CartController.addCart, errorHandler)
 router.delete('/:id', authenticationCustomer, authorization, CartController.deleteCart, errorHandler)
-// router.patch('/:id', authenticationCustomer, authorization, CartController.incrementQty, errorHandler)
-router.patch('/:id', authenticationCustomer, authorization, CartController.decrementQty, errorHandler)
+router.patch('/:id', authenticationCustomer, authorization, CartController.incrementQty, errorHandler)
+router.put('/:id', authenticationCustomer, authorization, CartController.decrementQty, errorHandler)
 
 module.exports = router
