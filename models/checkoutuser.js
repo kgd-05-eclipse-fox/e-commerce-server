@@ -11,46 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       CheckOutUser.belongsTo(models.User)
-      CheckOutUser.belongsTo(models.Product)
     }
   };
   CheckOutUser.init({
-    UserId: {
-      type: DataTypes.INTEGER,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: 'not Empty'
-        }
-      }
-    },
-    ProductId: {
-      type: DataTypes.INTEGER,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: 'not Empty'
-        }
-      }
-    },
-    quantity: {
-      type: DataTypes.INTEGER,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: 'not Empty'
-        }
-      }
-    },
-    total: {
-      type: DataTypes.INTEGER,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: 'not Empty'
-        }
-      }
-    }
+    UserId: DataTypes.INTEGER,
+    total: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'CheckOutUser',

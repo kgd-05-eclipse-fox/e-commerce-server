@@ -1,4 +1,4 @@
-const {Product, Benner, ProductUser} = require('../models')
+const {Product, Benner, ProductUser, CheckOutUser, FavoritesUser} = require('../models')
 
 const authorization = async (req, res, next)=>{
     try {
@@ -32,6 +32,32 @@ const authorization = async (req, res, next)=>{
             }
         }else if(router[1] === 'userproduct'){
             let dataProduct = await ProductUser.findOne({
+                where: {id}
+            })
+            if(!dataProduct){
+                res.status(404).json({msg: 'id tidak valid'})
+            }else{
+                if(req.access_token.role !== 'customer'){
+                    res.status(401).json({msg: 'you are not customer'})
+                }else{
+                    next()
+                }
+            }
+        }else if(router[1] === 'chechout'){
+            let dataProduct = await CheckOutUser.findOne({
+                where: {id}
+            })
+            if(!dataProduct){
+                res.status(404).json({msg: 'id tidak valid'})
+            }else{
+                if(req.access_token.role !== 'customer'){
+                    res.status(401).json({msg: 'you are not customer'})
+                }else{
+                    next()
+                }
+            }
+        }else if(router[1] === 'favorit'){
+            let dataProduct = await FavoritesUser.findOne({
                 where: {id}
             })
             if(!dataProduct){

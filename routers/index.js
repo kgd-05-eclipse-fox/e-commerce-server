@@ -4,6 +4,7 @@ const ProductController = require('../controller/product-controller.js')
 const BennerController = require('../controller/benner-controller.js')
 const UserProduct = require('../controller/userProduct-controller.js')
 const CheckOutController = require('../controller/checkOut-controller.js')
+const FavoritesController = require('../controller/favorites-conterooler.js')
 const authentication = require('../middleware/authentication.js')
 const authorization = require('../middleware/authorization.js')
 
@@ -38,5 +39,13 @@ routers.delete('/userproduct/:id', authorization, UserProduct.deleteUserProduct)
 routers.patch('/userproduct/:id', authorization, UserProduct.updateQuantity)
 
 routers.post('/chechout', CheckOutController.createCheckOut)
+routers.get('/chechout', CheckOutController.getDataCheckOut)
+
+routers.delete('/chechout/:id', authorization, CheckOutController.deleteDataCheckOut)
+
+routers.post('/favorit', FavoritesController)
+routers.get('/favorit', FavoritesController)
+
+routers.delete('/favorit/:id', authorization, FavoritesController)
 
 module.exports = routers
