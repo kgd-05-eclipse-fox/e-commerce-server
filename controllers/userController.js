@@ -1,4 +1,4 @@
-const { User, Product } = require('../models')
+const { User } = require('../models')
 const { compare } = require('../helpers/bcrypt')
 const { signToken } = require('../helpers/jwt')
 

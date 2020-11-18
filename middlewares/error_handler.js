@@ -8,5 +8,5 @@ module.exports = function (err, req, res, next) {
   }
 
   console.log(err)
-  res.status(status).json({ msg: msg , error: err})
+  res.status(status).json({ msg: msg })
 }

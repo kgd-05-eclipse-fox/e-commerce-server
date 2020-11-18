@@ -1,4 +1,4 @@
-const { User, Product, Cart, History } = require('../models')
+const { Product, Cart, History } = require('../models')
 
 class CartController {
   static async readAll (req, res, next) {
