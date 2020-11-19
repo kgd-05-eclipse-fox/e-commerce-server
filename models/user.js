@@ -1,9 +1,13 @@
 'use strict'
-const { hash } = require('../helpers/bcrypt')
+const { hashPassword } = require('../helpers/bcrypt')
 const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
 	class User extends Model {
 		static associate(models) {
+			User.belongsToMany(models.Product, {
+				through: models.Cart
+			})
+			User.hasMany(models.Transcation)
 		}
 	}
 	User.init(
@@ -39,14 +43,18 @@ module.exports = (sequelize, DataTypes) => {
 					},
 				},
 			},
-			role: DataTypes.STRING,
+			role: {
+				type: DataTypes.STRING,
+				defaultValue: 'customer',
+				isIn: [['admin', 'customer']]
+			},
 		},
 		{
 			sequelize,
 			modelName: 'User',
 			hooks: {
 				beforeCreate: user => {
-					let newPassword = hash(user.password)
+					let newPassword = hashPassword(user.password)
 					user.password = newPassword
 				},
 			},

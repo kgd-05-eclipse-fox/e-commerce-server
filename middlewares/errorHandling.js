@@ -1,4 +1,5 @@
 module.exports = (err, req, res, next) => {
+console.log("err 🛑", err)
 	let status = err.status || 500
 	let errors = [err.message] || ['internal server error']
 	switch (err.name) {

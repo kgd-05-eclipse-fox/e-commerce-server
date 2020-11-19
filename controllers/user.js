@@ -1,7 +1,7 @@
 const { User } = require('../models')
 const createError = require('http-errors')
-const { cheking } = require('../helpers/bcrypt')
-const { generate } = require('../helpers/jwt')
+const { comparePassword } = require('../helpers/bcrypt')
+const { signToken } = require('../helpers/jwt')
 
 module.exports = class UserController {
 	static register(req, res, next) {
@@ -15,7 +15,7 @@ module.exports = class UserController {
 				}
 			})
 			.then((data) => {
-				const access_token = generate({
+				const access_token = signToken({
 					id: data.id,
 					email: data.email,
 				})
@@ -24,7 +24,7 @@ module.exports = class UserController {
 			.catch(next)
 	}
 
-	static login(req, res, next) {
+	static loginAdmin(req, res, next) {
 		const { email, password } = req.body
 		User.findOne({
 			where: {
@@ -32,13 +32,13 @@ module.exports = class UserController {
 			},
 		})
 			.then((user) => {
-				if (user && cheking(password, user.password)) {
+				if (user && comparePassword(password, user.password)) {
 					let dataUser = {
 						id: user.id,
 						email: user.email,
 						role: user.role,
 					}
-					let access_token = generate(dataUser)
+					let access_token = signToken(dataUser)
 					res.status(200).json({ access_token })
 				} else {
 					next(createError(400, 'invalid email or password'))
@@ -46,4 +46,35 @@ module.exports = class UserController {
 			})
 			.catch(next)
 	}
+
+	static async login(req, res, next) {
+		const inputPass = req.body.password
+		try {
+				const user = await User.findOne({ where: {email: req.body.email} })
+				const dbPass = user ? user.password : ''
+				if(!user) {
+						next({
+								name: 'ValidationError',
+								errors: 'invalid username or password'
+						})
+				} else if (!comparePassword(inputPass, dbPass)) {
+						next({
+								name: 'ValidationError',
+								errors: 'invalid username or password'
+						})
+				} else {
+						const payload = {
+								email: user.email
+						}
+						const token = signToken(payload)
+						res.status(200).json({ 
+								token: token,
+								email: user.email,
+								role: user.role
+						})
+				}
+		} catch (err) {
+				next(err)
+		}
+}
 }
