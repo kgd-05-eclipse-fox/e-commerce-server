@@ -11,12 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Wishlist.belongsTo(models.Product, {
-        foreignKey: 'ProductId'
+        foreignKey: 'product_id'
       })
     }
   };
   Wishlist.init({
-    UserId: {
+    user_id: {
       type: DataTypes.INTEGER,
       validate: {
         notEmpty: {
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    ProductId: {
+    product_id: {
       type: DataTypes.INTEGER,
       validate: {
         notEmpty: {

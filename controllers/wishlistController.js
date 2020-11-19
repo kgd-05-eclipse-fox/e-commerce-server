@@ -5,7 +5,7 @@ class WishlistController {
     try {
       const wishlists = await Wishlist.findAll({
         where: {
-          UserId: req.loggedIn.id
+          user_id: req.loggedIn.id
         }, include: Product
       })
       res.status(200).json(wishlists)

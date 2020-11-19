@@ -50,7 +50,7 @@ class CartController {
         } else {
           let stock = product.stock - item.amount
           await Product.update({stock}, {where: {id: item.product_id}})
-          await Cart.update({status: 'Paid'}, {where: {user_id, product_id: item.product_id}})
+          await Cart.update({status: 'Paid'}, {where: {user_id, product_id: item.product_id, status: 'Unpaid'}})
         }
       }
       console.log('sampe <<<<<<<<<')
