@@ -9,6 +9,9 @@ const cartRoutes = require('./cart.js');
 const { checkout, history } = require('../controllers/cartController');
 const Authenticate = require('../middlewares/authenticate');
 
+router.get('/', (req, res) => {
+    res.status('halo')
+})
 
 router.post('/adminRegister', AdminController.register);
 router.post('/adminLogin', AdminController.login);
