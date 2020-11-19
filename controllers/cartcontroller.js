@@ -1,11 +1,10 @@
 const transporter = require('../helpers/nodemailer')
-const { Cart, User, Product } = require('../models')
+const { Cart, User, Product, sequelize } = require('../models')
 
 class CartController {
   static async addCart(req, res, next) {
     try {
       if (req.loggedInUser) {
-        console.log(req.body.ProductId)
         const payload = {
           UserId: req.loggedInUser.id,
           ProductId: req.body.ProductId
@@ -82,7 +81,6 @@ class CartController {
         }
       }
     } catch (err) {
-      console.log(err)
       next(err)
     }
   }
@@ -103,6 +101,7 @@ class CartController {
     }
   }
   static async checkOut(req, res, next) {
+    const t = await sequelize.transaction()
     try {
       const UserId = req.loggedInUser.id
       const checked_out = true
@@ -116,10 +115,11 @@ class CartController {
       })
       findBeforeCheckout.forEach(async el => {
         total += (el.qty * el.Product.price)
-        const updateStock = await Product.update({stock: el.Product.stock - el.qty}, {
+        await Product.update({stock: el.Product.stock - el.qty}, {
           where: {
             id: el.Product.id
-          }
+          }, 
+          transaction: t 
         })
       })
       const checkOut = await Cart.update(({checked_out}), {
@@ -128,7 +128,8 @@ class CartController {
           checked_out: false
         },
         include: Product,
-        returning: true
+        returning: true,
+        transaction: t
       })
       res.status(200).json(findBeforeCheckout)
       if (checkOut[1]) {
@@ -179,7 +180,9 @@ class CartController {
             console.log('Email sent: ' + info.response);
         });
       }
+      await t.commit()
     } catch (err) {
+      await t.rollback()
       next(err)
     }
   }

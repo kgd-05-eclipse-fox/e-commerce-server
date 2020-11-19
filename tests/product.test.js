@@ -25,19 +25,23 @@ beforeAll( done => {
 		password: '1234',
 		role: 'admin'
 	}
-	User.create(admin)
-	User.create({
-		email: 'user@mail.com',
-		password: '1234',
-		role: 'user'
-	})
 	const create = {
 		name: 'Among Us Impostor',
 		image_url: 'https://cdn.shopify.com/s/files/1/0348/4293/5355/products/shirt_impostor_Web_3b4ca106-ce19-403d-adf1-de9ff795707d_2048x2048.png',
 		price: 1500000,
 		stock: 10
 	}
-	Product.create(create)
+	User.create(admin)
+	.then(() => {
+		return User.create({
+			email: 'user@mail.com',
+			password: '1234',
+			role: 'user'
+		})
+	})
+	.then(() => {
+		return Product.create(create)
+	})
 	.then(response => {
 		testId = response.dataValues.id
 		done()
@@ -48,17 +52,13 @@ beforeAll( done => {
 afterAll( done => {
 	sequelize.queryInterface.bulkDelete('Products', null, {})
 		.then( _ => {
-			done()
+			return sequelize.queryInterface.bulkDelete('Users', null, {})
 		})
-		.catch(err => {
-			done()
-		})
-	sequelize.queryInterface.bulkDelete('Users', null, {})
 		.then(_ => {
 			done()
 		})
 		.catch(err => {
-			done()
+			done(err)
 		})
 })
 

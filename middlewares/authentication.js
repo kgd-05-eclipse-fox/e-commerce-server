@@ -8,7 +8,6 @@ async function authentication(req, res, next) {
 			throw { msg: 'Authentication Failed.', status: 401 }
 		} else {
 			const decoded = verifyToken(token)
-			console.log(decoded)
 			const user = await User.findOne({
 				where: {
 					email: decoded.data.email
