@@ -1,6 +1,5 @@
 const transporter = require('../helpers/nodemailer')
 const { Cart, User, Product } = require('../models')
-const { checkout } = require('../routers/carts')
 
 class CartController {
   static async addCart(req, res, next) {

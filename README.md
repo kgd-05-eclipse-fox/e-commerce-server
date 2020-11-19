@@ -4,8 +4,9 @@
 ```
 server: https://a-mong-us.herokuapp.com
 admin client: https://among-us-store.web.app
+User client https://store-among-us.web.app
 
-
+---admin login info---
 email: admin@mail.com
 password: 1234
 ```
@@ -30,6 +31,17 @@ password: 1234
   * PUT /banners
   * DELETE /banners/:id
   
+---
+  `/carts Routes`
+  
+  * GET /carts
+  * POST /carts
+  * PATCH /carts
+  * GET /carts/history
+  * GET /carts/:id
+  * DELETE /carts/:id
+  * PATCH /carts/:id
+
 ---
 ## Login
 `For admin and users login`
@@ -606,9 +618,396 @@ password: 1234
     ```
 
 
+  **SAMPLE CALL**
+    ```js
+    axios.delete('/banners/:id', { headers: { token }})
+    ```
+
+----
+## Read Carts
+`Read carts`
+
+* **URL**
+  
+  /carts
+
+* **METHOD**
+  
+  `GET`
+
+* **DATA PARAMS**
+  
+    * **HEADERS**
+
+      `token: string`
+
+* **SUCCESS RESPONSE**
+  
+  * **Code:** 200
+    
+    **CONTENT**
+    ```json
+    [
+        {
+            "id": 138,
+            "ProductId": 7,
+            "qty": 1,
+            "Product": {
+                "id": 7,
+                "name": "Among Us: Crewmate Tee (Pink, Adults)",
+                "image_url": "https://cdn.shopify.com/s/files/1/0348/4293/5355/products/crewmate-candypink_2048x2048.png",
+                "price": 100000,
+                "stock": 49,
+                "createdAt": "2020-11-17T05:03:53.382Z",
+                "updatedAt": "2020-11-19T02:02:34.179Z"
+            }
+        },
+        {
+            "id": "...",
+            "ProductId": "...",
+            "qty": "...",
+            "Product": {
+                "id": "...",
+                "name": "...)",
+                "image_url": "...",
+                "price": "...",
+                "stock": "...",
+                "createdAt": "...",
+                "updatedAt": "..."
+            }
+        }
+    ]
+    ```
+  
+* **ERROR RESPONSE**
+  
+  * **Code:**  500
+      
+    **CONTENT**
+    ```json
+    {
+      "error": "Internal Server Error"
+    }
+    ```
+
+
 * **SAMPLE CALL**
   ```js
-  axios.delete('/banners/:id', { headers: { token }})
+  axios.get('/carts', { headers: { token }})
+  ```
+
+----
+## Create Cart
+`Find or Create Cart`
+
+* **URL**
+  
+  /carts
+
+* **METHOD**
+  
+  `POST`
+
+
+* **DATA PARAMS**
+
+  * **HEADERS**
+
+    `token: string`
+
+  * **BODY**
+    ```json
+      {
+        "ProductId": "integer"
+      }
+      ```
+
+* **SUCCESS RESPONSE**
+  
+  * **Code:** 201
+    
+    **CONTENT**
+    ```json
+    [
+      {
+          "id": 138,
+          "ProductId": 7,
+          "UserId": 2,
+          "qty": 1
+      },
+      false
+    ]
+    ```
+  note: `This rest API is using find or create, and just returning data as mention above.`
+* **ERROR RESPONSE**
+  
+  * **Code:**  401
+      
+    **CONTENT**
+    ```json
+    {
+      "msg": "Unauthorized!"
+    }
+    ```
+
+    OR
+
+    ```json
+    {
+      "error": "Internal Server Error"
+    }
+    ```
+
+* **SAMPLE CALL**
+  ```js
+  axios.post('/carts', payload, { headers: { token }})
+  ```
+
+----
+## Update Cart Qty
+`Update Cart Qty`
+
+* **URL**
+  
+  /carts/:id
+
+* **METHOD**
+  
+  `PATCH`
+
+* **DATA PARAMS**
+
+  * **HEADERS**
+
+    `token: string`
+
+  * **BODY**
+    ```json
+      {
+        "qty": "integer"
+      }
+      ```
+
+* **SUCCESS RESPONSE**
+  
+  * **Code:** 201
+    
+    **CONTENT**
+    ```json
+    [
+      {
+          "UserId": 2,
+          "ProductId": 7,
+          "qty": 7,
+          "checked_out": false,
+          "createdAt": "2020-11-19T05:30:26.198Z",
+          "updatedAt": "2020-11-19T05:46:23.617Z"
+      }
+    ]
+    ```
+
+* **ERROR RESPONSE**
+  
+  * **Code:**  500
+      
+    **CONTENT**
+    ```json
+    {
+      "error": "Internal Server Error"
+    }
+    ```
+
+
+* **SAMPLE CALL**
+  ```js
+  axios.put('/cart/:id', {qty}, { headers: { token }})
+  ```
+
+----
+## Checkout Cart
+`Update checked_out status`
+
+* **URL**
+  
+  /carts
+
+* **METHOD**
+  
+  `PATCH`
+
+* **DATA PARAMS**
+
+  * **HEADERS**
+
+    `token: string`
+
+
+* **SUCCESS RESPONSE**
+  
+  * **Code:** 200
+    
+    **CONTENT**
+    ```json
+    [
+        {
+            "UserId": 2,
+            "ProductId": 7,
+            "qty": 7,
+            "checked_out": false,
+            "createdAt": "2020-11-19T05:30:26.198Z",
+            "updatedAt": "2020-11-19T05:46:23.617Z",
+            "Product": {
+                "id": 7,
+                "name": "Among Us: Crewmate Tee (Pink, Adults)",
+                "image_url": "https://cdn.shopify.com/s/files/1/0348/4293/5355/products/crewmate-candypink_2048x2048.png",
+                "price": 100000,
+                "stock": 49,
+                "createdAt": "2020-11-17T05:03:53.382Z",
+                "updatedAt": "2020-11-19T02:02:34.179Z"
+            }
+        }
+    ]
+    ```
+
+* **ERROR RESPONSE**
+  
+  * **Code:**  500
+      
+    **CONTENT**
+    ```json
+    {
+      "error": "Internal Server Error"
+    }
+    ```
+
+
+* **SAMPLE CALL**
+  ```js
+  axios.patch('/cart', {}, { headers: { token }})
+  ```
+
+----
+## Fetch History
+`Read Cart by checked_out status is true`
+
+* **URL**
+  
+  /carts/history
+
+* **METHOD**
+  
+  `GET`
+
+* **DATA PARAMS**
+  
+    * **HEADERS**
+
+      `token: string`
+
+* **SUCCESS RESPONSE**
+  
+  * **Code:** 200
+    
+    **CONTENT**
+    ```json
+    [
+        {
+            "id": 59,
+            "UserId": 2,
+            "ProductId": 3,
+            "qty": 1,
+            "updatedAt": "2020-11-18T13:37:17.984Z",
+            "Product": {
+                "id": 3,
+                "name": "Among Us: Mini Crewmate Pocket Tee (Adult, Black)",
+                "image_url": "https://cdn.shopify.com/s/files/1/0348/4293/5355/products/pocketcrew_black_2048x2048.png",
+                "price": 100000,
+                "stock": 12,
+                "createdAt": "2020-11-17T05:03:53.382Z",
+                "updatedAt": "2020-11-19T04:09:03.209Z"
+            }
+        },
+        {
+            "id": 60,
+            "UserId": 2,
+            "ProductId": 4,
+            "qty": 1,
+            "updatedAt": "2020-11-18T13:37:17.984Z",
+            "Product": {
+                "id": 4,
+                "name": "Among Us: Impostor Incognito Tee",
+                "image_url": "https://cdn.shopify.com/s/files/1/0348/4293/5355/products/shirt_impostor_Web_3b4ca106-ce19-403d-adf1-de9ff795707d_2048x2048.png",
+                "price": 100000,
+                "stock": 39,
+                "createdAt": "2020-11-17T05:03:53.382Z",
+                "updatedAt": "2020-11-19T04:09:03.209Z"
+            }
+        }
+    ]
+    ```
+
+* **ERROR RESPONSE**
+  
+  * **Code:**  500
+      
+    **CONTENT**
+    ```json
+    {
+      "error": "Internal Server Error"
+    }
+    ```
+
+
+* **SAMPLE CALL**
+  ```js
+  axios.get('/carts/history', { headers: { token }})
+  ```
+
+----
+## Delete Cart
+`Delete Cart`
+
+* **URL**
+  
+  /carts/:id
+
+* **METHOD**
+  
+  `DELETE`
+
+* **DATA PARAMS**
+
+  * **HEADERS**
+
+    `token: string`
+
+
+* **SUCCESS RESPONSE**
+  
+  * **Code:** 200
+    
+    **CONTENT**
+    ```json
+    {
+      "msg": "Cart deleted."
+    }
+    ```
+
+* **ERROR RESPONSE**
+  
+  * **Code:**  500
+      
+    **CONTENT**
+    ```json
+    {
+      "error": "Internal Server Error"
+    }
+    ```
+
+
+* **SAMPLE CALL**
+  ```js
+  axios.delete('/carts/:id', { headers: { token }})
   ```
 
 ----
