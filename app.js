@@ -4,6 +4,18 @@ const PORT = process.env.PORT
 
 const cors = require('cors')
 
+// * Send Promotion Email using node-cron
+const cron = require('node-cron')
+const sendPromotionEmail = require('../helpers/promotion')
+
+cron.schedule('0 9 * * *', () => {
+    sendPromotionEmail()
+    // 'Runing a job at 09:00 at Asia/Jakarta timezone'
+}, {
+    timezone: 'Asia/Jakarta'
+})
+// * End Send Promotion Email
+
 const router = require('./routes/')
 const errorhandler = require('./middlewares/errorhandler')
 

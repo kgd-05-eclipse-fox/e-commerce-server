@@ -1,6 +1,7 @@
 const { User } = require('../models/')
 const { verifyPassword } = require('../helpers/bcrypt')
 const { jwtSign } = require('../helpers/jwt')
+const sendMail = require('../helpers/nodemailer')
 
 class UserController {
     static async postAdminLogin(req, res, next) {
@@ -36,6 +37,16 @@ class UserController {
                 email: email,
                 password: password
             }
+
+            const payload = {
+                email: email,
+                registration: {
+                    subject: 'Yayy! Registration Complete'
+                }
+            }
+
+            sendMail(email, payload)
+
             const createUser = await User.create(newUser)
             res.status(201).json({ email: createUser.email })
         } catch (error) {
@@ -50,9 +61,14 @@ class UserController {
 
             const findUser = await User.findOne({ where: { email: email } })
             if(findUser) {
-                const verif = verifyPassword(password, findUser.password)
-                if(verif) {
-                    res.status(200).json({ id: findUser.id, email: findUser.email })
+                const verify = verifyPassword(password, findUser.password)
+                if(verify) {
+                    const payload = {
+                        id: findUser.id,
+                        email: findUser.email
+                    }
+                    const access_token = jwtSign(payload)
+                    res.status(200).json({ access_token, email: email })
                 } else {
                     throw new Error('Wrong email or password')
                 }

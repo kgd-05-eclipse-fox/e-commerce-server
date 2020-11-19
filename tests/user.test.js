@@ -251,7 +251,7 @@ describe('Test POST /login for User Login', () => {
             .then(response => {
                 const { body, status } = response
                 expect(status).toBe(200)
-                expect(body).toHaveProperty('id', expect.any(Number))
+                expect(body).toHaveProperty('access_token')
                 expect(body).toHaveProperty('email', 'user@user.com')
                 done()
             })

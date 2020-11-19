@@ -8,7 +8,8 @@ const { encryptPassword } = require('../helpers/bcrypt')
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      // define association here
+      User.belongsToMany(models.Product, { through: 'UserCarts' })
+      User.hasMany(models.TransactionHistory)
     }
   };
   User.init({

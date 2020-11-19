@@ -3,21 +3,14 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Product extends Model {
+  class TransactionHistory extends Model {
     static associate(models) {
-      Product.belongsToMany(models.User, { through: 'UserCarts' })
+      TransactionHistory.belongsTo(models.User)
     }
   };
-  Product.init({
-    name: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: 'Name cannot be empty'
-        }
-      }
-    },
+  TransactionHistory.init({
+    UserId: DataTypes.INTEGER,
+    name: DataTypes.STRING,
     image_url: {
       type: DataTypes.STRING,
       validate: {
@@ -31,41 +24,41 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    price: {
+    total_price: {
       type: DataTypes.INTEGER,
       validate: {
         notEmpty: {
           args: true,
-          msg: 'Price cannot be empty'
+          msg: 'Total Price cannot be empty'
         },
         isInt: {
           args: true,
-          msg: 'Price should be a number'
+          msg: 'Total Price should be a number'
         },
-        checkPrice(price) {
-          if(price < 0) throw new Error('Price cannot be minus')
+        checkTotalPrice(price) {
+          if(price < 0) throw new Error('Total Price cannot be minus')
         }
       }
     },
-    stock: {
+    qty: {
       type: DataTypes.INTEGER,
       validate: {
         notEmpty: {
           args: true,
-          msg: 'Stock cannot be empty'
+          msg: 'Qty cannot be empty'
         },
         isInt: {
           args: true,
-          msg: 'Stock should be a number'
+          msg: 'Qty should be a number'
         },
-        checkStock(stock) {
-          if(stock < 0) throw new Error('Stock cannot be minus')
+        checkQty(qty) {
+          if (qty < 0) throw new Error('Qty cannot be minus')
         }
       }
     }
   }, {
     sequelize,
-    modelName: 'Product',
+    modelName: 'TransactionHistory',
   });
-  return Product;
+  return TransactionHistory;
 };
