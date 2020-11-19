@@ -1,4 +1,5 @@
 const { Product, Cart, History } = require('../models')
+const sendMail = require('../helpers/nodemailer')
 
 class CartController {
   static async readAll (req, res, next) {
@@ -83,12 +84,32 @@ class CartController {
   static async checkout (req, res, next) {
     try {
       const UserId = +req.user.id
+      const { total } = req.body
+
       let checked_out = await Cart.findAll({
         where: {
           UserId
-        }
+        },
+        include: Product
       })
       checked_out = checked_out.map(item => item.dataValues)
+
+      const item_list = checked_out.map(el => el.Product.name).join('\n')
+      
+      const payload = {
+        recipient: req.user.email, 
+        subject: 'Thank You For Shopping At SHOPI', 
+        html: `
+        <h1>Here are the list of item that you recently bought</h1>
+        <hr/>
+        <h3>${item_list}</h3>
+        <h4>Total: <strong>${total}</strong></h4>
+        <br>
+        <footer>
+          <p>We look forward to your next purchase!</p>
+        </footer>
+        ` 
+      }
       for (const item of checked_out) {
         await Product.decrement('stock', {
           by: item.quantity,
@@ -104,6 +125,7 @@ class CartController {
         }
       })
       if (destroyed >= 1) {
+        sendMail(payload)
         res.status(200).json({ msg: 'Checked out successfullly' })
       } else {
         throw { status: 400, msg: 'Checkout failed' }
