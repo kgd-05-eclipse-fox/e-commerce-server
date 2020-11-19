@@ -96,23 +96,23 @@ class CartController {
 
       let item_list = ''
       checked_out.forEach(el => {
-        item_list += `<li> ${el.Product.name} </li>`
+        item_list += `<li> ${el.Product.name} X ${el.quantity} </li>`
       })
       
       const payload = {
         recipient: req.user.email, 
         subject: 'Thank You For Shopping At SHOPI', 
         html: `
+        <header>SHOPI</header>
         <h1>Here are the list of item that you recently bought</h1>
-        <hr/>
-        <ol>
+        <ul>
           ${item_list}
-        </ol>
+        </ul>
         <h4>Total: <strong>${total}</strong></h4>
         <footer>
           <p>We look forward to your next purchase!</p>
-        </footer>
-        ` 
+          <i>Warm Regards, SHOPI</i>
+        </footer>` 
       }
       for (const item of checked_out) {
         await Product.decrement('stock', {
