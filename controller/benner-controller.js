@@ -32,11 +32,7 @@ class BennerController{
             if(!data){
                 res.status(401).json({msg: 'invalid Id'})
             }else{
-                if(req.access_token.role !== 'admin'){
-                    res.status(401).json({masg: 'invalid Token'})
-                }else{
-                    res.status(200).json(data)
-                }
+                res.status(200).json(data)
             }
         } catch (err) {
             res.status(500).json(err)
@@ -47,21 +43,17 @@ class BennerController{
         try {
             let id = +req.params.id
             let dataUpdate = req.body
-            if(req.access_token.role !== 'admin'){
-                req.status(401).json({msg: 'invalid Token'})
-            }else{
-                let data = await Benner.update(dataUpdate, {
-                    where: {id},
-                    returning: true
-                })
-                let dataShow = {
-                    id: data[1][0].dataValues.id,
-                    banner_url: data[1][0].dataValues.banner_url,
-                    category: data[1][0].dataValues.category,
-                    status: data[1][0].dataValues.status,
-                }
-                res.status(200).json(dataShow)
+            let data = await Benner.update(dataUpdate, {
+                where: {id},
+                returning: true
+            })
+            let dataShow = {
+                id: data[1][0].dataValues.id,
+                banner_url: data[1][0].dataValues.banner_url,
+                category: data[1][0].dataValues.category,
+                status: data[1][0].dataValues.status,
             }
+            res.status(200).json(dataShow)
         } catch (err) {
             res.status(500).json(err)
         }
@@ -70,18 +62,13 @@ class BennerController{
     static async deleteBenner(req, res, next){
         try {
             let id = +req.params.id
-            let dataBody = req.body
-            if(req.access_token.role !== 'admin'){
-                res.status(401).json({msg: 'invalid Token'})
+            let data = await Benner.destroy({
+                where: {id}
+            })
+            if(data === 0){
+                res.status(400).json({msg: 'Benner tidak ditemukan'})
             }else{
-                let data = await Benner.destroy({
-                    where: {id}
-                })
-                if(data === 0){
-                    res.status(400).json({msg: 'Benner tidak ditemukan'})
-                }else{
-                    res.status(200).json({msg: 'Benner has been Deleted'})
-                }
+                res.status(200).json({msg: 'Benner has been Deleted'})
             }
         } catch (err) {
             res.status(500).json(err)

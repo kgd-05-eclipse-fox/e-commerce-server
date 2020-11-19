@@ -12,7 +12,7 @@ routers.get('/',(req, res) =>{
     res.send('masuk heroku pls....')
 })
 
-routers.post('/register', UserController.constructorRegister)
+routers.post('/register', UserController.constructorRegister) 
 routers.post('/login/admin', UserController.adminLogin)
 routers.post('/login/customer', UserController.costomerLogin)
 

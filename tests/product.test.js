@@ -39,6 +39,7 @@ beforeAll((done) =>{
         newDataProduct.price = res.dataValues.price
         newDataProduct.stock = res.dataValues.stock
         console.log(newDataProduct.id, 'id new <<<<<<<<<<<<<<<<<,')
+        done()
     })
     .catch( err =>{
         console.log(err)
@@ -55,7 +56,6 @@ beforeAll((done) =>{
     }
     dataTest.admin_access_token = jwtApp.createToken(admin)
     dataTest.customer_access_token = jwtApp.createToken(customer)
-    done()
 })
 
 describe('Test EndPoint Product', ()=>{
@@ -290,7 +290,6 @@ describe('Test EndPoint Product', ()=>{
         })
         .then(res =>{
             const {body, status} = res
-            console.log(body)
             expect(status).toEqual(401)
             expect(body).toHaveProperty('msg', 'product stock must not be below 0')
             done()
@@ -369,7 +368,7 @@ describe('Test EndPoint Product', ()=>{
     })
 
     //test case 2 => Delete wift wrong access_token
-    it('Delete wift wrong access_token', (done)=>{
+    it('Delete with wrong access_token', (done)=>{
         request(app)
         .delete(`/product/${newDataProduct.id}`)
         .set('access_token', dataTest.customer_access_token)
