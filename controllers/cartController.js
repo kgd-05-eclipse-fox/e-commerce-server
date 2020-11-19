@@ -104,7 +104,6 @@ class CartController {
         <hr/>
         <h3>${item_list}</h3>
         <h4>Total: <strong>${total}</strong></h4>
-        <br>
         <footer>
           <p>We look forward to your next purchase!</p>
         </footer>
