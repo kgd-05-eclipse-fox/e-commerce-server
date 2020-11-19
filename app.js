@@ -6,7 +6,7 @@ const cors = require('cors')
 
 // * Send Promotion Email using node-cron
 const cron = require('node-cron')
-const sendPromotionEmail = require('../helpers/promotion')
+const sendPromotionEmail = require('./helpers/promotion')
 
 cron.schedule('0 9 * * *', () => {
     sendPromotionEmail()
