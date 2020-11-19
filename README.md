@@ -101,7 +101,7 @@ https://hacktiv-store.web.app
         "message": "Password cannot be empty"
       }
       ```
-    OR
+      OR
 
     * **Code:** 400 BAD REQUEST <br />
       **Content:** 
@@ -110,7 +110,7 @@ https://hacktiv-store.web.app
         "message": "Email cannot be empty"
       }
       ```
-    OR
+      OR
 
     * **Code:** 400 BAD REQUEST <br />
       **Content:** 
@@ -119,7 +119,7 @@ https://hacktiv-store.web.app
         "message": "Email must be unique"
       }
       ```
-    OR
+      OR
 
     * **Code:** 400 BAD REQUEST <br />
       **Content:** 
@@ -128,7 +128,7 @@ https://hacktiv-store.web.app
         "message": "Password must be between four and ten character"
       }
       ```
-    OR
+      OR
 
     * **Code:** 500 INTERNAL SERVER ERROR <br />
       **Content:**
@@ -190,7 +190,7 @@ https://hacktiv-store.web.app
         "message": "Wrong email / password"
       }
       ```
-    OR
+      OR
 
     * **Code:** 500 INTERNAL SERVER ERROR <br />
       **Content:**
@@ -286,7 +286,7 @@ https://hacktiv-store.web.app
 ----
   * **URL**
 
-    /product/create
+    /product
 
   * **Method:**
     
@@ -361,7 +361,7 @@ https://hacktiv-store.web.app
     ```json
     axios({
         "method": "POST",
-        "url": "/product/create",
+        "url": "/product",
         "headers": {token},
         "data": {
             "name": "payload.name",
@@ -381,7 +381,7 @@ https://hacktiv-store.web.app
 ----
   * **URL**
 
-    /product/edit/:id
+    /product/:id
 
   * **Method:**
     
@@ -444,7 +444,7 @@ https://hacktiv-store.web.app
     ```json
     axios({
         "method": "GET",
-        "url": "/product/edit/:id",
+        "url": "/product/:id",
         "headers": {token}
     })
     .then(data => {
@@ -458,7 +458,7 @@ https://hacktiv-store.web.app
 ----
   * **URL**
 
-    /product/update/:id
+    /product/:id
 
   * **Method:**
     
@@ -549,7 +549,7 @@ https://hacktiv-store.web.app
     ```json
     axios({
         "method": "PUT",
-        "url": "/product/update/:id",
+        "url": "/product/:id",
         "headers": {token},
         "data": {
             "name": "payload.name",
@@ -570,7 +570,7 @@ https://hacktiv-store.web.app
 ----
   * **URL**
 
-    /product/delete/:id
+    /product/:id
 
   * **Method:**
     
@@ -625,11 +625,571 @@ https://hacktiv-store.web.app
     ```json
     axios({
         "method": "DELETE",
-        "url": "/task/delete",
-        "headers": {token},
-        "data": {
-            "id": "payload.id"
+        "url": "/product/:id",
+        "headers": {token}
+    })
+    .then(data => {
+        console.log(data)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+    ```
+
+**Get Carts ( Client Side )**
+----
+  * **URL**
+
+    /cart
+
+  * **Method:**
+    
+    `GET`
+
+  * **Headers:**
+
+    Required:
+
+    token=[string]
+  
+  * **Success Response:**  
+
+    * **Code:** 200 OK <br />
+      **Content:** 
+      ```json
+      {
+        "products": [
+            {
+                "id": 68,
+                "Qty": 1,
+                "Product": {
+                    "id": 147,
+                    "name": "Adidas Predator",
+                    "image_url": "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/medium//95/MTA-1439339/adidas_adidas-neo-easy-vulc-vs-canvas-sepatu-pria---black_full05.jpg",
+                    "price": 500000,
+                    "stock": 5,
+                    "createdAt": "2020-11-15T05:48:03.259Z",
+                    "updatedAt": "2020-11-19T03:13:03.311Z"
+                }
+            }
+        ],
+        "totalPrice": 500000
+      }
+      ```
+  * **Error Response:**
+    * **Code:** 401 UNAUTHORIZED <br />
+      **Content:**
+      ```json
+      {
+        "message": "Please login first"
+      }
+      ```
+      OR
+
+    * **Code:** 500 INTERNAL SERVER ERROR <br />
+      **Content:**
+      ```json
+      {
+        "message": "Internal Server Error"
+      }
+      ```
+  * **Sample Call:**
+    ```json
+    axios({
+        "method": "GET",
+        "url": "/cart",
+        "headers": {token}
+    })
+    .then(data => {
+        console.log(data)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+    ```
+
+**Add Cart ( Client Side )**
+----
+  * **URL**
+
+    /cart/:id
+
+  * **Method:**
+    
+    `POST`
+
+  * **Headers:**
+
+    Required:
+
+    token=[string]
+
+  * **URL Params:**
+
+    Required:
+
+    id=[number]
+  
+  * **Success Response:**  
+
+    * **Code:** 200 OK <br />
+      **Content:** 
+      ```json
+      {
+          "UserId": 127,
+          "ProductId": 157,
+          "Qty": 1,
+          "updatedAt": "2020-11-19T15:21:35.631Z",
+          "createdAt": "2020-11-19T15:21:35.631Z"
+      } 
+      ```
+  * **Error Response:**
+    * **Code:** 401 UNAUTHORIZED <br />
+      **Content:**
+      ```json
+      {
+        "message": "Please login first"
+      }
+      ```
+      OR
+
+    * **Code:** 404 NOT FOUND <br />
+      **Content:**
+      ```json
+      {
+        "message": "Product not found"
+      }
+      ```
+      OR
+
+    * **Code:** 400 BAD REQUEST <br />
+      **Content:**
+      ```json
+      {
+        "message": "Product out of stock"
+      }
+      ```
+      OR
+
+    * **Code:** 500 INTERNAL SERVER ERROR <br />
+      **Content:**
+      ```json
+      {
+        "message": "Internal Server Error"
+      }
+      ```
+  * **Sample Call:**
+    ```json
+    axios({
+        "method": "POST",
+        "url": "/cart/:id",
+        "headers": {token}
+    })
+    .then(data => {
+        console.log(data)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+    ```
+
+**Increment Quantity Cart ( Client Side )**
+----
+  * **URL**
+
+    /:id/quantity/inc
+
+  * **Method:**
+    
+    `PATCH`
+
+  * **Headers:**
+
+    Required:
+
+    token=[string]
+
+  * **URL Params:**
+
+    Required:
+
+    id=[number]
+  
+  * **Success Response:**  
+
+    * **Code:** 200 OK <br />
+      **Content:** 
+      ```json
+      {
+        [
+          1,
+          [
+            {
+              "UserId": 127,
+              "ProductId": 147,
+              "Qty": 3,
+              "createdAt": "2020-11-19T15:13:31.394Z",
+              "updatedAt": "2020-11-19T15:49:43.938Z"
+            }
+          ]
+        ] 
+      }
+      ```
+  * **Error Response:**
+    * **Code:** 401 UNAUTHORIZED <br />
+      **Content:**
+      ```json
+      {
+        "message": "Please login first"
+      }
+      ```
+      OR
+
+    * **Code:** 404 NOT FOUND <br />
+      **Content:**
+      ```json
+      {
+        "message": "Data not found"
+      }
+      ```
+      OR
+
+    * **Code:** 400 BAD REQUEST <br />
+      **Content:**
+      ```json
+      {
+        "message": "You are not authorized"
+      }
+      ```
+      OR
+
+    * **Code:** 500 INTERNAL SERVER ERROR <br />
+      **Content:**
+      ```json
+      {
+        "message": "Internal Server Error"
+      }
+      ```
+  * **Sample Call:**
+    ```json
+    axios({
+        "method": "PATCH",
+        "url": "/cart/:id/quantity/inc",
+        "headers": {token}
+    })
+    .then(data => {
+        console.log(data)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+    ```
+
+**Decrement Quantity Cart ( Client Side )**
+----
+  * **URL**
+
+    /:id/quantity/dec
+
+  * **Method:**
+    
+    `PATCH`
+
+  * **Headers:**
+
+    Required:
+
+    token=[string]
+
+  * **URL Params:**
+
+    Required:
+
+    id=[number]
+  
+  * **Success Response:**  
+
+    * **Code:** 200 OK <br />
+      **Content:** 
+      ```json
+      {
+        [
+          1,
+          [
+            {
+              "UserId": 127,
+              "ProductId": 147,
+              "Qty": 2,
+              "createdAt": "2020-11-19T15:13:31.394Z",
+              "updatedAt": "2020-11-19T15:49:43.938Z"
+            }
+          ]
+        ] 
+      }
+      ```
+  * **Error Response:**
+    * **Code:** 401 UNAUTHORIZED <br />
+      **Content:**
+      ```json
+      {
+        "message": "Please login first"
+      }
+      ```
+      OR
+
+    * **Code:** 404 NOT FOUND <br />
+      **Content:**
+      ```json
+      {
+        "message": "Data not found"
+      }
+      ```
+      OR
+
+    * **Code:** 400 BAD REQUEST <br />
+      **Content:**
+      ```json
+      {
+        "message": "You are not authorized"
+      }
+      ```
+      OR
+
+    * **Code:** 500 INTERNAL SERVER ERROR <br />
+      **Content:**
+      ```json
+      {
+        "message": "Internal Server Error"
+      }
+      ```
+  * **Sample Call:**
+    ```json
+    axios({
+        "method": "PATCH",
+        "url": "/cart/:id/quantity/dec",
+        "headers": {token}
+    })
+    .then(data => {
+        console.log(data)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+    ```
+
+**Delete Cart ( Client Side )**
+----
+  * **URL**
+
+    /cart/:id
+
+  * **Method:**
+    
+    `DELETE`
+
+  * **Headers:**
+
+    Required:
+
+    token=[string]
+
+  * **URL Params:**
+
+    Required:
+
+    id=[number]
+  
+  * **Success Response:**  
+
+    * **Code:** 200 OK <br />
+      **Content:** 
+      ```json
+      {
+        "message": "Cart deleted"
+      }
+      ```
+  * **Error Response:**
+    * **Code:** 401 UNAUTHORIZED <br />
+      **Content:**
+      ```json
+      {
+        "message": "Please login first"
+      }
+      ```
+      OR
+
+    * **Code:** 404 NOT FOUND <br />
+      **Content:**
+      ```json
+      {
+        "message": "Data not found"
+      }
+      ```
+      OR
+
+    * **Code:** 400 BAD REQUEST <br />
+      **Content:**
+      ```json
+      {
+        "message": "You are not authorized"
+      }
+      ```
+      OR
+
+    * **Code:** 500 INTERNAL SERVER ERROR <br />
+      **Content:**
+      ```json
+      {
+        "message": "Internal Server Error"
+      }
+      ```
+  * **Sample Call:**
+    ```json
+    axios({
+        "method": "DELETE",
+        "url": "/cart/:id",
+        "headers": {token}
+    })
+    .then(data => {
+        console.log(data)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+    ```
+
+**Checkout Cart ( Client Side )**
+----
+  * **URL**
+
+    /cart/checkouts
+
+  * **Method:**
+    
+    `PATCH`
+
+  * **Headers:**
+
+    Required:
+
+    token=[string]
+
+  * **Success Response:**  
+
+    * **Code:** 200 OK <br />
+      **Content:** 
+      ```json
+      {
+          "message": "Checkout success"
+      }
+      ```
+  * **Error Response:**
+    * **Code:** 401 UNAUTHORIZED <br />
+      **Content:**
+      ```json
+      {
+        "message": "Please login first"
+      }
+      ```
+      OR
+
+    * **Code:** 404 NOT FOUND <br />
+      **Content:**
+      ```json
+      {
+        "message": "Data not found"
+      }
+      ```
+      OR
+
+    * **Code:** 400 BAD REQUEST <br />
+      **Content:**
+      ```json
+      {
+        "message": "You are not authorized"
+      }
+      ```
+      OR
+
+    * **Code:** 500 INTERNAL SERVER ERROR <br />
+      **Content:**
+      ```json
+      {
+        "message": "Internal Server Error"
+      }
+      ```
+  * **Sample Call:**
+    ```json
+    axios({
+        "method": "PATCH",
+        "url": "/cart/checkouts",
+        "headers": {token}
+    })
+    .then(data => {
+        console.log(data)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+    ```
+
+**View History Transaction ( Client Side )**
+----
+  * **URL**
+
+    /history
+
+  * **Method:**
+    
+    `GET`
+
+  * **Headers:**
+
+    Required:
+
+    token=[string]
+
+  * **Success Response:**  
+
+    * **Code:** 200 OK <br />
+      **Content:** 
+      ```json
+      [
+        {
+            "id": 12,
+            "UserId": 127,
+            "product": "Adidas Predator",
+            "image_url": "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/medium//95/MTA-1439339/adidas_adidas-neo-easy-vulc-vs-canvas-sepatu-pria---black_full05.jpg",
+            "price": 1000000,
+            "qty": 2,
+            "createdAt": "2020-11-19T16:07:30.116Z",
+            "updatedAt": "2020-11-19T16:07:30.116Z"
         }
+      ]
+      ```
+  * **Error Response:**
+    * **Code:** 401 UNAUTHORIZED <br />
+      **Content:**
+      ```json
+      {
+        "message": "Please login first"
+      }
+      ```
+      OR
+
+    * **Code:** 500 INTERNAL SERVER ERROR <br />
+      **Content:**
+      ```json
+      {
+        "message": "Internal Server Error"
+      }
+      ```
+  * **Sample Call:**
+    ```json
+    axios({
+        "method": "GET",
+        "url": "/history",
+        "headers": {token}
     })
     .then(data => {
         console.log(data)

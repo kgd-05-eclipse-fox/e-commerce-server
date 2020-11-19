@@ -5,23 +5,23 @@ const { User } = require('../models')
 const {sequelize} = require('../models')
 const {queryInterface} = sequelize
 
-afterAll((done) => {
-    queryInterface.bulkDelete("Users")
-    .then( data => {
-        console.log("Berhasil hapus data")
-        done()
-    })
-    .catch(err => {
-        console.log(err)
-        done(err)
-    })
-})
+// afterAll((done) => {
+//     queryInterface.bulkDelete("Users")
+//     .then( data => {
+//         console.log("Berhasil hapus data")
+//         done()
+//     })
+//     .catch(err => {
+//         console.log(err)
+//         done(err)
+//     })
+// })
 
 describe('Test endpoint Login admin', () => {
     it('test login admin success', (done) => {
         request(app)
         .post('/login/admin')
-        .send({email: 'admin@mail.com', password: '1234'})
+        .send({email: 'admin@mail.com', password: '123456'})
         .then(response => {
             const{body, status} = response
             expect(status).toEqual(200)
@@ -46,7 +46,6 @@ describe('Test endpoint Login admin', () => {
             done()
         })
         .catch(err => {
-            console.log(err)
             done(err)
         })
     })
@@ -62,7 +61,6 @@ describe('Test endpoint Login admin', () => {
             done()
         })
         .catch(err => {
-            console.log(err)
             done(err)
         })
     })
@@ -78,7 +76,6 @@ describe('Test endpoint Login admin', () => {
             done()
         })
         .catch(err => {
-            console.log(err)
             done(err)
         })
     })
@@ -92,7 +89,12 @@ describe('Test endpoint Register Customer', () => {
             password: '123456'
         }
         User.create(payloadCustomer)
-        done()
+        .then( data => {
+            done() //hasil revisi asynchronus
+        })
+        .catch(err => {
+            done(err)
+        })
     })
     it('test register user success', (done) => {
         request(app)
@@ -106,7 +108,6 @@ describe('Test endpoint Register Customer', () => {
             done()
         })
         .catch(err => {
-            console.log(err)
             done(err)
         })
     })
@@ -152,7 +153,12 @@ describe('Test endpoint Login Customer', () => {
             password: '1234'
         }
         User.create(payloadCustomer)
-        done()
+        .then( data => {
+            done() //hasil revisi
+        })
+        .catch(err => {
+            done(err)
+        })
     })
     it('test login customer success', (done) => {
         request(app)

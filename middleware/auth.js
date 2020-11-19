@@ -70,7 +70,7 @@ async function authorization(req, res, next) {
             if(cart.UserId == req.loginUser.id) {
                 next()
             } else {
-                throw { msg: "Not authorized to delete this post", status: 404 }
+                throw { msg: "You are not authorized", status: 400 }
             }
         }
     } catch (error) {
