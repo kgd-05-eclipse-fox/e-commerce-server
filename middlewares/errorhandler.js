@@ -37,6 +37,10 @@ module.exports = (err, req, res, next) => {
                 message = errorMsg
                 status = 400
                 break
+            case 'Out of stock':
+                message = errorMsg
+                status = 400
+                break
             case 'Cart not found':
                 message = errorMsg
                 status = 404

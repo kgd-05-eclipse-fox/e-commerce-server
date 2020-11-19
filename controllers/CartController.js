@@ -43,9 +43,20 @@ class CartController {
             })
             
             if (!findMyCart) {
-                const createCart = await UserCart.create(payload)
-                
-                if (createCart) res.status(201).json({ message: 'Cart successfully added' })
+                const findProduct = await Product.findOne({
+                    where: {
+                        id: payload.ProductId
+                    }
+                })
+
+                const { stock } = findProduct
+
+                if (stock == 0) {
+                    throw new Error('Out of stock')
+                } else {
+                    const createCart = await UserCart.create(payload)
+                    if (createCart) res.status(201).json({ message: 'Cart successfully added' })
+                }
             } else {
                 const findProduct = await Product.findOne({
                     where: {
