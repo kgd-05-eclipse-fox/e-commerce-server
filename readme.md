@@ -1,4 +1,4 @@
-https://einkofen.web.app/
+https://einkofen.herokuapp.com/
 
 *POST REGISTER**
 ----
