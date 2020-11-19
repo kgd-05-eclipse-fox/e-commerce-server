@@ -7,7 +7,6 @@ class CartController {
             UserId: +req.loggedInUser.id,
             quantity: 1
         }
-        console.log(payload);
         Cart.findOne({
             where: {
                 UserId: payload.UserId,
