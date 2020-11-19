@@ -94,7 +94,10 @@ class CartController {
       })
       checked_out = checked_out.map(item => item.dataValues)
 
-      const item_list = checked_out.map(el => el.Product.name).join(', ')
+      let item_list = ''
+      checked_out.forEach(el => {
+        item_list += `<li> ${el.Product.name} </li>`
+      })
       
       const payload = {
         recipient: req.user.email, 
@@ -102,7 +105,9 @@ class CartController {
         html: `
         <h1>Here are the list of item that you recently bought</h1>
         <hr/>
-        <h3>${item_list}</h3>
+        <ol>
+          ${item_list}
+        </ol>
         <h4>Total: <strong>${total}</strong></h4>
         <footer>
           <p>We look forward to your next purchase!</p>
