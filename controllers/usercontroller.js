@@ -1,6 +1,7 @@
 const { User } = require('../models')
 const { compare } = require('../helpers/bcrypt')
 const { createToken } = require('../helpers/jwt')
+const transporter = require('../helpers/nodemailer')
 
 class UserController {
 	static async register(req, res, next) {
@@ -12,6 +13,17 @@ class UserController {
 				email: register.email,
 				role: register.role
 			})
+			let mailOptions = {
+				from: process.env.NODEMAILER,
+				to: email,
+				subject: `Among Us Store - Thank you for Register!`,
+				text: `Hi ${email}, thank you for Register!`,
+				html: `<h1>Happy Shopping!</h1><br><a href="https://store-among-us.web.app">Click Here to continue Shopping</a>`
+			}
+			transporter.sendMail(mailOptions, (err, info) => {
+					if (err) throw err;
+					console.log('Email sent: ' + info.response);
+			});
 		} catch (err) {
 			next(err)
 		}
@@ -38,11 +50,7 @@ class UserController {
 						email: findUser.email,
 						role: findUser.role
 					})
-					if (findUser.role === 'admin') {
-						res.status(200).json({ token })
-					} else {
-						res.status(200).json({ user_token: token })
-					}
+					res.status(200).json({ token })
 				}
 			}
 		} catch (err) {

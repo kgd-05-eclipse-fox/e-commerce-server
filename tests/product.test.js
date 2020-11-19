@@ -5,7 +5,6 @@ const { sequelize } = require('../models')
 const { createToken } = require('../helpers/jwt')
 const { Product } = require('../models')
 const { User } = require('../models')
-const { response } = require('express')
 
 let localStorage = {}
 let testId = 0
@@ -43,6 +42,7 @@ beforeAll( done => {
 		testId = response.dataValues.id
 		done()
 	})
+	.catch(err => done(err))
 })
 
 afterAll( done => {

@@ -13,7 +13,6 @@ class BannerController {
   }
   static async createBanner(req, res, next) {
     try {
-			if (req.loggedInUser.role === 'admin') {
 				const payLoad = {
 					title: req.body.title,
           image_url: req.body.image_url,
@@ -21,16 +20,12 @@ class BannerController {
         }
 				const addBanner = await Banner.create(payLoad)
 				res.status(201).json(addBanner)
-			} else {
-				throw new Error('Unauthorized')
-			}
 		} catch (err) {
 			next(err)
 		}
   }
   static async updateBanner(req, res, next) {
 		try {
-			if (req.loggedInUser.role === 'admin') {
 				const id = req.params.id
 				const payLoad = {
 					title: req.body.title,
@@ -48,7 +43,6 @@ class BannerController {
 				} else {
 					throw new Error({msg: 'Internal Server Error!'})
 				}
-			}
 		} catch (err) {
 			next(err)
 		}
@@ -56,7 +50,6 @@ class BannerController {
   static async deleteBanner(req, res, next){
     try {
 			const id = +req.params.id
-			if (req.loggedInUser.role === 'admin') {
 				const destroy = await Banner.destroy({
 					where: {
 						id
@@ -67,7 +60,6 @@ class BannerController {
 				} else {
 					throw new Error({ msg: 'Banner not found' })
 				}
-			}
 		} catch (error) {
 			next(error)
 		}

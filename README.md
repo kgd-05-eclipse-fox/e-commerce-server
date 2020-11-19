@@ -3,9 +3,10 @@
 ### Among Us Store Themed E-Commerce CMS
 ```
 server: https://a-mong-us.herokuapp.com
-client: https://among-us-store.web.app
+admin client: https://among-us-store.web.app
 
-email: admin@gmail.com
+
+email: admin@mail.com
 password: 1234
 ```
 
