@@ -3,7 +3,7 @@ const { User, Cart } = require('../models')
 
 async function authentication(req, res, next) {
     try {
-        const token = req.headers.accesstoken
+        const token = req.headers.access_token
         if(!token) {
             throw { msg: "Please login first", status: 401 }
         } else {
@@ -17,6 +17,9 @@ async function authentication(req, res, next) {
             const selectedUser = await User.findOne({
                 where: {
                     email: decodeToken.email
+                },
+                attributes: {
+                    exclude: ['password', 'createdAt', 'updatedAt']
                 }
             })
             if(selectedUser.role !== 'admin') {
@@ -41,6 +44,9 @@ async function authenticationCustomer(req, res, next) {
             const user = await User.findOne({
                 where: {
                     email: decodeToken.email
+                },
+                attributes: {
+                    exclude: ['password', 'createdAt', 'updatedAt']
                 }
             })
             req.loginUser = user

@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Product extends Model {
+  class History extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,23 +11,35 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Product.belongsToMany(models.User, {
-        through: models.Cart
-      })
+      History.belongsTo(models.User)
     }
   };
-  Product.init({
-    name: {
+  History.init({
+    UserId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: true,
+          msg: "UserId cannot be empty"
+        },
+        notEmpty: {
+          args: true,
+          msg: "UserId cannot be empty"
+        }
+      }
+    },
+    product: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
           args: true,
-          msg: "Field cannot be empty"
+          msg: "Product cannot be empty"
         },
         notEmpty: {
           args: true,
-          msg: "Field cannot be empty"
+          msg: "Product cannot be empty"
         }
       }
     },
@@ -37,15 +49,15 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: {
           args: true,
-          msg: "Field cannot be empty"
+          msg: "URL cannot be empty"
         },
         notEmpty: {
           args: true,
-          msg: "Field cannot be empty"
+          msg: "URL cannot be empty"
         },
         isUrl: {
           args: true,
-          msg: "Image URL invalid format"
+          msg: "URL is not valid"
         }
       }
     },
@@ -55,11 +67,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: {
           args: true,
-          msg: "Field cannot be empty"
+          msg: "Price cannot be empty"
         },
         notEmpty: {
           args: true,
-          msg: "Field cannot be empty"
+          msg: "Price cannot be empty"
         },
         checkPrice (price) {
           if(price < 0) {
@@ -68,28 +80,28 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    stock: {
+    qty: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notNull: {
           args: true,
-          msg: "Field cannot be empty"
+          msg: "Quantity cannot be empty"
         },
         notEmpty: {
           args: true,
-          msg: "Field cannot be empty"
+          msg: "Quantity cannot be empty"
         },
-        checkStock (stock) {
-          if(stock < 0) {
-            throw new Error ('Stock must be greater than 0')
+        checkQty (qty) {
+          if(qty < 0) {
+            throw new Error ('Quantity must be greater than 0')
           }
         }
       }
     }
   }, {
     sequelize,
-    modelName: 'Product',
+    modelName: 'History',
   });
-  return Product;
+  return History;
 };

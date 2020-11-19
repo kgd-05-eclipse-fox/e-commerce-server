@@ -29,8 +29,8 @@ class Controller {
             let id = +req.params.id
             let nameType = typeof req.body.name
             let image_url = typeof req.body.image_url
-            let price = typeof req.body.price
-            let stock = typeof req.body.stock
+            let price = typeof +req.body.price
+            let stock = typeof +req.body.stock
             if(nameType !== 'string' || image_url !== 'string' || price !== 'number' || stock !== 'number') {
                 throw { name: "Wrong data type"}
             } else {
@@ -78,7 +78,9 @@ class Controller {
 
     static async fetchProduct(req, res, next) {
         try {
-            const products = await Product.findAll()
+            const products = await Product.findAll({
+                order: [['id', 'ASC']]
+            })
             res.status(200).json(products)
         } catch (error) {
             next(error)

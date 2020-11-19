@@ -1,9 +1,8 @@
-const { User, Product, Cart } = require('../models')
+const { User, Product, Cart, History } = require('../models')
 
 class Controller {
   static async addCart(req, res, next) {
     try {
-      // console.log(req.params.id)
       const payload = {
         UserId: req.loginUser.id,
         ProductId: +req.params.id,
@@ -31,7 +30,7 @@ class Controller {
           if(addQty > product.stock) {
             res.status(400).json({ message: 'Product out of stock' })
           } else {
-            console.log(cart)
+            // console.log(cart)
             const updatedCart = await Cart.update({
               Qty: addQty
             }, {
@@ -51,15 +50,21 @@ class Controller {
 
   static async fetchCart(req, res, next) {
     try {
+      let total = 0
       const UserId = req.loginUser.id
       const cartUser = await Cart.findAll({
         where: {
           UserId
         },
+        order: [['id', 'ASC']],
         include: Product,
         attributes: ['id', 'Qty']
       })
-      res.status(200).json(cartUser)
+      cartUser.forEach(el => {
+        const totalHarga = el.Qty * el.Product.price
+        total += totalHarga
+      })
+      res.status(200).json({ products: cartUser, totalPrice: total })
     } catch (error) {
       next(error)
     }
@@ -120,6 +125,49 @@ class Controller {
         returning: true
       })
       res.status(200).json(updatedCart)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  static async checkoutCart(req, res, next) {
+    try {
+      const UserId = req.loginUser.id
+      const carts = await Cart.findAll({
+        where: {
+          UserId
+        },
+        include: Product
+      })
+      carts.forEach(async el => {
+        const sisaStock = el.Product.stock - el.Qty
+        const updatedStock = await Product.update({
+          stock: sisaStock
+        }, {
+          where: {
+            id: el.ProductId
+          }
+        })
+        if(updatedStock) {
+          const deletedCart = await Cart.destroy({
+            where: {
+              UserId: el.UserId
+            }
+          })
+          const totalPrice = el.Qty * el.Product.price
+          const payload = {
+            UserId,
+            product: el.Product.name,
+            image_url: el.Product.image_url,
+            price: totalPrice,
+            qty: el.Qty
+          }
+          await History.create(payload)
+          res.status(200).json({ message: 'Checkout success' })
+        } else {
+          res.status(404).json({ message: 'Data not found' })
+        }
+      })
     } catch (error) {
       next(error)
     }

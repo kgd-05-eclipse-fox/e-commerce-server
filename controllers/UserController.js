@@ -1,6 +1,7 @@
 const { User } = require('../models')
 const { comparePassword } = require('../helpers/bcrypt')
 const { getToken } = require('../helpers/jwt')
+const sendMail = require('../helpers/nodemailer')
 class Controller {
     static async loginAdmin(req, res, next) {
         try {
@@ -85,6 +86,7 @@ class Controller {
                 password: req.body.password
             }
             const user = await User.create(payload)
+            sendMail(payload.email)
             res.status(201).json({id: user.id, email: user.email})
         } catch (error) {
             next(error)
