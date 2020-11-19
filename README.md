@@ -73,9 +73,7 @@
   
 *  **URL Params**
 
-   **Required:**
- 
-   `id=[integer]`
+   None
 
 * **Request Headers**
 
@@ -777,6 +775,528 @@
     ```json
     {
         "message": "Please complete all form"
+    }
+    ```
+
+  `If error from server`
+
+  * **Code:** 500 **Internal Server Error** <br />
+    **Content:**
+    ```json
+    {
+        "message": "Internal Server Error"
+    }
+    ```
+
+**Show Cart**
+----
+  Returns json data from all of my carts.
+
+* **URL**
+
+  /cart
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   None
+
+* **Request Headers**
+
+   * **Content:**
+    ```json
+    {
+        "access_token": "< string >"
+    }
+    ```
+
+* **Request Body:**
+
+   None
+
+* **Success Response:**
+
+  * **Code:** 200 **OK** <br />
+    **Content:** 
+    ```json
+    {
+        "myCarts": [
+            {
+                "id": 4,
+                "UserId": 3,
+                "ProductId": 5,
+                "qty": 2,
+                "Product": {
+                    "id": 5,
+                    "name": "Permen Cha Cha",
+                    "image_url": "https://cf.shopee.co.id/file/99a8e75400a0a73667d3813203137edb",
+                    "price": 1500,
+                    "stock": 996,
+                    "createdAt": "2020-11-14T14:35:10.775Z",
+                    "updatedAt": "2020-11-19T06:00:39.503Z"
+                }
+            }
+        ],
+        "totalPrice": 3000
+    }
+    ```
+
+* **Error Response:**
+
+  `Get Cart without access token`
+
+  * **Code:** 401 **Unauthorized** <br />
+    **Content:** 
+    ```json
+    {
+       "message": "Unauthorized" 
+    }
+    ```
+
+  `If error from server`
+
+  * **Code:** 500 **Internal Server Error** <br />
+    **Content:**
+    ```json
+    {
+        "message": "Internal Server Error"
+    }
+    ```
+
+**Add Product to Cart**
+----
+  Returns json data after Inserting or Adding Product Qty to Cart.
+
+* **URL**
+
+  /cart/:id
+
+* **Method:**
+
+  `POST`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `id=[integer]`
+
+* **Request Headers**
+
+   * **Content:**
+    ```json
+    {
+        "access_token": "< string >"
+    }
+    ```
+
+* **Request Body:**
+
+   None
+
+* **Success Response:**
+
+  * **Code:** 200 **OK** <br />
+    **Content:** 
+    ```json
+    {
+        "message": "Cart successfully added"
+    }
+    ```
+
+    OR
+
+    ```json
+    {
+        "message": "Successfuly Added Cart Quantity"
+    }
+    ```
+    After Added Cart Quantity
+
+* **Error Response:**
+
+  `Insert a Product without access token`
+
+  * **Code:** 401 **Unauthorized** <br />
+    **Content:** 
+    ```json
+    {
+       "message": "Unauthorized" 
+    }
+    ```
+
+  `Inserting an Out of stock product to Cart`
+
+  * **Code:** 400 **Bad Request** <br />
+    **Content:** 
+    ```json
+    {
+       "message": "Out of stock" 
+    }
+    ```
+
+   `Updating a product exceeds the available stock`
+
+  * **Code:** 400 **Bad Request** <br />
+    **Content:** 
+    ```json
+    {
+       "message": "Exceeds the available stock" 
+    }
+    ```
+
+  `If error from server`
+
+  * **Code:** 500 **Internal Server Error** <br />
+    **Content:**
+    ```json
+    {
+        "message": "Internal Server Error"
+    }
+    ```
+
+**Updating Quantity of a Product in Cart**
+----
+  Return a message after an Cart Quantity has successfully updated.
+
+* **URL**
+
+  /cart/:id
+
+* **Method:**
+
+  `PATCH`
+  
+*  **URL Params**
+
+   None
+
+* **Request Headers**
+
+   * **Content:**
+    ```json
+    {
+        "access_token": "< string >"
+    }
+    ```
+
+* **Request Body:**
+
+   ```json
+   {
+        "increment": true
+   }
+   ```
+   To Increment Qty of product in cart
+
+   OR
+
+   ```json
+   {
+        "increment": false
+   }
+   ```
+   To Decrement Qty of product in cart
+
+* **Success Response:**
+
+  * **Code:** 200 **OK** <br />
+    **Content:** 
+    ```json
+    {
+        "message": "Successfuly Updated Cart Quantity"
+    }
+    ```
+
+* **Error Response:**
+
+  `Updating a Product without access token`
+
+  * **Code:** 401 **Unauthorized** <br />
+    **Content:** 
+    ```json
+    {
+       "message": "Unauthorized" 
+    }
+    ```
+
+  `Updating a Product except the Cart ownership`
+
+  * **Code:** 401 **Unauthorized** <br />
+    **Content:** 
+    ```json
+    {
+       "message": "Unauthorized" 
+    }
+    ```
+
+  `Updating a product exceeds the available stock`
+
+  * **Code:** 400 **Bad Request** <br />
+    **Content:** 
+    ```json
+    {
+       "message": "Exceeds the available stock" 
+    }
+    ```
+
+   `Updating a product Less than available stock`
+
+  * **Code:** 400 **Bad Request** <br />
+    **Content:** 
+    ```json
+    {
+       "message": "Less than available stock" 
+    }
+    ```
+
+  `If error from server`
+
+  * **Code:** 500 **Internal Server Error** <br />
+    **Content:**
+    ```json
+    {
+        "message": "Internal Server Error"
+    }
+    ```
+
+**Checkout a Cart**
+----
+  Return a message after successfully checkout-ing the Cart.
+
+* **URL**
+
+  /cart/:id
+
+* **Method:**
+
+  `PUT`
+  
+*  **URL Params**
+
+   None
+
+* **Request Headers**
+
+   * **Content:**
+    ```json
+    {
+        "access_token": "< string >"
+    }
+    ```
+
+* **Request Body:**
+
+   * **Content:**
+   ```json
+   {
+        "carts": [
+            {
+                "id": 4,
+                "UserId": 3,
+                "ProductId": 5,
+                "qty": 2,
+                "Product": {
+                    "id": 5,
+                    "name": "Permen Cha Cha",
+                    "image_url": "https://cf.shopee.co.id/file/99a8e75400a0a73667d3813203137edb",
+                    "price": 1500,
+                    "stock": 996,
+                    "createdAt": "2020-11-14T14:35:10.775Z",
+                    "updatedAt": "2020-11-19T06:00:39.503Z"
+                }
+            }
+        ]
+   }
+   ```
+
+* **Success Response:**
+
+  * **Code:** 200 **OK** <br />
+    **Content:** 
+    ```json
+    {
+        "message": "Successfully Checkout All Products"
+    }
+    ```
+
+* **Error Response:**
+
+  `Checkout without access token`
+
+  * **Code:** 401 **Unauthorized** <br />
+    **Content:** 
+    ```json
+    {
+       "message": "Unauthorized" 
+    }
+    ```
+
+  `If error from server`
+
+  * **Code:** 500 **Internal Server Error** <br />
+    **Content:**
+    ```json
+    {
+        "message": "Internal Server Error"
+    }
+    ```
+
+**Delete Cart**
+----
+  Return a message after success deleting a product in Cart.
+
+* **URL**
+
+  /product/:id
+
+* **Method:**
+
+  `DELETE`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `id=[integer]`
+
+* **Request Headers**
+
+   * **Content:**
+    ```json
+    {
+        "access_token": "< string >"
+    }
+    ```
+
+* **Request Body:**
+
+   None
+
+* **Success Response:**
+
+  * **Code:** 200 **OK** <br />
+    **Content:** 
+    ```json
+    {
+        "message": "Successfuly Deleted Cart"
+    }
+    ```
+ 
+* **Error Response:**
+
+  `Delete Cart without access token`
+
+  * **Code:** 401 **Unauthorized** <br />
+    **Content:** 
+    ```json
+    {
+       "message": "Unauthorized" 
+    }
+    ```
+
+  `Delete Cart except the Cart ownership`
+
+  * **Code:** 401 **Unauthorized** <br />
+    **Content:** 
+    ```json
+    {
+       "message": "Unauthorized" 
+    }
+    ```
+
+  `Delete Cart with random id (not found)`
+
+  * **Code:** 404 **NOT FOUND** <br />
+    **Content:**
+    ```json
+    {
+        "message": "Cart not found"
+    }
+    ```
+
+  `If error from server`
+
+  * **Code:** 500 **Internal Server Error** <br />
+    **Content:**
+    ```json
+    {
+        "message": "Internal Server Error"
+    }
+    ```
+
+**Show Transaction History**
+----
+  Returns json data from all of transaction history.
+
+* **URL**
+
+  /history
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   None
+
+* **Request Headers**
+
+   * **Content:**
+    ```json
+    {
+        "access_token": "< string >"
+    }
+    ```
+
+* **Request Body:**
+
+   None
+
+* **Success Response:**
+
+  * **Code:** 200 **OK** <br />
+    **Content:** 
+    ```json
+    {
+        "myHistory": [
+            {
+                "id": 2,
+                "UserId": 3,
+                "name": "Apple iPhone 12 Pro Max",
+                "image_url": "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-12-pro-max-gold-hero?wid=940&hei=1112&fmt=png-alpha&qlt=80&.v=1604021660000",
+                "total_price": 27000000,
+                "qty": 1,
+                "createdAt": "2020-11-19T06:04:25.169Z",
+                "updatedAt": "2020-11-19T06:04:25.169Z"
+            },
+            {
+                "id": 1,
+                "UserId": 3,
+                "name": "Permen Cha Cha",
+                "image_url": "https://cf.shopee.co.id/file/99a8e75400a0a73667d3813203137edb",
+                "total_price": 4500,
+                "qty": 3,
+                "createdAt": "2020-11-19T06:00:39.510Z",
+                "updatedAt": "2020-11-19T06:00:39.510Z"
+            }
+        ]
+    }
+    ```
+
+* **Error Response:**
+
+  `Get Transaction History without access token`
+
+  * **Code:** 401 **Unauthorized** <br />
+    **Content:** 
+    ```json
+    {
+       "message": "Unauthorized" 
     }
     ```
 
