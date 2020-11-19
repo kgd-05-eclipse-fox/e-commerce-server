@@ -3,6 +3,43 @@
 **Server URL** https://e-commerce-server-akbarhabiby.herokuapp.com/
 > Deployed on Nov 14 2020
 
+## List of Available Endpoints
+
+**User Routes**. Admin can only **Login**, **Register** via _Seeding on Sequelize_
+
+| Method | Route      | Description           |
+| ------ | -----------| --------------------- |
+| POST   | /cms-admin | Admin **Login**       |
+| POST   | /login     | Customer **Login**    |
+| POST   | /register  | Customer **Register** |
+
+**Product Routes**
+
+| Method | Route            | Description              |
+| ------ | ---------------- | ------------------------ |
+| GET    | /product         | **Get** All Products     |
+| POST   | /product         | **Create** New Product   |
+| PUT    | /product/:id     | **Edit** Product by Id   |
+| DELETE | /product/:id     | **Delete** Product by Id |
+
+**Cart Routes**
+
+| Method | Route           | Description                                                                |
+| ------ | --------------- | -------------------------------------------------------------------------- |
+| GET    | /cart           | **Get** current Customer Cart                                              |
+| POST   | /cart/:id       | **Create** Product or Update Product Quantity into current Customer Cart   |
+| PUT    | /cart/checkout  | **Checkout** current Customer Cart                                         |
+| PATCH  | /cart/:id       | **Increment** _or_ **Decrement** Product Quantity in current Customer Cart |
+| DELETE | /cart/:id       | **Delete** current Customer Cart                                           |
+
+**History Route**
+
+| Method | Route      | Description                                  |
+| ------ | ---------- | -------------------------------------------- |
+| GET    | /history   | **Get** current Customer Transaction History |
+
+---
+
 **Show All Products**
 ----
   Returns json data from all products.
