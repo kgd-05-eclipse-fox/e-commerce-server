@@ -10,11 +10,24 @@ class BannerController {
     }
   }
 
+  static async showActive(req, res, next) {
+    try {
+      const banners = await Banner.findAll({
+        where: {
+          status: 'Active'
+        }
+      });
+      res.status(200).json(banners);
+    } catch(err) {
+      next(err)
+    }
+  }
+
   static async addBanner(req, res, next) {
     try {
-      const { title, image_url, status } = req.body;
+      const { title, image_url } = req.body;
       const newBanner = await Banner.create({
-        title, image_url, status
+        title, image_url, status: 'Inactive'
       });
       res.status(201).json(newBanner);
     } catch(err) {

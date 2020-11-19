@@ -3,24 +3,28 @@
         "name": "IPhone 11",
         "image_url": "https://ecs7-p.tokopedia.net/img/cache/200-square/product-1/2020/7/4/1114938/1114938_d563b657-e602-4945-80e0-097225d28042_640_640.jpg",
         "price": 15000000,
+        "stock": 5,
         "CategoryId": 1
     },
     {
         "name": "IPhone 12",
         "image_url": "https://images.macrumors.com/t/OPSyMWSCe37pC7WFgm3HcSDpUvA=/400x0/filters:quality(90)/article-new/2019/10/iphone12lineuproundup.jpg?lossy",
         "price": 20000000,
+        "stock": 5,
         "CategoryId": 1
     },
     {
         "name": "Jaket Dilan",
         "image_url": "https://www.wiruji.com/wp-content/uploads/2019/07/1-63.jpg",
         "price": 300000,
+        "stock": 5,
         "CategoryId": 2
     },
     {
         "name": "Jaket Punk",
         "image_url": "https://i.pinimg.com/736x/a9/34/21/a93421e7ce762171ccd57e379f16b58b.jpg",
         "price": 500000,
+        "stock": 5,
         "CategoryId": 2
     }
 ]

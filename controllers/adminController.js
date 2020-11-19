@@ -44,7 +44,7 @@ class AdminController {
             email: admin.email,
             role: admin.role
           })
-          res.status(200).json({token});
+          res.status(200).json({email: admin.email, token});
         }
       }
     } catch(err) {

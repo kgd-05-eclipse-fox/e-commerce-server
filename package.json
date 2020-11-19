@@ -21,9 +21,11 @@
   "homepage": "https://github.com/bimakrishna/e-commerce-server-1#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "bull": "^3.18.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "node-cron": "^2.0.3",
     "pg": "^8.5.1",
     "sequelize": "^6.3.5"
   },

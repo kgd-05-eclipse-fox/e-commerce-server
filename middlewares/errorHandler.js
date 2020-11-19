@@ -20,6 +20,9 @@ class Error {
     } else if(err.name === 'OutOfAuthority') {
       msg = 'You are out of authority';
       status = 401;
+    } else if(err.name === 'MaximumAmountExceeded') {
+      msg = "You cannot buy this item more than it's available stock"
+      status = 400;
     }
     res.status(status).json({ message: msg });
   }

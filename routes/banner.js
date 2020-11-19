@@ -4,6 +4,7 @@ const Authorize = require('../middlewares/authorize');
 const router = require('express').Router();
 
 router.get('/', BannerController.getBanners);
+router.get('/cust', BannerController.showActive);
 
 router.use(Authenticate.user);
 router.use(Authorize.admin);
