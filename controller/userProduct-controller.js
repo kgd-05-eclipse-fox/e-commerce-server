@@ -1,13 +1,11 @@
 const {User, Product, ProductUser} = require('../models')
-const JwtApp = require('../helper/jwt.js')
 
 class UserProduct{
 
     static async postProductUser(req, res, next){
         try {
             let dataBody = req.body
-            let token = req.headers.access_token
-            let cekToken = JwtApp.decodedToken(token)
+            let cekToken = req.userLogIn
             let data = {
                 UserId: cekToken.id,
                 ProductId: +dataBody.ProductId
@@ -52,8 +50,7 @@ class UserProduct{
 
     static async getDataUserProduct(req, res, next){
         try {
-            let token = req.headers.access_token
-            let cekToken = JwtApp.decodedToken(token)
+            let cekToken = req.userLogIn
             let data = {
                 UserId: cekToken.id
             }
@@ -108,8 +105,7 @@ class UserProduct{
 
     static async getTotalBasket(req, res, next){
         try {
-            let token = req.headers.access_token
-            let cekToken = JwtApp.decodedToken(token)
+            let cekToken = req.userLogIn
             let data = {
                 UserId: cekToken.id
             }

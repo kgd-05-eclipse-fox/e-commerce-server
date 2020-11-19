@@ -11,14 +11,6 @@ class ProductController{
         }
     }
 
-    static async getAllProductBySomeOne(req, res, next){
-        try {
-            
-        } catch (err) {
-            res.status(500).json(err)
-        }
-    }
-
     static async createProduct(req, res, next){
         try {
             let dataBody = req.body
@@ -33,12 +25,9 @@ class ProductController{
             }else if(dataBody.price !== +dataBody.price){
                 res.status(401).json({msg: 'product prices must not be integer'})
             }else{
-                // let UserId = req.access_token.id
-                if(req.access_token.role !== 'admin'){
+                if(req.userLogIn.role !== 'admin'){
                     res.status(401).json({msg: 'invalid Token'})
                 }else{
-                    // let role = req.access_token.role
-                    // dataBody.role = role
                     let data = await Product.create(dataBody)
                     res.status(201).json(data)
                 }

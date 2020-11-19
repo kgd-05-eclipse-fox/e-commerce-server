@@ -14,7 +14,7 @@ class BennerController{
     static async postBenner(req, res, next){
         try {
             let dataBody = req.body
-            if(req.access_token.role !== 'admin'){
+            if(req.userLogIn.role !== 'admin'){
                 res.status(401).json({msg: 'invalid Token'})
             }else{
                 let data = await Benner.create(dataBody)

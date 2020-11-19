@@ -1,13 +1,11 @@
 const { User, Product, FavoritesUser } = require('../models')
-const JwtApp = require('../helper/jwt.js')
 
 class FavoritesController{
 
     static async postFavoritProduct(req, res, next){
         try {
             let dataBody = req.body.ProductId
-            let token = req.headers.access_token
-            let cekToken = JwtApp.decodedToken(token)
+            let cekToken = req.userLogIn
             let data = {
                 UserId: cekToken.id,
                 ProductId: dataBody
@@ -21,8 +19,7 @@ class FavoritesController{
 
     static async getDataFavorit(req, res, next){
         try {
-            let token = req.headers.access_token
-            let cekToken = JwtApp.decodedToken(token)
+            let cekToken = req.userLogIn
             let data = {
                 UserId: cekToken.id,
             }
@@ -37,10 +34,8 @@ class FavoritesController{
     }
 
     static async deleteFavoriteProduct(req, res, next){
-        console.log('masuk controller <<<<<<<<<<<<<<<<<<')
         try {
             let id = +req.params.id
-            console.log(id, '<<<<<<<<<<<<<<<<<<')
             let data = await FavoritesUser.destroy({
                 where: {id}
             })

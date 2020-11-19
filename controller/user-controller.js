@@ -72,10 +72,8 @@ class UserController{
                     where: {email: dataBody.email}
                 })
                 if(!cekData){
-                    // throw {status: 401, msg: 'email/password invalid'}
                     res.status(401).json({msg: 'invalid email/password'})
                 }else if(!BcryptApp.comperPassword(dataBody.password, cekData.password)){
-                    // throw {status: 401, msg: 'email/password invalid'}
                     res.status(401).json({msg: 'invalid email/password'})
                 }else{
                     if(cekData.role !== 'customer'){

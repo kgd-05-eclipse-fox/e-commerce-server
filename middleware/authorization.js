@@ -11,8 +11,10 @@ const authorization = async (req, res, next)=>{
             if(!dataBenner){
                 res.status(404).json({msg: 'id tidak valid'})
             }else{
-                if(req.access_token.role !== 'admin'){
+                if(req.userLogIn.role !== 'admin'){
                     res.status(401).json({msg: 'you are not admin'})
+                }else if(dataBenner.UserId !== req.userLogIn.id){
+                    res.status(401).json({msg: "Sorry You Can't Access it"})
                 }else{
                     next()
                 }
@@ -23,47 +25,55 @@ const authorization = async (req, res, next)=>{
             })
             if(!dataProduct){
                 res.status(404).json({msg: 'id tidak valid'})
+            }else if(dataProduct.UserId !== req.userLogIn.id){
+                res.status(401).json({msg: "Sorry You Can't Access it"})
             }else{
-                if(req.access_token.role !== 'admin'){
+                if(req.userLogIn.role !== 'admin'){
                     res.status(401).json({msg: 'you are not admin'})
                 }else{
                     next()
                 }
             }
         }else if(router[1] === 'userproducts'){
-            let dataProduct = await ProductUser.findOne({
+            let dataProductUser = await ProductUser.findOne({
                 where: {id}
             })
-            if(!dataProduct){
+            if(!dataProductUser){
                 res.status(404).json({msg: 'id tidak valid'})
+            }else if(dataProductUser.UserId !== req.userLogIn.id){
+                res.status(401).json({msg: "Sorry You Can't Access it"})
             }else{
-                if(req.access_token.role !== 'customer'){
+                if(req.userLogIn.role !== 'customer'){
                     res.status(401).json({msg: 'you are not customer'})
                 }else{
                     next()
                 }
             }
         }else if(router[1] === 'checkouts'){
-            let dataProduct = await CheckOutUser.findOne({
+            let dataCheckOutUser = await CheckOutUser.findOne({
                 where: {id}
             })
-            if(!dataProduct){
+            if(!dataCheckOutUser){
                 res.status(404).json({msg: 'id tidak valid'})
+            }else if(dataCheckOutUser.UserId !== req.userLogIn.id){
+                res.status(401).json({msg: "Sorry You Can't Access it"})
             }else{
-                if(req.access_token.role !== 'customer'){
+                if(req.userLogIn.role !== 'customer'){
                     res.status(401).json({msg: 'you are not customer'})
                 }else{
                     next()
                 }
             }
         }else if(router[1] === 'favorites'){
-            let dataProduct = await FavoritesUser.findOne({
+            let dataFavoritesUser = await FavoritesUser.findOne({
                 where: {id}
             })
-            if(!dataProduct){
+            if(!dataFavoritesUser){
                 res.status(404).json({msg: 'id tidak valid'})
+            }else if(dataFavoritesUser.UserId !== req.userLogIn.id){
+                res.status(401).json({msg: "Sorry You Can't Access it"})
             }else{
-                if(req.access_token.role !== 'customer'){
+                if(req.userLogIn.role !== 'customer'){
                     res.status(401).json({msg: 'you are not customer'})
                 }else{
                     next()

@@ -1,13 +1,11 @@
 const { User, Product, ProductUser, CheckOutUser } = require('../models')
-const JwtApp = require('../helper/jwt.js')
 
 class CheckOutController{
 
     static async createCheckOut(req, res, next){
         try {
             let dataBody = req.body
-            let token = req.headers.access_token
-            let cekToken = JwtApp.decodedToken(token)
+            let cekToken = req.userLogIn
             let data = {
                 UserId: cekToken.id,
                 total: dataBody.total
@@ -33,8 +31,7 @@ class CheckOutController{
 
     static async getDataCheckOut(req, res, next){
         try {
-            let token = req.headers.access_token
-            let cekToken = JwtApp.decodedToken(token)
+            let cekToken = req.userLogIn
             let data = {
                 UserId: cekToken.id
             }
