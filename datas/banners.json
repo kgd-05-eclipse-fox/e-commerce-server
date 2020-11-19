@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Among Us Banner",
+    "image_url": "https://res09.bignox.com/appcenter/id/2020/08/banner_AmongUs.jpg",
+    "status": true
+  },
+  {
+    "title": "Among Us SpaceShip Banner",
+    "image_url": "https://games.mxdwn.com/wp-content/uploads/2020/09/steam_AboutBanner.png",
+    "status": true
+  },
+  {
+    "title": "Purple Impostor",
+    "image_url": "https://art.ngfiles.com/images/1428000/1428308_ivanalmighty_among-us-animation-jam-banner.png",
+    "status": true
+  },
+  {
+    "title": "Killed by Impostor",
+    "image_url": "https://tldrmoviereviewsblog.files.wordpress.com/2020/09/among-us-banner.jpg",
+    "status": true
+  },
+  {
+    "title": "The Crew",
+    "image_url": "https://steamcdn-a.akamaihd.net/steam/apps/945360/extras/steam_AboutCrew.png",
+    "status": true
+  }
+]

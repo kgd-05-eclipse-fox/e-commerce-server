@@ -1,0 +1,21 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "dacokeh21",
+    "database": "e-commerce-cms",
+		"host": "127.0.0.1",
+		"port": 8080,
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "dacokeh21",
+    "database": "E-Commerce-CMS_test",
+		"host": "127.0.0.1",
+		"port": 8080,
+    "dialect": "postgres"
+  },
+  "production": {
+		"use_env_variable": "DATABASE_URL"
+  }
+}

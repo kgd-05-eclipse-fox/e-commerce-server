@@ -1,0 +1,39 @@
+{
+  "name": "e-commerce-server",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "jest": "^26.6.3",
+    "supertest": "^6.0.1"
+  },
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --detectOpenHandles --forceExit --runInBand --verbose",
+    "dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsagra/e-commerce-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itsagra/e-commerce-server/issues"
+  },
+  "homepage": "https://github.com/itsagra/e-commerce-server#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "nodemailer": "^6.4.16",
+    "pg": "^8.4.2",
+    "sequelize": "^6.3.5"
+  },
+  "readme": "ERROR: No README data found!",
+  "_id": "e-commerce-server@1.0.0"
+}
