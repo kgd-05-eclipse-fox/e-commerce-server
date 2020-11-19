@@ -5,8 +5,8 @@ class Controller {
         try {
             let nameType = typeof req.body.name
             let image_url = typeof req.body.image_url
-            let price = typeof req.body.price
-            let stock = typeof req.body.stock
+            let price = typeof +req.body.price
+            let stock = typeof +req.body.stock
             if(nameType !== 'string' || image_url !== 'string' || price !== 'number' || stock !== 'number') {
                 throw { name: "Wrong data type"}
             } else {
