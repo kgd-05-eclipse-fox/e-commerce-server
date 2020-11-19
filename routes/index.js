@@ -10,7 +10,7 @@ const { checkout, history } = require('../controllers/cartController');
 const Authenticate = require('../middlewares/authenticate');
 
 router.get('/', (req, res) => {
-    res.status('halo')
+    res.send('halo')
 })
 
 router.post('/adminRegister', AdminController.register);
