@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Pillow",
+        "image_url": "https://image.freepik.com/free-psd/square-pillow-mockup_177774-16.jpg",
+        "price": 10000,
+        "stock": 5
+    },
+    {
+        "name": "Pillow2",
+        "image_url": "https://image.freepik.com/free-psd/square-pillow-mockup_177774-17.jpg",
+        "price": 500000,
+        "stock": 5
+    },
+    {
+        "name": "Pillow3",
+        "image_url": "https://image.freepik.com/free-psd/square-pillow-mockup_177774-18.jpg",
+        "price": 3849000,
+        "stock": 5
+    },
+    {
+        "name": "Pillow4",
+        "image_url": "https://image.freepik.com/free-psd/square-pillow-mockup_177774-19.jpg",
+        "price": 2330000,
+        "stock": 5
+    }
+]
