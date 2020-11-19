@@ -5,17 +5,17 @@ const { User } = require('../models')
 const {sequelize} = require('../models')
 const {queryInterface} = sequelize
 
-// afterAll((done) => {
-//     queryInterface.bulkDelete("Users")
-//     .then( data => {
-//         console.log("Berhasil hapus data")
-//         done()
-//     })
-//     .catch(err => {
-//         console.log(err)
-//         done(err)
-//     })
-// })
+afterAll((done) => {
+    queryInterface.bulkDelete("Users")
+    .then( data => {
+        console.log("Berhasil hapus data")
+        done()
+    })
+    .catch(err => {
+        console.log(err)
+        done(err)
+    })
+})
 
 describe('Test endpoint Login admin', () => {
     it('test login admin success', (done) => {
@@ -135,7 +135,7 @@ describe('Test endpoint Register Customer', () => {
         .send({email: 'sasuke@mail.com', password: '123'})
         .then(response => {
             const{body, status} = response
-            expect(status).toEqual(401)
+            expect(status).toEqual(400)
             expect(body).toHaveProperty('message', 'Password must be between four and ten character')
             done()
         })
