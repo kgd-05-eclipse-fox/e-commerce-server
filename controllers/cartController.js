@@ -94,7 +94,7 @@ class CartController {
       })
       checked_out = checked_out.map(item => item.dataValues)
 
-      const item_list = checked_out.map(el => el.Product.name).join('\n')
+      const item_list = checked_out.map(el => el.Product.name).join(', ')
       
       const payload = {
         recipient: req.user.email, 
