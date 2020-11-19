@@ -45,9 +45,9 @@ class FavoritesController{
                 where: {id}
             })
             if(data === 0){
-                res.status(400).json({msg: 'Product tidak ditemukan'})
+                res.status(400).json({msg: 'Your Favorite Product tidak ditemukan'})
             }else{
-                res.status(200).json({msg: 'Product has Deleted'})
+                res.status(200).json({msg: 'Your Favorite Product has Deleted'})
             }
         } catch (err) {
             res.status(500).json(err)
