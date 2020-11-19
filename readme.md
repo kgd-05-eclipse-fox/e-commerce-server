@@ -267,10 +267,203 @@ https://einkofen.web.app/
 * **Error Response:**
 
   * **Code:** 500 INTERNAL SERVER ERRORS <br />
-    **Content:** `{message: Internal server errors}`
+    **Content:** `{ message: Internal server errors }`
 
   * **Code:** 404 NOT FOUND <br />
     **Content:** `{ message : "Product is not found" }`
 
   * **Code:** 401 UNAUTHORIZED <br />
     **Content:** `{ message : "Not Authorized" }`
+
+**Fetch All Carts**
+----
+  return all available carts on server
+
+* **URL**
+
+  /carts
+
+* **Method:**
+  
+  `GET` 
+
+* **Data Params**
+  **Required:**
+  ```json
+  "headers" : { "token": "string" }
+  
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```json
+    [
+      {
+        "id": 1,
+        "quantity": 1,
+        "Product": {
+          "id": 1,
+          "name": "Air Jordan Mid",
+          "image_url": "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/db20dcce-723e-42de-b83a-75d8da072045/air-jordan-1-mid-se-shoe-xnGlQq.jpg",
+          "price": 1900000,
+          "stock": 7
+        }
+      }
+    ]
+ 
+* **Error Response:**
+
+  * **Code:** 401 UNAUTHORIZED <br />
+    **Content:** `{ message : "Not Authorized" }`
+  * **Code:** 500 INTERNAL SERVER ERRORS <br />
+    **Content:** `{ message: Internal server errors }`
+
+**POST CARTS**
+----
+* **URL**
+
+  /carts/:id
+
+* **Method:**
+  
+  `POST` 
+
+* **Data**
+  **Required:**
+  ```json
+  "headers" : { "token" : "string" }
+
+**Params**
+  id = integer
+  
+* **Success Response:**
+
+  * **Code:** 201 <br />
+    **Content:** 
+    ```json 
+    {
+      "ProductId": 1,
+      "UserId": 2,
+      "quantity": 1,
+      "updatedAt": "2020-11-19T02:21:38.493Z",
+      "createdAt": "2020-11-19T02:21:38.493Z"
+    }
+ 
+* **Error Response:**
+
+  * **Code:** 401 UNAUTHORIZED <br />
+    **Content:** `{ "message": "Not Authorized" }`
+
+  * **Code:** 500 INTERNAL SERVER ERRORS <br />
+    **Content:** `{message: Internal server errors}`
+
+
+**UPDATE INCREMENT QUANTITY**
+----
+  return the newest data that just been updated
+
+* **URL**
+
+  /carts/:id
+
+* **Method:**
+  
+  `PATCH` 
+  
+   **Required:**
+ 
+   `id=integer`
+
+*  **Data Params**
+
+   **Required:**
+   ```json
+   "headers" : { "token" : "string" }
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```json
+    { "message": "Cart has been updated" }
+ 
+* **Error Response:**
+
+  * **Code:** 401 UNAUTHORIZED <br />
+    **Content:** `{ message: "Authentication failed" }`
+
+  * **Code:** 500 INTERNAL SERVER ERRORS <br />
+    **Content:** `{message: Internal server errors}`
+
+**UPDATE DECREMENT QUANTITY**
+----
+  return the newest data that just been updated
+
+* **URL**
+
+  /carts/:id
+
+* **Method:**
+  
+  `PATCH` 
+  
+   **Required:**
+ 
+   `id=integer`
+
+*  **Data Params**
+
+   **Required:**
+   ```json
+   "headers" : { "token" : "string" }
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```json
+    { "message": "Cart has been updated" }
+ 
+* **Error Response:**
+
+  * **Code:** 401 UNAUTHORIZED <br />
+    **Content:** `{ message: "Authentication failed" }`
+
+  * **Code:** 500 INTERNAL SERVER ERRORS <br />
+    **Content:** `{message: Internal server errors}`
+
+**DELETE CARTS**
+----
+* **URL**
+
+  /carts/:id
+
+* **Method:**
+
+  `DELETE` 
+  
+  **Required:**
+ 
+  `id=integer`
+
+  ```json
+  "headers": { "token" : "string" }
+  
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    `{ message: "Cart has been deleted" }`
+ 
+* **Error Response:**
+
+  * **Code:** 401 UNAUTHORIZED <br />
+    **Content:** `{ message : "Not Authorized" }`
+    
+  * **Code:** 500 INTERNAL SERVER ERRORS <br />
+    **Content:** `{ message: Internal server errors }`
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:** `{ message : "Carts is not found" }`
+
+

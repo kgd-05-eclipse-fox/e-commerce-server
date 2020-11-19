@@ -1,23 +1,22 @@
 const { User } = require('../models')
 const { verifyToken } = require('../helpers/jwt')
 
-const authentication = (req, res, next) => {
+const authenticationCustomer = (req, res, next) => {
     const { access_token } = req.headers;
 
-    if(!access_token) {
+    if (!access_token) {
         next({status: 401, message: 'Authentication failed'})
     } else {
         const decoded = verifyToken(access_token)
-
-        User.findAll({
+        User.findOne({
             where: {
                 email: decoded.email,
-                role: 'admin'
+                role: 'customer'
             }
         })
         .then(user => {
-            if (!user) {
-                throw {status: 401, message: 'Authentication failed'}
+            if(!user) {
+                throw ({status: 401, message: 'Authentication failed'})
             } else {
                 req.loggedInUser = decoded;
                 next()
@@ -29,4 +28,4 @@ const authentication = (req, res, next) => {
     }
 }
 
-module.exports = authentication;
+module.exports = authenticationCustomer
