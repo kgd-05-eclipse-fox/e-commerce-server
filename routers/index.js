@@ -17,35 +17,35 @@ routers.post('/login/admin', UserController.adminLogin)
 routers.post('/login/customer', UserController.costomerLogin)
 
 routers.use(authentication)
-routers.get('/product', ProductController.getAllProduct)
-routers.post('/product', ProductController.createProduct)
+routers.get('/products', ProductController.getAllProduct)
+routers.post('/products', ProductController.createProduct)
 
-routers.get('/banner', BennerController.getAllBenner)
-routers.post('/banner', BennerController.postBenner)
+routers.get('/banners', BennerController.getAllBenner)
+routers.post('/banners', BennerController.postBenner)
 
-routers.get('/banner/:id', authorization, BennerController.findOneBenner)
-routers.put('/banner/:id', authorization, BennerController.putBenner)
-routers.delete('/banner/:id', authorization, BennerController.deleteBenner)
+routers.get('/banners/:id', authorization, BennerController.findOneBenner)
+routers.put('/banners/:id', authorization, BennerController.putBenner)
+routers.delete('/banners/:id', authorization, BennerController.deleteBenner)
 
-routers.get('/product/:id', authorization, ProductController.findByIdProduct)
-routers.put('/product/:id', authorization, ProductController.updateProduct)
-routers.delete('/product/:id', authorization, ProductController.deleteProduct)
+routers.get('/products/:id', authorization, ProductController.findByIdProduct)
+routers.put('/products/:id', authorization, ProductController.updateProduct)
+routers.delete('/products/:id', authorization, ProductController.deleteProduct)
 
-routers.post('/userproduct', UserProduct.postProductUser)
-routers.get('/userproduct', UserProduct.getDataUserProduct)
-routers.get('/userproduct/total', UserProduct.getTotalBasket)
+routers.post('/userproducts', UserProduct.postProductUser)
+routers.get('/userproducts', UserProduct.getDataUserProduct)
+routers.get('/userproducts/total', UserProduct.getTotalBasket)
 
-routers.delete('/userproduct/:id', authorization, UserProduct.deleteUserProduct)
-routers.patch('/userproduct/:id', authorization, UserProduct.updateQuantity)
+routers.delete('/userproducts/:id', authorization, UserProduct.deleteUserProduct)
+routers.patch('/userproducts/:id', authorization, UserProduct.updateQuantity)
 
-routers.post('/chechout', CheckOutController.createCheckOut)
-routers.get('/chechout', CheckOutController.getDataCheckOut)
+routers.post('/checkouts', CheckOutController.createCheckOut)
+routers.get('/checkouts', CheckOutController.getDataCheckOut)
 
-routers.delete('/chechout/:id', authorization, CheckOutController.deleteDataCheckOut)
+routers.delete('/checkouts/:id', authorization, CheckOutController.deleteDataCheckOut)
 
-routers.post('/favorit', FavoritesController.postFavoritProduct)
-routers.get('/favorit', FavoritesController.getDataFavorit)
+routers.post('/favorites', FavoritesController.postFavoritProduct)
+routers.get('/favorites', FavoritesController.getDataFavorit)
 
-routers.delete('/favorit/:id', authorization, FavoritesController)
+routers.delete('/favorites/:id', authorization, FavoritesController.deleteFavoriteProduct)
 
 module.exports = routers

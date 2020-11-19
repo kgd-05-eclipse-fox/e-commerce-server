@@ -4,7 +4,7 @@ const authorization = async (req, res, next)=>{
     try {
         let router = req.path.split('/')
         let id = +req.params.id
-        if(router[1] === 'banner'){
+        if(router[1] === 'banners'){
             let dataBenner = await Benner.findOne({
                 where: {id}
             })
@@ -17,7 +17,7 @@ const authorization = async (req, res, next)=>{
                     next()
                 }
             }
-        }else if(router[1] === 'product'){
+        }else if(router[1] === 'products'){
             let dataProduct = await Product.findOne({
                 where: {id}
             })
@@ -30,7 +30,7 @@ const authorization = async (req, res, next)=>{
                     next()
                 }
             }
-        }else if(router[1] === 'userproduct'){
+        }else if(router[1] === 'userproducts'){
             let dataProduct = await ProductUser.findOne({
                 where: {id}
             })
@@ -43,7 +43,7 @@ const authorization = async (req, res, next)=>{
                     next()
                 }
             }
-        }else if(router[1] === 'chechout'){
+        }else if(router[1] === 'checkouts'){
             let dataProduct = await CheckOutUser.findOne({
                 where: {id}
             })
@@ -56,7 +56,7 @@ const authorization = async (req, res, next)=>{
                     next()
                 }
             }
-        }else if(router[1] === 'favorit'){
+        }else if(router[1] === 'favorites'){
             let dataProduct = await FavoritesUser.findOne({
                 where: {id}
             })
