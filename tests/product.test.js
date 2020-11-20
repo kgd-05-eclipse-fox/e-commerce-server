@@ -39,6 +39,18 @@ beforeAll((done) =>{
         newDataProduct.price = res.dataValues.price
         newDataProduct.stock = res.dataValues.stock
         console.log(newDataProduct.id, 'id new <<<<<<<<<<<<<<<<<,')
+        
+        let admin = {
+            email: 'admin@mail.com',
+            role: 'admin'
+        }
+        let customer = {
+            email: 'customer@mail.com',
+            role: 'customer'
+        }
+        dataTest.admin_access_token = jwtApp.createToken(admin)
+        dataTest.customer_access_token = jwtApp.createToken(customer)
+
         done()
     })
     .catch( err =>{
@@ -46,16 +58,6 @@ beforeAll((done) =>{
         done(err)
     })
 
-    let admin = {
-        email: 'admin@mail.com',
-        role: 'admin'
-    }
-    let customer = {
-        email: 'customer@mail.com',
-        role: 'customer'
-    }
-    dataTest.admin_access_token = jwtApp.createToken(admin)
-    dataTest.customer_access_token = jwtApp.createToken(customer)
 })
 
 describe('Test EndPoint Product', ()=>{

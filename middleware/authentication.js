@@ -12,12 +12,10 @@ const authentication = async (req, res, next)=>{
             let dataUserDB = await User.findOne({
                 where: {email: cekToken.email}
             })
-            console.log(dataUserDB, '<<<<<<<<<<< data UserDB uthentication')
             if(!dataUserDB){
                 res.status(401).json({msg: 'invalid Token'})
             }else{
                 req.userLogIn = dataUserDB
-                console.log(req.userLogIn, 'authentication<<<<<<<<<<<<<<<<<<<<<<<')
                 next()
             }
         }
