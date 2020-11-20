@@ -9,14 +9,12 @@ let tokenCustomer
 
 beforeAll((done) => {
     const payloadAdmin = {
-        id: 1,
         email: "admin@mail.com",
         role: 'admin'
     }
     tokenAdmin = getToken(payloadAdmin)
 
     const payloadCustomer = {
-        id: 2,
         email: "customer@mail.com",
         role: "customer"
     }
@@ -40,8 +38,8 @@ afterAll((done) => {
 describe('Test endpoint create product', () => {
     it('create product success', (done) => {
         request(app)
-        .post('/product/create')
-        .set('accesstoken', tokenAdmin)
+        .post('/product')
+        .set('access_token', tokenAdmin)
         .send({name: 'Shoes', image_url: 'http://arah.in/shoes-ortus', price: 300000, stock: 20})
         .then(response => {
             const{body, status} = response
@@ -54,14 +52,13 @@ describe('Test endpoint create product', () => {
             done()
         })
         .catch(err => {
-            console.log(err)
             done(err)
         })
     })
 
     it('create product but dont have token', (done) => {
         request(app)
-        .post('/product/create')
+        .post('/product')
         .send({name: 'Shoes', image_url: 'http://arah.in/shoes-ortus', price: 300000, stock: 20})
         .then(response => {
             const{body, status} = response
@@ -77,8 +74,8 @@ describe('Test endpoint create product', () => {
 
     it('create product but role is not an admin', (done) => {
         request(app)
-        .post('/product/create')
-        .set('accesstoken', tokenCustomer)
+        .post('/product')
+        .set('access_token', tokenCustomer)
         .send({name: 'Shoes', image_url: 'http://arah.in/shoes-ortus', price: 300000, stock: 20})
         .then(response => {
             const{body, status} = response
@@ -94,8 +91,8 @@ describe('Test endpoint create product', () => {
 
     it('create product but the field require is empty', (done) => {
         request(app)
-        .post('/product/create')
-        .set('accesstoken', tokenAdmin)
+        .post('/product')
+        .set('access_token', tokenAdmin)
         .send({name: '', image_url: 'http://arah.in/shoes-ortus', price: 300000, stock: 20})
         .then(response => {
             const{body, status} = response
@@ -112,8 +109,8 @@ describe('Test endpoint create product', () => {
 
     it('create product but stock is minus', (done) => {
         request(app)
-        .post('/product/create')
-        .set('accesstoken', tokenAdmin)
+        .post('/product')
+        .set('access_token', tokenAdmin)
         .send({name: 'Shoes', image_url: 'http://arah.in/shoes-ortus', price: 300000, stock: -10})
         .then(response => {
             const{body, status} = response
@@ -129,8 +126,8 @@ describe('Test endpoint create product', () => {
 
     it('create product but price is minus', (done) => {
         request(app)
-        .post('/product/create')
-        .set('accesstoken', tokenAdmin)
+        .post('/product')
+        .set('access_token', tokenAdmin)
         .send({name: 'Shoes', image_url: 'http://arah.in/shoes-ortus', price: -300000, stock: 20})
         .then(response => {
             const{body, status} = response
@@ -146,9 +143,9 @@ describe('Test endpoint create product', () => {
 
     it('create product but wrong data type', (done) => {
         request(app)
-        .post('/product/create')
-        .set('accesstoken', tokenAdmin)
-        .send({name: 'Shoes', image_url: 'http://arah.in/shoes-ortus', price: '300000', stock: 20})
+        .post('/product')
+        .set('access_token', tokenAdmin)
+        .send({name: 'Shoes', image_url: 'http://arah.in/shoes-ortus', price: 'seribu', stock: 20})
         .then(response => {
             const{body, status} = response
             expect(status).toEqual(400)
@@ -184,8 +181,8 @@ describe('Test endpoint update product', () => {
     })
     it('update product success', (done) => {
         request(app)
-        .put(`/product/update/${productId}`)
-        .set('accesstoken', tokenAdmin)
+        .put(`/product/${productId}`)
+        .set('access_token', tokenAdmin)
         .send({name: 'Adidas Predator', image_url: 'http://arah.in/adidas-neo', price: 300000, stock: 20})
         .then(response => {
             const{body, status} = response
@@ -205,7 +202,7 @@ describe('Test endpoint update product', () => {
 
     it('update product but dont have token', (done) => {
         request(app)
-        .put(`/product/update/${productId}`)
+        .put(`/product/${productId}`)
         .send({name: 'Adidas Predator', image_url: 'http://arah.in/adidas-neo', price: 300000, stock: 20})
         .then(response => {
             const{body, status} = response
@@ -221,8 +218,8 @@ describe('Test endpoint update product', () => {
 
     it('update product but role is not an admin', (done) => {
         request(app)
-        .put(`/product/update/${productId}`)
-        .set('accesstoken', tokenCustomer)
+        .put(`/product/${productId}`)
+        .set('access_token', tokenCustomer)
         .send({name: 'Adidas Predator', image_url: 'http://arah.in/adidas-neo', price: 300000, stock: 20})
         .then(response => {
             const{body, status} = response
@@ -238,8 +235,8 @@ describe('Test endpoint update product', () => {
 
     it('update product but stock is minus', (done) => {
         request(app)
-        .put(`/product/update/${productId}`)
-        .set('accesstoken', tokenAdmin)
+        .put(`/product/${productId}`)
+        .set('access_token', tokenAdmin)
         .send({name: 'Shoes', image_url: 'http://arah.in/adidas-neo', price: 300000, stock: -10})
         .then(response => {
             const{body, status} = response
@@ -255,9 +252,9 @@ describe('Test endpoint update product', () => {
 
     it('update product but wrong data type', (done) => {
         request(app)
-        .put(`/product/update/${productId}`)
-        .set('accesstoken', tokenAdmin)
-        .send({name: 'Shoes', image_url: 'http://arah.in/adidas-neo', price: 300000, stock: '20'})
+        .put(`/product/${productId}`)
+        .set('access_token', tokenAdmin)
+        .send({name: 'Shoes', image_url: 'http://arah.in/adidas-neo', price: 300000, stock: 20})
         .then(response => {
             const{body, status} = response
             expect(status).toEqual(400)
@@ -272,8 +269,8 @@ describe('Test endpoint update product', () => {
 
     it('update product but price is minus', (done) => {
         request(app)
-        .put(`/product/update/${productId}`)
-        .set('accesstoken', tokenAdmin)
+        .put(`/product/${productId}`)
+        .set('access_token', tokenAdmin)
         .send({name: 'Shoes', image_url: 'http://arah.in/adidas-neo', price: -300000, stock: 20})
         .then(response => {
             const{body, status} = response
@@ -288,72 +285,84 @@ describe('Test endpoint update product', () => {
     })
 })
 
-describe('Test endpoint delete product', () => {
-    let productId
-    beforeAll((done) => {
-        let payloadProduct = {
-            name: 'Nike Air Jordan',
-            image_url: 'http://arah.in/nike-air',
-            price: 300000,
-            stock: 10
-        }
-        Product.create(payloadProduct)
-        .then( data => {
-            productId = data.id
-            done()
-        })
-        .catch( err => {
-            console.log(err)
-            done(err)
-        })
-    })
-    it('delete product success', (done) => {
-        request(app)
-        .delete(`/product/delete/${productId}`)
-        .set('accesstoken', tokenAdmin)
-        .send({name: 'Nike Air Jordan', image_url: 'http://arah.in/nike-air', price: 300000, stock: 10})
-        .then(response => {
-            const{body, status} = response
-            expect(status).toEqual(200)
-            expect(body).toHaveProperty('message', 'Success delete product')
-            done()
-        })
-        .catch(err => {
-            console.log(err)
-            done(err)
-        })
-    })
+// describe('Test endpoint delete product', () => {
+//     let productId
+//     beforeAll((done) => {
+//         let payloadProduct = {
+//             name: 'Nike Air Jordan',
+//             image_url: 'http://arah.in/nike-air',
+//             price: 300000,
+//             stock: 10
+//         }
+//         Product.create(payloadProduct)
+//         .then( data => {
+//             productId = data.id
+//             done()
+//         })
+//         .catch( err => {
+//             console.log(err)
+//             done(err)
+//         })
+//     })
+//     it('delete product success', (done) => {
+//         request(app)
+//         .delete(`/product/${productId}`)
+//         .set('access_token', tokenAdmin)
+//         .then(response => {
+//             const{body, status} = response
+//             expect(status).toEqual(200)
+//             expect(body).toHaveProperty('message', 'Success delete product')
+//             done()
+//         })
+//         .catch(err => {
+//             console.log(err)
+//             done(err)
+//         })
+//     })
 
-    it('delete product but dont have token', (done) => {
-        request(app)
-        .delete('/product/delete')
-        .send({name: 'Nike Air Jordan', image_url: 'http://arah.in/nike-air', price: 300000, stock: 10})
-        .then(response => {
-            const{body, status} = response
-            expect(status).toEqual(401)
-            expect(body).toHaveProperty('message', 'Please login first')
-            done()
-        })
-        .catch(err => {
-            console.log(err)
-            done(err)
-        })
-    })
+//     it('delete product but dont have token', (done) => {
+//         request(app)
+//         .delete(`/product/${productId}`)
+//         .then(response => {
+//             const{body, status} = response
+//             expect(status).toEqual(401)
+//             expect(body).toHaveProperty('message', 'Please login first')
+//             done()
+//         })
+//         .catch(err => {
+//             console.log(err)
+//             done(err)
+//         })
+//     })
 
-    it('delete product but role is not an admin', (done) => {
-        request(app)
-        .delete('/product/delete')
-        .set('accesstoken', tokenCustomer)
-        .send({name: 'Nike Air Jordan', image_url: 'http://arah.in/nike-air', price: 300000, stock: 10})
-        .then(response => {
-            const{body, status} = response
-            expect(status).toEqual(401)
-            expect(body).toHaveProperty('message', 'You dont have permissions')
-            done()
-        })
-        .catch(err => {
-            console.log(err)
-            done(err)
-        })
-    })
-})
+//     it('delete product but role is not an admin', (done) => {
+//         request(app)
+//         .delete(`/product/${productId}`)
+//         .set('access_token', tokenCustomer)
+//         .then(response => {
+//             const{body, status} = response
+//             expect(status).toEqual(401)
+//             expect(body).toHaveProperty('message', 'You dont have permissions')
+//             done()
+//         })
+//         .catch(err => {
+//             console.log(err)
+//             done(err)
+//         })
+//     })
+//     it('delete product but product not found', (done) => {
+//         request(app)
+//         .delete(`/product/10`)
+//         .set('access_token', tokenAdmin)
+//         .then(response => {
+//             const{body, status} = response
+//             expect(status).toEqual(404)
+//             expect(body).toHaveProperty('message', 'Data not found')
+//             done()
+//         })
+//         .catch(err => {
+//             console.log(err)
+//             done(err)
+//         })
+//     })
+// })
